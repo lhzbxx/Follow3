@@ -1,13 +1,15 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
+    "name": "Follow3",
+    "description": "麻麻再也不用担心我错过直播了-计划3.0·Alpha",
+    "keywords": [],
     "license": "MIT",
     "type": "project",
     "require": {
         "php": ">=5.5.9",
         "laravel/lumen-framework": "5.2.*",
-        "vlucas/phpdotenv": "~2.2"
+        "vlucas/phpdotenv": "~2.2",
+        "illuminate/redis": "^5.2",
+        "illuminate/mail": "^5.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
