@@ -48,11 +48,6 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
-$app->app->singleton('mailer', function ($app) {
-    $app->configure('services');
-    return $app->loadComponent('mail', 'Illuminate\Mail\MailServiceProvider');
-});
-
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -83,7 +78,7 @@ $app->app->singleton('mailer', function ($app) {
 |
 */
 
-$app->register(App\Providers\AppServiceProvider::class);
+// $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Illuminate\Redis\RedisServiceProvider::class);

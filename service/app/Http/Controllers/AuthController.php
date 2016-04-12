@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers;
 
-class ExampleController extends Controller
+use App\User;
+
+class AuthController extends Controller
 {
+
+    public function profile($id)
+    {
+        return User::;
+    }
+
     /**
      * Create a new controller instance.
      *
