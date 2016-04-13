@@ -11,6 +11,9 @@
 |
 */
 
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
+
 $app->get('/', function () use ($app) {
     return $app->version();
 });
@@ -41,6 +44,10 @@ $app->get('/cache', function () {
     return Cache::get('test');
 });
 
+$app->get('crypt', function () {
+    return Crypt::encrypt('love');
+});
+
 $app->get('/mail/{mail}', function ($mail) {
     $to = $mail;
     $subject = '欢迎使用Follow3';
@@ -52,6 +59,8 @@ $app->get('/mail/{mail}', function ($mail) {
         . 'X-Mailer: PHP/' . phpversion();;
     mail($to, $subject, $message, $headers);
 });
+
+$app->post('auth/register', 'AuthController@register');
 
 $app->post('auth/login', function (Request $request) {
     if (Auth::attempt($request->only('email', 'password'))) {

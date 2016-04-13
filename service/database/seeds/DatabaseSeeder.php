@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
-use \App\User;
+use Illuminate\Support\Facades\Crypt;
+use App\Models\User;
+use App\Models\Star;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,7 +15,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::create([
-            'mail' => '416005376@qq.com'
+            'email' => '416005376@qq.com',
+            'password' => Crypt::encrypt('123456'),
+            'nickname' => '唐僧肉厂长',
+            'is_auto_notify' => true
+        ]);
+        Star::create([
+            'nickname' => '王师傅',
+            'platform' => 'PANDA',
+            'serial' => 10029
         ]);
     }
 }

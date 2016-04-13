@@ -20,10 +20,10 @@ class Init extends Migration
             $table->string('nickname');
             // 平台
             $table->string('platform');
-            // 描述
-            $table->string('description');
+            // 额外信息
+            $table->string('info')->nullable();
             // 关注数
-            $table->integer('followers');
+            $table->integer('followers')->default(0);
             // 编号
             $table->integer('serial');
         });
@@ -38,7 +38,7 @@ class Init extends Migration
             // 密码
             $table->string('password');
             // 是否自动邮件通知
-            $table->boolean('is_auto_notify');
+            $table->boolean('is_auto_notify')->default(true);
         });
         Schema::create('Follow', function(Blueprint $table)
         {
