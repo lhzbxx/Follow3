@@ -18,7 +18,7 @@ $app->post('auth/register', 'AuthController@register');
 
 $app->post('auth/login', 'AuthController@login');
 
-$app->post('auth/refresh/{refresh_token}', 'AuthController@refresh_access_token');
+$app->get('auth/refresh/{refresh_token}', 'AuthController@refresh_access_token');
 
 $app->get('auth/activate/{register_token}', 'AuthController@activate');
 
