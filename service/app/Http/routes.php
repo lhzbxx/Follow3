@@ -14,6 +14,14 @@
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 
+$app->post('auth/register', 'AuthController@register');
+
+$app->post('auth/login', 'AuthController@login');
+
+$app->post('auth/refresh/{refresh_token}', 'AuthController@refresh_access_token');
+
+$app->get('auth/activate/{register_token}', 'AuthController@activate');
+
 $app->get('/', function () use ($app) {
     return $app->version();
 });
@@ -51,19 +59,11 @@ $app->get('crypt', function () {
 $app->get('/mail/{mail}', function ($mail) {
     $to = $mail;
     $subject = '欢迎使用Follow3';
-    $message = file_get_contents('activate.html');
+    $message = file_get_contents('activate_account.html');
     $message = wordwrap($message, 70, "\r\n");
     $headers = "MIME-Version: 1.0" . "\r\n"
         . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
         . 'From: Follow3@lhzbxx.top' . "\r\n"
         . 'X-Mailer: PHP/' . phpversion();;
     mail($to, $subject, $message, $headers);
-});
-
-$app->post('auth/register', 'AuthController@register');
-
-$app->post('auth/login', function (Request $request) {
-    if (Auth::attempt($request->only('email', 'password'))) {
-        return 'No';
-    }
 });

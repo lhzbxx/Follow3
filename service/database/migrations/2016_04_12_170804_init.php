@@ -32,7 +32,7 @@ class Init extends Migration
             $table->increments('id');
             $table->timestamps();
             // 邮箱
-            $table->string('email');
+            $table->string('email')->unique();
             // 昵称
             $table->string('nickname');
             // 密码
