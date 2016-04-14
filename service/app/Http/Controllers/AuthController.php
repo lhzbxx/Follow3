@@ -54,7 +54,7 @@ class AuthController extends Controller
     {
         $message = wordwrap($message, 70, "\r\n");
         $headers = "MIME-Version: 1.0" . "\r\n"
-            . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
+            . 'Content-type: text/html; charset=utf-8' . "\r\n"
             . 'From: Follow3@lhzbxx.top' . "\r\n"
             . 'X-Mailer: PHP/' . phpversion();
         mail($mail, $subject, $message, $headers);
@@ -112,7 +112,15 @@ class AuthController extends Controller
      */
     public function reset_password(Request $request)
     {
-        
+        $mail = $request->input('email');
+        $pass = $request->input('password');
+        $reset_token = str_random(32);
+        $reset_info = array(
+            'password' => Crypt::encrypt($pass),
+        );
+        $this->send_reset_mail($mail);
+        Cache::put('reset:' . $reset_token, $reset_info, 60*24);
+        return $this->result();
     }
 
     /**
@@ -189,7 +197,12 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        return $this->result();
+        $mail = $request->input('email');
+        $pass = $request->input('password');
+        $user = User::find($mail);
+        if ( ! $pass === $user->password)
+            abort(303);
+        return $this->oauth2($user->id);
     }
 
 }

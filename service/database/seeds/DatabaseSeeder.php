@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Crypt;
-use App\Models\User;
-use App\Models\Star;
 
 class DatabaseSeeder extends Seeder
 {

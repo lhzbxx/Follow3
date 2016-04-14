@@ -15,14 +15,21 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 
 $app->post('auth/register', 'AuthController@register');
-
 $app->post('auth/login', 'AuthController@login');
-
 $app->get('auth/refresh/{refresh_token}', 'AuthController@refresh_access_token');
-
 $app->get('auth/activate/{register_token}', 'AuthController@activate');
+$app->patch('auth/reset/{reset_token}', 'AuthController@reset');
 
-$app->get('/', function () use ($app) {
+$app->get('user/profile/{user_id}', 'UserController@profile');
+$app->patch('user/notify', 'UserController@notify');
+
+$app->get('user/follow', 'UserController@follow');
+$app->post('user/follow/{star_id}', 'UserController@follow_star');
+$app->delete('user/follow/{star_id}', 'UserController@unfollow_star');
+
+$app->post('star/search', 'StarController@search');
+
+$app->get('/test', function () use ($app) {
     return $app->version();
 });
 
