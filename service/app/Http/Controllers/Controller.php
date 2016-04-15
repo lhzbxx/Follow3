@@ -15,9 +15,4 @@ class Controller extends BaseController
             'data' => $data
         ]);
     }
-
-    public function valid_mail()
-    {
-        return;
-    }
 }

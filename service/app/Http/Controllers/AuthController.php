@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -113,10 +114,9 @@ class AuthController extends Controller
     public function reset_password(Request $request)
     {
         $mail = $request->input('email');
-        $pass = $request->input('password');
         $reset_token = str_random(32);
         $reset_info = array(
-            'password' => Crypt::encrypt($pass),
+            'email' => Crypt::encrypt($mail),
         );
         $this->send_reset_mail($mail);
         Cache::put('reset:' . $reset_token, $reset_info, 60*24);
@@ -134,6 +134,8 @@ class AuthController extends Controller
     public function activate($register_token)
     {
         $user_info = Cache::get('register:' . $register_token);
+        if ( ! isset($user_info))
+            abort(0000, 'Activation link was expired.');
         $user_id = User::create([
             'email' => $user_info['email'],
             'password' => $user_info['password'],
@@ -173,6 +175,14 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        $v = Validator::make($request->all(), [
+            'email' => 'sometimes|required|email|unique:User,email',
+            'nickname' => 'required|max:32',
+            'password' => 'required'
+        ]);
+        if ($v->fails()) {
+            abort(999, $v->errors());
+        }
         $mail = $request->input('email');
         $nickname = $request->input('nickname');
         $pass = $request->input('password');
@@ -197,11 +207,18 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        $v = Validator::make($request->all(), [
+            'email' => 'sometimes|required|email|exists:User,email',
+            'password' => 'required'
+        ]);
+        if ($v->fails()) {
+            abort(212, $v->errors());
+        }
         $mail = $request->input('email');
         $pass = $request->input('password');
-        $user = User::find($mail);
-        if ( ! $pass === $user->password)
-            abort(303);
+        $user = User::where("email", "=", $mail)->first();
+        if ($pass != $user->password)
+            abort(303, 'Wrong password.');
         return $this->oauth2($user->id);
     }
 
