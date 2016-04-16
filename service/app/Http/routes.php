@@ -23,7 +23,7 @@ $app->patch('auth/reset/{reset_token}', 'AuthController@reset');
 $app->get('user/profile/{user_id}', 'UserController@profile');
 $app->patch('user/notify', 'UserController@notify');
 
-$app->get('user/follow', 'UserController@follow');
+$app->get('user/follow', 'UserController@follow_list');
 $app->post('user/follow/{star_id}', 'UserController@follow_star');
 $app->delete('user/follow/{star_id}', 'UserController@unfollow_star');
 

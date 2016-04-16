@@ -143,7 +143,7 @@ class AuthController extends Controller
 
         ]);
         $result = $this->oauth2($user_id);
-        return $this->result(200, "OK", $result);
+        return $this->result($result);
     }
 
     /**

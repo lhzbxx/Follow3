@@ -27,6 +27,8 @@ class Init extends Migration
             $table->integer('followers')->default(0);
             // 编号
             $table->integer('serial');
+            // 是否直播中
+            $table->boolean('is_live')->default(false);
         });
         Schema::create('User', function(Blueprint $table)
         {
