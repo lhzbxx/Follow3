@@ -27,6 +27,10 @@ class UpdateStar extends Command
                 $this->panda($id);
             if ($platform === "DOUYU")
                 $this->douyu($id);
+            if ($platform === "ZHANQI")
+                $this->zhanqi($id);
+            if ($platform === "QUANMIN")
+                $this->quanmin($id);
         }
     }
 
@@ -54,40 +58,6 @@ class UpdateStar extends Command
 
     /**
      *
-     * 火猫
-     *
-     * @param $id
-     * @return mixed
-     * @author: LuHao
-     */
-    private function huomao($id)
-    {
-        $url = 'http://api.huomaotv.cn/index.php?m=api&c=android&a=get_live&cid='
-            . $id . '&gid=17&t=a&time=1460390807&token=153b1b37c0ebe21fe97e092a8fd39fe4&tt=a&uid=null';
-        $result = json_decode(file_get_contents($url));
-        if ($result->errno === 0) {
-            Star::create([
-                'nickname' => $result->data->info->hostinfo->name,
-                'platform' => 'PANDA',
-                'serial' => $id,
-                'title' => $result->data->info->roominfo->name,
-                'avatar' => $result->data->info->hostinfo->avatar,
-                'cover' => $result->data->info->roominfo->pictures->img,
-                'is_live' => $result->data->info->videoinfo->status === 2,
-            ]);
-        } else {
-            abort(123213, 'Platform response error!');
-        }
-        return $result;
-    }
-
-//    private function longzhu($id)
-//    {
-//        $url = 'http://www.quanmin.tv/json/rooms/' . $id . '/info.json';
-//    }
-
-    /**
-     *
      * 全民
      *
      * @param $id
@@ -96,21 +66,16 @@ class UpdateStar extends Command
      */
     private function quanmin($id)
     {
-        $url = 'http://www.quanmin.tv/json/rooms/' . $id . '/info.json';
+        $star = Star::find($id);
+        $url = 'http://www.quanmin.tv/json/rooms/' . $star->serial . '/info.json';
         $result = json_decode(file_get_contents($url));
-        if ($result->errno === 0) {
-            Star::create([
-                'nickname' => $result->data->info->hostinfo->name,
-                'platform' => 'PANDA',
-                'serial' => $id,
-                'title' => $result->data->info->roominfo->name,
-                'avatar' => $result->data->info->hostinfo->avatar,
-                'cover' => $result->data->info->roominfo->pictures->img
-            ]);
-        } else {
-            abort(123213, 'Platform response error!');
-        }
-        return $result;
+        $star->nickname = $result->nick;
+        $star->title = $result->title;
+        $star->avatar = $result->avatar;
+        if (isset($result->thumb))
+            $star->cover = $result->thumb;
+        $star->is_live = $result->play_status;
+        $star->save();
     }
 
     /**
@@ -124,7 +89,7 @@ class UpdateStar extends Command
     private function douyu($id)
     {
         $star = Star::find($id);
-        $url = 'room/' . $id . '?aid=android&client_sys=android&time=' . time();
+        $url = 'room/' . $star->serial . '?aid=android&client_sys=android&time=' . time();
         $auth = md5($url . '1231');
         $url =  'http://www.douyu.com/api/v1/' . $url . '&auth=' . $auth;
         $result = json_decode(file_get_contents($url));
@@ -146,20 +111,14 @@ class UpdateStar extends Command
      */
     private function zhanqi($id)
     {
-        $url = 'http://www.zhanqi.tv/api/static/live.roomid/' . $id . '.json';
+        $star = Star::find($id);
+        $url = 'http://www.zhanqi.tv/api/static/live.domain/' . $star->serial . '.json';
         $result = json_decode(file_get_contents($url));
-        if ($result->errno === 0) {
-            Star::create([
-                'nickname' => $result->data->info->hostinfo->name,
-                'platform' => 'PANDA',
-                'serial' => $id,
-                'title' => $result->data->info->roominfo->name,
-                'avatar' => $result->data->info->hostinfo->avatar,
-                'cover' => $result->data->info->roominfo->pictures->img
-            ]);
-        } else {
-            abort(123213, 'Platform response error!');
-        }
-        return $result;
+        $star->nickname = $result->data->nickname;
+        $star->title = $result->data->title;
+        $star->avatar = $result->data->avatar;
+        $star->cover = $result->data->spic;
+        $star->is_live = $result->data->status == 4;
+        $star->save();
     }
 }

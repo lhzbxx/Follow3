@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Validator;
 class StarController extends Controller
 {
 
+    public function add(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'query' => 'required',
+            'platform' => 'required|in:PANDA,QUANMIN,DOUYU,ZHANQI'
+        ]);
+        if ($v->fails()) {
+            abort(89293, $v->errors());
+        }
+    }
+
     /**
      *
      * 查询主播
@@ -47,12 +58,9 @@ class StarController extends Controller
      */
     public function search_with_id($serial, $platform)
     {
-//        $star = Star::isSerialExist($platform, $serial);
-        $star = Star::where('platform', $platform)
-            ->where('serial', $serial)
-            ->first();
-        if ( ! empty($star))
-            return $this->result($star);
+        $star = Star::isSerialExist($platform, $serial);
+        if ( ! isset($star))
+            return json_encode($star);
         $r = "No star and platform found!";
         if ($platform === "PANDA")
             $r = $this->panda($serial);
@@ -77,10 +85,19 @@ class StarController extends Controller
     public function search_with_nickname($nickname, $platform)
     {
         $star = Star::isNicknameExist($platform, $nickname);
-        if ( ! empty($star))
-            return $this->result($star);
-        else
-            abort(1000, "No such star!");
+        if ( ! isset($star)) {
+            return json_encode($star);
+        }
+        else  {
+            $r = "No star and platform found!";
+            if ($platform === "QUANMIN")
+                $r = $this->quanmin($nickname);
+            if ($platform === "DOUYU")
+                $r = $this->douyu($nickname);
+            if ($platform === "ZHANQI")
+                $r = $this->zhanqi($nickname);
+            return $r;
+        }
     }
 
     /**
@@ -100,7 +117,7 @@ class StarController extends Controller
             $star = new Star;
             $star->nickname = $result->data->info->hostinfo->name;
             $star->platform = 'PANDA';
-            $star->serial = $id;
+            $star->serial = $result->data->info->roominfo->id;
             $star->title = $result->data->info->roominfo->name;
             $star->avatar = $result->data->info->hostinfo->avatar;
             $star->cover = $result->data->info->roominfo->pictures->img;
@@ -112,34 +129,35 @@ class StarController extends Controller
         return $result;
     }
 
-    /**
-     *
-     * 火猫
-     *
-     * @param $id
-     * @return mixed
-     * @author: LuHao
-     */
-    private function huomao($id)
-    {
-        $url = 'http://api.huomaotv.cn/index.php?m=api&c=android&a=get_live&cid='
-            . $id . '&gid=17&t=a&time=1460390807&token=153b1b37c0ebe21fe97e092a8fd39fe4&tt=a&uid=null';
-        $result = json_decode(file_get_contents($url));
-        if ($result->errno === 0) {
-            Star::create([
-                'nickname' => $result->data->info->hostinfo->name,
-                'platform' => 'PANDA',
-                'serial' => $id,
-                'title' => $result->data->info->roominfo->name,
-                'avatar' => $result->data->info->hostinfo->avatar,
-                'cover' => $result->data->info->roominfo->pictures->img,
-                'is_live' => $result->data->info->videoinfo->status === 2,
-            ]);
-        } else {
-            abort(123213, 'Platform response error!');
-        }
-        return $result;
-    }
+//    /**
+//     *
+//     * 火猫
+//     *
+//     * @param $id
+//     * @return mixed
+//     * @author: LuHao
+//     */
+//    private function huomao($id)
+//    {
+//        $url = 'http://api.huomaotv.cn/index.php?m=api&c=android&a=get_live&cid='
+//            . $id . '&gid=17&t=a&time=1460390807&token=153b1b37c0ebe21fe97e092a8fd39fe4&tt=a&uid=null';
+//        $result = json_decode(file_get_contents($url));
+//        if ($result->errno === 0) {
+//            $star = new Star;
+//            $star->nickname = $result->nick;
+//            $star->platform = 'QUANMIN';
+//            $star->serial = $result->uid;
+//            $star->title = $result->title;
+//            $star->avatar = $result->avatar;
+//            if (isset($result->thumb))
+//                $star->cover = $result->thumb;
+//            $star->is_live = $result->play_status;
+//            $star->save();
+//        } else {
+//            abort(123213, 'Platform response error!');
+//        }
+//        return $result;
+//    }
 
 //    private function longzhu($id)
 //    {
@@ -158,15 +176,16 @@ class StarController extends Controller
     {
         $url = 'http://www.quanmin.tv/json/rooms/' . $id . '/info.json';
         $result = json_decode(file_get_contents($url));
-        if ($result->errno === 0) {
+        if ( ! empty($result)) {
             $star = new Star;
-            $star->nickname = $result->data->info->hostinfo->name;
-            $star->platform = 'PANDA';
-            $star->serial = $id;
-            $star->title = $result->data->info->roominfo->name;
-            $star->avatar = $result->data->info->hostinfo->avatar;
-            $star->cover = $result->data->info->roominfo->pictures->img;
-            $star->is_live = $result->data->info->videoinfo->status == 2;
+            $star->nickname = $result->nick;
+            $star->platform = 'QUANMIN';
+            $star->serial = $result->uid;
+            $star->title = $result->title;
+            $star->avatar = $result->avatar;
+            if (isset($result->thumb))
+                $star->cover = $result->thumb;
+            $star->is_live = $result->play_status;
             $star->save();
         } else {
             abort(123213, 'Platform response error!');
@@ -188,16 +207,15 @@ class StarController extends Controller
         $auth = md5($url . '1231');
         $url =  'http://www.douyu.com/api/v1/' . $url . '&auth=' . $auth;
         $result = json_decode(file_get_contents($url));
-        echo $url;
         if ($result->error === 0) {
             $star = new Star;
             $star->nickname = $result->data->nickname;
             $star->platform = 'DOUYU';
-            $star->serial = $id;
             $star->title = $result->data->room_name;
             $star->avatar = $result->data->owner_avatar;
             $star->cover = $result->data->room_src;
             $star->is_live = $result->data->show_status == 1;
+            $star->serial = $result->data->room_id;
             $star->save();
         } else {
             abort(123213, 'Platform response error!');
@@ -215,17 +233,18 @@ class StarController extends Controller
      */
     private function zhanqi($id)
     {
-        $url = 'http://www.zhanqi.tv/api/static/live.roomid/' . $id . '.json';
+        $url = 'http://www.zhanqi.tv/api/static/live.domain/' . $id . '.json';
         $result = json_decode(file_get_contents($url));
-        if ($result->errno === 0) {
-            Star::create([
-                'nickname' => $result->data->info->hostinfo->name,
-                'platform' => 'PANDA',
-                'serial' => $id,
-                'title' => $result->data->info->roominfo->name,
-                'avatar' => $result->data->info->hostinfo->avatar,
-                'cover' => $result->data->info->roominfo->pictures->img
-            ]);
+        if ($result->code === 0) {
+            $star = new Star;
+            $star->nickname = $result->data->nickname;
+            $star->platform = 'ZHANQI';
+            $star->title = $result->data->title;
+            $star->avatar = $result->data->avatar;
+            $star->cover = $result->data->spic;
+            $star->is_live = $result->data->status == 4;
+            $star->serial = $result->data->code;
+            $star->save();
         } else {
             abort(123213, 'Platform response error!');
         }

@@ -16,7 +16,7 @@ class Star extends Model
     
     public function scopeIsNicknameExist($query, $platform, $nickname) {
         return $query->where('platform', $platform)
-            ->where('nickname', $nickname)
-            ->first();
+            ->where('nickname', 'like', $nickname)
+            ->get();
     }
 }
