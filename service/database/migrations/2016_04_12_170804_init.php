@@ -19,6 +19,12 @@ class Init extends Migration
             $table->timestamps();
             // 昵称
             $table->string('nickname');
+            // 标题
+            $table->string('title')->nullable();
+            // 头像
+            $table->string('avatar')->nullable();
+            // 封面
+            $table->string('cover')->nullable();
             // 平台
             $table->string('platform');
             // 额外信息

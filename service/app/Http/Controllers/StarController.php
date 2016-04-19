@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class StarController extends Controller
 {
+
     /**
      *
      * 查询主播
@@ -19,38 +20,125 @@ class StarController extends Controller
     public function search(Request $request)
     {
         $v = Validator::make($request->all(), [
-            'id' => 'required|integer',
-            'platform' => 'required|in:PANDA,QUANMIN,DOUYU'
+            'query' => 'required',
+            'platform' => 'required|in:PANDA,QUANMIN,DOUYU,ZHANQI'
         ]);
         if ($v->fails()) {
             abort(999, $v->errors());
         }
-        $id = $request->input('id');
+        $query = $request->input('query');
         $platform = $request->input('platform');
-        $star = Star::isExist($platform, $id);
-        if (empty($star))
-            return $this->result($star);
-        if ($platform === "PANDA") {
-            $r = $this->panda($id);
-            return $this->result($r);
+        if ( ! ((int)$query === 0)) {
+            $data = $this->search_with_id($query, $platform);
+        } else {
+            $data = $this->search_with_nickname($query, $platform);
         }
-        if ($platform === "QUANMIN")
-            return $this->result($this->quanmin($id));
-        if ($platform === "DOUYU")
-            return $this->result($this->douyu($id));
+        return $this->result($data);
     }
 
+    /**
+     *
+     * 查询主播(根据ID)
+     *
+     * @param $serial
+     * @param $platform
+     * @return string
+     * @author: LuHao
+     */
+    public function search_with_id($serial, $platform)
+    {
+//        $star = Star::isSerialExist($platform, $serial);
+        $star = Star::where('platform', $platform)
+            ->where('serial', $serial)
+            ->first();
+        if ( ! empty($star))
+            return $this->result($star);
+        $r = "No star and platform found!";
+        if ($platform === "PANDA")
+            $r = $this->panda($serial);
+        if ($platform === "QUANMIN")
+            $r = $this->quanmin($serial);
+        if ($platform === "DOUYU")
+            $r = $this->douyu($serial);
+        if ($platform === "ZHANQI")
+            $r = $this->zhanqi($serial);
+        return $r;
+    }
+
+    /**
+     *
+     * 查询主播(根据昵称)
+     *
+     * @param $nickname
+     * @param $platform
+     * @return mixed
+     * @author: LuHao
+     */
+    public function search_with_nickname($nickname, $platform)
+    {
+        $star = Star::isNicknameExist($platform, $nickname);
+        if ( ! empty($star))
+            return $this->result($star);
+        else
+            abort(1000, "No such star!");
+    }
+
+    /**
+     *
+     * 熊猫
+     *
+     * @param $id
+     * @return mixed
+     * @author: LuHao
+     */
     private function panda($id)
     {
         $url = 'http://api.m.panda.tv/ajax_get_liveroom_baseinfo?roomid='
             . $id . '&slaveflag=1&type=json&__version=1.0.0.1172&__plat=android';
-        return file_get_contents($url);
+        $result = json_decode(file_get_contents($url));
+        if ($result->errno === 0) {
+            $star = new Star;
+            $star->nickname = $result->data->info->hostinfo->name;
+            $star->platform = 'PANDA';
+            $star->serial = $id;
+            $star->title = $result->data->info->roominfo->name;
+            $star->avatar = $result->data->info->hostinfo->avatar;
+            $star->cover = $result->data->info->roominfo->pictures->img;
+            $star->is_live = $result->data->info->videoinfo->status == 2;
+            $star->save();
+        } else {
+            abort(123213, 'Platform response error!');
+        }
+        return $result;
     }
 
+    /**
+     *
+     * 火猫
+     *
+     * @param $id
+     * @return mixed
+     * @author: LuHao
+     */
     private function huomao($id)
     {
         $url = 'http://api.huomaotv.cn/index.php?m=api&c=android&a=get_live&cid='
             . $id . '&gid=17&t=a&time=1460390807&token=153b1b37c0ebe21fe97e092a8fd39fe4&tt=a&uid=null';
+        $result = json_decode(file_get_contents($url));
+        if ($result->errno === 0) {
+            Star::create([
+                'nickname' => $result->data->info->hostinfo->name,
+                'platform' => 'PANDA',
+                'serial' => $id,
+                'title' => $result->data->info->roominfo->name,
+                'avatar' => $result->data->info->hostinfo->avatar,
+                'cover' => $result->data->info->roominfo->pictures->img,
+                'is_live' => $result->data->info->videoinfo->status === 2,
+            ]);
+        } else {
+            abort(123213, 'Platform response error!');
+        }
+        return $result;
     }
 
 //    private function longzhu($id)
@@ -58,15 +146,89 @@ class StarController extends Controller
 //        $url = 'http://www.quanmin.tv/json/rooms/' . $id . '/info.json';
 //    }
 
+    /**
+     *
+     * 全民
+     *
+     * @param $id
+     * @return mixed
+     * @author: LuHao
+     */
     private function quanmin($id)
     {
         $url = 'http://www.quanmin.tv/json/rooms/' . $id . '/info.json';
+        $result = json_decode(file_get_contents($url));
+        if ($result->errno === 0) {
+            $star = new Star;
+            $star->nickname = $result->data->info->hostinfo->name;
+            $star->platform = 'PANDA';
+            $star->serial = $id;
+            $star->title = $result->data->info->roominfo->name;
+            $star->avatar = $result->data->info->hostinfo->avatar;
+            $star->cover = $result->data->info->roominfo->pictures->img;
+            $star->is_live = $result->data->info->videoinfo->status == 2;
+            $star->save();
+        } else {
+            abort(123213, 'Platform response error!');
+        }
+        return $result;
     }
 
+    /**
+     *
+     * 斗鱼
+     *
+     * @param $id
+     * @return mixed
+     * @author: LuHao
+     */
     private function douyu($id)
     {
         $url = 'room/' . $id . '?aid=android&client_sys=android&time=' . time();
         $auth = md5($url . '1231');
         $url =  'http://www.douyu.com/api/v1/' . $url . '&auth=' . $auth;
+        $result = json_decode(file_get_contents($url));
+        echo $url;
+        if ($result->error === 0) {
+            $star = new Star;
+            $star->nickname = $result->data->nickname;
+            $star->platform = 'DOUYU';
+            $star->serial = $id;
+            $star->title = $result->data->room_name;
+            $star->avatar = $result->data->owner_avatar;
+            $star->cover = $result->data->room_src;
+            $star->is_live = $result->data->show_status == 1;
+            $star->save();
+        } else {
+            abort(123213, 'Platform response error!');
+        }
+        return $result;
+    }
+
+    /**
+     *
+     * 战旗
+     *
+     * @param $id
+     * @return mixed
+     * @author: LuHao
+     */
+    private function zhanqi($id)
+    {
+        $url = 'http://www.zhanqi.tv/api/static/live.roomid/' . $id . '.json';
+        $result = json_decode(file_get_contents($url));
+        if ($result->errno === 0) {
+            Star::create([
+                'nickname' => $result->data->info->hostinfo->name,
+                'platform' => 'PANDA',
+                'serial' => $id,
+                'title' => $result->data->info->roominfo->name,
+                'avatar' => $result->data->info->hostinfo->avatar,
+                'cover' => $result->data->info->roominfo->pictures->img
+            ]);
+        } else {
+            abort(123213, 'Platform response error!');
+        }
+        return $result;
     }
 }
