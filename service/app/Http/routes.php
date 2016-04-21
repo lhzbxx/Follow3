@@ -28,6 +28,7 @@ $app->post('user/follow/{star_id}', 'UserController@follow_star');
 $app->delete('user/follow/{star_id}', 'UserController@unfollow_star');
 
 $app->post('star/search', 'StarController@search');
+$app->post('star/add', 'StarController@add');
 
 $app->get('/test', function () use ($app) {
     return $app->version();

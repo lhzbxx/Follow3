@@ -9,17 +9,6 @@ use Illuminate\Support\Facades\Validator;
 class StarController extends Controller
 {
 
-    public function add(Request $request)
-    {
-        $v = Validator::make($request->all(), [
-            'query' => 'required',
-            'platform' => 'required|in:PANDA,QUANMIN,DOUYU,ZHANQI'
-        ]);
-        if ($v->fails()) {
-            abort(89293, $v->errors());
-        }
-    }
-
     /**
      *
      * 查询主播
@@ -28,7 +17,7 @@ class StarController extends Controller
      * @return mixed
      * @author: LuHao
      */
-    public function search(Request $request)
+    public function searchdsaf(Request $request)
     {
         $v = Validator::make($request->all(), [
             'query' => 'required',
@@ -49,18 +38,26 @@ class StarController extends Controller
 
     /**
      *
-     * 查询主播(根据ID)
+     * 添加主播
      *
-     * @param $serial
-     * @param $platform
+     * @param $request
      * @return string
      * @author: LuHao
      */
-    public function search_with_id($serial, $platform)
+    public function add(Request $request)
     {
+        $v = Validator::make($request->all(), [
+            'serial' => 'required',
+            'platform' => 'required|in:PANDA,QUANMIN,DOUYU,ZHANQI'
+        ]);
+        if ($v->fails()) {
+            abort(999, $v->errors());
+        }
+        $serial = $request->input('serial');
+        $platform = $request->input('platform');
         $star = Star::isSerialExist($platform, $serial);
-        if ( ! isset($star))
-            return json_encode($star);
+        if ( ! $star->isEmpty())
+            abort(30283, "Star had been added.");
         $r = "No star and platform found!";
         if ($platform === "PANDA")
             $r = $this->panda($serial);
@@ -70,34 +67,32 @@ class StarController extends Controller
             $r = $this->douyu($serial);
         if ($platform === "ZHANQI")
             $r = $this->zhanqi($serial);
-        return $r;
+        return $this->result();
     }
 
     /**
      *
-     * 查询主播(根据昵称)
+     * 查询主播
      *
-     * @param $nickname
-     * @param $platform
+     * @param $request
      * @return mixed
      * @author: LuHao
      */
-    public function search_with_nickname($nickname, $platform)
+    public function search(Request $request)
     {
-        $star = Star::isNicknameExist($platform, $nickname);
-        if ( ! isset($star)) {
-            return json_encode($star);
+        $v = Validator::make($request->all(), [
+            'query' => 'required'
+        ]);
+        if ($v->fails()) {
+            abort(999, $v->errors());
         }
-        else  {
-            $r = "No star and platform found!";
-            if ($platform === "QUANMIN")
-                $r = $this->quanmin($nickname);
-            if ($platform === "DOUYU")
-                $r = $this->douyu($nickname);
-            if ($platform === "ZHANQI")
-                $r = $this->zhanqi($nickname);
-            return $r;
+        $query = $request->input('query');
+        $star = Star::search($query);
+        $r = "No star found!";
+        if ( ! $star->isEmpty()) {
+            $r = json_encode($star);
         }
+        return $this->result($r);
     }
 
     /**
