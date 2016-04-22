@@ -25,54 +25,24 @@ $app->get('user/profile/{user_id}', 'UserController@profile');
 $app->patch('user/notify', 'UserController@notify');
 
 $app->get('user/follow', 'UserController@follow_list');
+$app->get('user/follow/online', 'UserController@online_list');
+$app->get('user/follow/all', 'UserController@follow_list');
 $app->post('user/follow/{star_id}', 'UserController@follow_star');
 $app->delete('user/follow/{star_id}', 'UserController@unfollow_star');
 
 $app->post('star/search', 'StarController@search');
 $app->post('star/add', 'StarController@add');
-
-$app->get('/test', function () use ($app) {
-    return $app->version();
-});
+$app->get('star/hot/{page}', 'StarController@hot');
+$app->get('star/online/{page}', 'StarController@online');
 
 $app->get('/version', function () {
     return '0.1.0';
 });
 
 $app->get('test', function () {
-    return 0;
+    return -1;
 });
 
 $app->get('/phpinfo', function () {
     return phpinfo();
-});
-
-$app->get('list/{id}', function ($id) {
-//    $list = List::find($id);
-    return $id;
-});
-
-$app->get('/cache/{data}', function ($data) {
-    Cache::put('test', $data, 1);
-    return 'OK';
-});
-
-$app->get('/cache', function () {
-    return Cache::get('test');
-});
-
-$app->get('crypt', function () {
-    return Crypt::encrypt('love');
-});
-
-$app->get('/mail/{mail}', function ($mail) {
-    $to = $mail;
-    $subject = '欢迎使用Follow3';
-    $message = file_get_contents('activate_account.html');
-    $message = wordwrap($message, 70, "\r\n");
-    $headers = "MIME-Version: 1.0" . "\r\n"
-        . 'Content-type: text/html; charset=iso-8859-1' . "\r\n"
-        . 'From: Follow3@lhzbxx.top' . "\r\n"
-        . 'X-Mailer: PHP/' . phpversion();;
-    mail($to, $subject, $message, $headers);
 });

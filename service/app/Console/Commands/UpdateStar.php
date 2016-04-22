@@ -49,12 +49,16 @@ class UpdateStar extends Command
      * @param $old_status
      * @param $new_status
      * @param $star_id
+     * @return bool
      * @author: LuHao
      */
     private function notify($old_status, $new_status, $star_id)
     {
-        if ( ! $old_status and $new_status)
+        if ( ! $old_status and $new_status) {
             Queue::push(new SendNotify($star_id));
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -75,7 +79,8 @@ class UpdateStar extends Command
         $star->title = $result->data->info->roominfo->name;
         $star->avatar = $result->data->info->hostinfo->avatar;
         $star->cover = $result->data->info->roominfo->pictures->img;
-        $this->notify($star->is_live, $result->data->info->videoinfo->status == 2, $id);
+        if ($this->notify($star->is_live, $result->data->info->videoinfo->status == 2, $id))
+            $star->began_at = date("Y-m-d H:i:s");
         $star->is_live = $result->data->info->videoinfo->status == 2;
         $star->save();
     }
@@ -98,7 +103,8 @@ class UpdateStar extends Command
         $star->avatar = $result->avatar;
         if (isset($result->thumb))
             $star->cover = $result->thumb;
-        $this->notify($star->is_live, $result->play_status, $id);
+        if ($this->notify($star->is_live, $result->play_status, $id))
+            $star->began_at = date("Y-m-d H:i:s");
         $star->is_live = $result->play_status;
         $star->save();
     }
@@ -122,7 +128,8 @@ class UpdateStar extends Command
         $star->title = $result->data->room_name;
         $star->avatar = $result->data->owner_avatar;
         $star->cover = $result->data->room_src;
-        $this->notify($star->is_live, $result->data->show_status == 1, $id);
+        if ($this->notify($star->is_live, $result->data->show_status == 1, $id))
+            $star->began_at = date("Y-m-d H:i:s");
         $star->is_live = $result->data->show_status == 1;
         $star->save();
     }
@@ -144,7 +151,8 @@ class UpdateStar extends Command
         $star->title = $result->data->title;
         $star->avatar = $result->data->avatar;
         $star->cover = $result->data->spic;
-        $this->notify($star->is_live, $result->data->status == 4, $id);
+        if ($this->notify($star->is_live, $result->data->status == 4, $id))
+            $star->began_at = date("Y-m-d H:i:s");
         $star->is_live = $result->data->status == 4;
         $star->save();
     }

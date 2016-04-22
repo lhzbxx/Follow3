@@ -29,6 +29,8 @@ class Init extends Migration
             $table->string('platform');
             // 链接
             $table->string('link');
+            // 上次开播时间
+            $table->dateTime('began_at');
             // 额外信息
             $table->string('info')->nullable();
             // 关注数

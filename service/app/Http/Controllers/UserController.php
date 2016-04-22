@@ -38,7 +38,7 @@ class UserController extends Controller
         $result = User::find($this->user_id);
         return $this->result($result);
     }
-    
+
     /**
      *
      * 关注主播
@@ -60,6 +60,8 @@ class UserController extends Controller
         $follow->user_id = $this->user_id;
         $follow->is_notify = User::find($this->user_id)->is_auto_notify;
         $follow->save();
+        $star->followers = $star->followers + 1;
+        $star->save();
         return $this->result();
     }
 
@@ -77,6 +79,9 @@ class UserController extends Controller
         if ( ! $f)
             abort('321', 'Not followed star.');
         $f->delete();
+        $star = Star::find($star_id);
+        $star->followers = $star->followers - 1;
+        $star->save();
         return $this->result();
     }
 
@@ -93,6 +98,22 @@ class UserController extends Controller
             ->join('Star', 'Star.id', '=', 'Follow.star_id')
             ->get();
         return $this->result($data);
+    }
+
+    /**
+     *
+     * 列出所有关注且在线的主播
+     *
+     * @author: LuHao
+     */
+    public function online_list()
+    {
+        $result = Follow::where('user_id', $this->user_id)
+            ->join('Star', 'Star.id', '=', 'Follow.star_id')
+            ->orderBy('began_at', 'desc')
+            ->where('Star.is_live', '=', true)
+            ->get();
+        return $this->result($result);
     }
 
 }

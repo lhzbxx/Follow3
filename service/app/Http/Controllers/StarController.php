@@ -11,6 +11,39 @@ class StarController extends Controller
 
     /**
      *
+     * 所有在线的主播
+     *
+     * @param $page
+     * @author: LuHao
+     */
+    public function online($page)
+    {
+        $result = Star::where('is_live', '=', true)
+            ->orderBy('began_at', 'desc')
+            ->limit(10)
+            ->offset(10 * $page)
+            ->get();
+        return $this->result($result);
+    }
+
+    /**
+     *
+     * 热门主播
+     *
+     * @param $page
+     * @author: LuHao
+     */
+    public function hot($page)
+    {
+        $result = Star::orderBy('followers', 'desc')
+            ->limit(10)
+            ->offset(10 * $page)
+            ->get();
+        return $this->result($result);
+    }
+
+    /**
+     *
      * 添加主播
      *
      * @param $request
