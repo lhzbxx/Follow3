@@ -108,6 +108,7 @@ class StarController extends Controller
             $star->cover = $result->data->info->roominfo->pictures->img;
             $star->is_live = $result->data->info->videoinfo->status == 2;
             $star->serial = $result->data->info->roominfo->id;
+            $star->link = 'http://www.panda.tv/' . $star->serial;
             $star->save();
         } else {
             abort(123213, 'Platform response error!');
@@ -175,6 +176,7 @@ class StarController extends Controller
             if (isset($result->thumb))
                 $star->cover = $result->thumb;
             $star->is_live = $result->play_status;
+            $star->link = 'http://www.quanmin.tv/star/' . $star->serial;
             $star->save();
         } else {
             abort(123213, 'Platform response error!');
@@ -208,6 +210,7 @@ class StarController extends Controller
             $star->cover = $result->data->room_src;
             $star->is_live = $result->data->show_status == 1;
             $star->serial = $result->data->room_id;
+            $star->link = 'http://www.douyu.com/' . $star->serial;
             $star->save();
         } else {
             abort(123213, 'Platform response error!');
@@ -239,6 +242,7 @@ class StarController extends Controller
             $star->cover = $result->data->spic;
             $star->is_live = $result->data->status == 4;
             $star->serial = $result->data->code;
+            $star->link = 'http://www.zhanqi.tv/' . $star->serial;
             $star->save();
         } else {
             abort(123213, 'Platform response error!');

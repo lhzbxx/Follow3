@@ -8,6 +8,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendNotify;
 use App\Models\Star;
 use Illuminate\Console\Command;
 
@@ -36,9 +37,8 @@ class UpdateStar extends Command
 
     private function notify($old_status, $new_status, $star_id)
     {
-        if ($old_status === $new_status)
-            return;
-        Queue::push(new SendNotify($star_id));
+        if ( ! $old_status and $new_status)
+            dispatch(new SendNotify($star_id));
     }
 
     /**
@@ -59,6 +59,7 @@ class UpdateStar extends Command
         $star->title = $result->data->info->roominfo->name;
         $star->avatar = $result->data->info->hostinfo->avatar;
         $star->cover = $result->data->info->roominfo->pictures->img;
+        $this->notify($star->is_live, $result->data->info->videoinfo->status == 2, $star->id);
         $star->is_live = $result->data->info->videoinfo->status == 2;
         $star->save();
     }
@@ -81,6 +82,7 @@ class UpdateStar extends Command
         $star->avatar = $result->avatar;
         if (isset($result->thumb))
             $star->cover = $result->thumb;
+        $this->notify($star->is_live, $result->play_status, $star->id);
         $star->is_live = $result->play_status;
         $star->save();
     }
@@ -104,6 +106,7 @@ class UpdateStar extends Command
         $star->title = $result->data->room_name;
         $star->avatar = $result->data->owner_avatar;
         $star->cover = $result->data->room_src;
+        $this->notify($star->is_live, $result->data->show_status == 1, $star->id);
         $star->is_live = $result->data->show_status == 1;
         $star->save();
     }
@@ -125,6 +128,7 @@ class UpdateStar extends Command
         $star->title = $result->data->title;
         $star->avatar = $result->data->avatar;
         $star->cover = $result->data->spic;
+        $this->notify($star->is_live, $result->data->status == 4, $star->id);
         $star->is_live = $result->data->status == 4;
         $star->save();
     }

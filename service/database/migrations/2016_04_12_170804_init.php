@@ -27,6 +27,8 @@ class Init extends Migration
             $table->string('cover')->nullable();
             // 平台
             $table->string('platform');
+            // 链接
+            $table->string('link');
             // 额外信息
             $table->string('info')->nullable();
             // 关注数
