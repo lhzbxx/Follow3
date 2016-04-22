@@ -18,7 +18,8 @@ $app->post('auth/register', 'AuthController@register');
 $app->post('auth/login', 'AuthController@login');
 $app->get('auth/refresh/{refresh_token}', 'AuthController@refresh_access_token');
 $app->get('auth/activate/{register_token}', 'AuthController@activate');
-$app->patch('auth/reset/{reset_token}', 'AuthController@reset');
+$app->patch('auth/reset', 'AuthController@reset_password');
+$app->patch('auth/reset/{reset_token}', 'AuthController@confirm_reset_password');
 
 $app->get('user/profile/{user_id}', 'UserController@profile');
 $app->patch('user/notify', 'UserController@notify');

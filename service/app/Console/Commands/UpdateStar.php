@@ -34,6 +34,13 @@ class UpdateStar extends Command
         }
     }
 
+    private function notify($old_status, $new_status, $star_id)
+    {
+        if ($old_status === $new_status)
+            return;
+        Queue::push(new SendNotify($star_id));
+    }
+
     /**
      *
      * 熊猫
@@ -121,4 +128,5 @@ class UpdateStar extends Command
         $star->is_live = $result->data->status == 4;
         $star->save();
     }
+
 }

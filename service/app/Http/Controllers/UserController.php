@@ -19,9 +19,11 @@ class UserController extends Controller
     {
         $access_token = $request->input('access_token');
         if ( ! isset($access_token)) {
-            abort(401, 'Invalid access token.');
+            abort(401, 'Need access token.');
         }
-        $this->user_id = Cache::get($access_token);
+        $this->user_id = Cache::get('access_token:' . $access_token);
+        if ( ! $this->user_id)
+            abort(422123, 'Invalid access token.');
     }
 
     /**
@@ -48,15 +50,16 @@ class UserController extends Controller
     public function follow_star($star_id)
     {
         $star = Star::find($star_id);
-        if ( ! isset($star))
+        if ( ! $star)
             abort(2012, 'Wrong star id.');
-        $f = Follow::isExist($this->user_id, $star_id);
-        if ( ! isset($f))
+        $f = Follow::isExist($this->user_id, $star_id)->first();
+        if ($f)
             abort(23, 'Had been followed.');
-        Follow::create([
-            'star_id' => $star->id,
-            'user_id' => $this->user_id
-        ]);
+        $follow = new Follow();
+        $follow->star_id = $star->id;
+        $follow->user_id = $this->user_id;
+        $follow->is_notify = User::find($this->user_id)->is_auto_notify;
+        $follow->save();
         return $this->result();
     }
 
@@ -70,9 +73,9 @@ class UserController extends Controller
      */
     public function unfollow_star($star_id)
     {
-        $f = Follow::isExist($this->user_id, $star_id);
-        if ( ! isset($f))
-            abort('321', '1234321rfndjk');
+        $f = Follow::isExist($this->user_id, $star_id)->first();
+        if ( ! $f)
+            abort('321', 'Not followed star.');
         $f->delete();
         return $this->result();
     }
@@ -86,7 +89,9 @@ class UserController extends Controller
      */
     public function follow_list()
     {
-        $data = Follow::where('user_id', $this->user_id)->get();
+        $data = Follow::where('user_id', $this->user_id)
+            ->join('Star', 'Star.id', '=', 'Follow.star_id')
+            ->get();
         return $this->result($data);
     }
 

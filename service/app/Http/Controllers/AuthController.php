@@ -35,10 +35,11 @@ class AuthController extends Controller
      * @param $mail
      * @author: LuHao
      */
-    private function send_reset_mail($mail)
+    private function send_reset_mail($mail, $token)
     {
         $subject = '重设Follow3密码';
         $message = file_get_contents('reset_password.html');
+        $message = str_replace('RESET_TOKEN', $token, $message);
         $this->send_mail($subject, $mail, $message);
     }
 
@@ -86,7 +87,7 @@ class AuthController extends Controller
     private function generate_refresh_token($user_id)
     {
         $refresh_token = str_random(16);
-        Cache::put('access_token:' . $refresh_token, $user_id, 60*24*30);
+        Cache::put('refresh_token:' . $refresh_token, $user_id, 60*24*30);
         return $refresh_token;
     }
 
@@ -100,8 +101,9 @@ class AuthController extends Controller
      */
     public function refresh_access_token($refresh_token)
     {
-        $user_id = Cache::get('refresh_token:' . $refresh_token);
-        return $this->generate_access_token($user_id);
+        $user_id = Cache::pull('refresh_token:' . $refresh_token);
+        $result = $this->oauth2($user_id);
+        return $this->result($result);
     }
 
     /**
@@ -113,36 +115,42 @@ class AuthController extends Controller
      */
     public function reset_password(Request $request)
     {
+        $v = Validator::make($request->all(), [
+            'email' => 'required|email|exists:User,email'
+        ]);
+        if ($v->fails()) {
+            abort(999, $v->errors());
+        }
         $mail = $request->input('email');
         $reset_token = str_random(32);
-        $reset_info = array(
-            'email' => Crypt::encrypt($mail),
-        );
-        $this->send_reset_mail($mail);
+        $reset_info = $mail;
+        $this->send_reset_mail($mail, $reset_token);
         Cache::put('reset:' . $reset_token, $reset_info, 60*24);
         return $this->result();
     }
 
     /**
      *
-     * 激活账号
+     * 确认修改密码
      *
-     * @param $register_token
+     * @param Request $request
+     * @param         $reset_token
      * @return mixed
      * @author: LuHao
      */
-    public function activate($register_token)
+    public function confirm_reset_password(Request $request, $reset_token)
     {
-        $user_info = Cache::get('register:' . $register_token);
-        if ( ! isset($user_info))
-            abort(0000, 'Activation link was expired.');
-        $user_id = User::create([
-            'email' => $user_info['email'],
-            'password' => $user_info['password'],
-            'nickname' => $user_info['nickname']
-
+        $v = Validator::make($request->all(), [
+            'password' => 'required'
         ]);
-        $result = $this->oauth2($user_id);
+        if ($v->fails()) {
+            abort(999, $v->errors());
+        }
+        $reset_info = Cache::pull('reset_info:' . $reset_token);
+        $user = User::where('email', $reset_info)->first();
+        $user->password = $request->input('password');
+        $user->save();
+        $result = $this->oauth2($user->id);
         return $this->result($result);
     }
 
@@ -176,7 +184,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $v = Validator::make($request->all(), [
-            'email' => 'sometimes|required|email|unique:User,email',
+            'email' => 'required|email|unique:User,email',
             'nickname' => 'required|max:32',
             'password' => 'required'
         ]);
@@ -199,6 +207,29 @@ class AuthController extends Controller
 
     /**
      *
+     * 激活账号
+     *
+     * @param $register_token
+     * @return mixed
+     * @author: LuHao
+     */
+    public function activate($register_token)
+    {
+        $user_info = Cache::pull('register:' . $register_token);
+        if ( ! isset($user_info))
+            abort(0000, 'Activation link was expired.');
+        $user = new User;
+        $user->email = $user_info['email'];
+        $user->password = $user_info['password'];
+        $user->nickname = $user_info['nickname'];
+        $user->save();
+        $user_id = $user->id;
+        $result = $this->oauth2($user_id);
+        return $this->result($result);
+    }
+
+    /**
+     *
      * 用户登录
      *
      * @param Request $request
@@ -208,7 +239,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $v = Validator::make($request->all(), [
-            'email' => 'sometimes|required|email|exists:User,email',
+            'email' => 'required|email|exists:User,email',
             'password' => 'required'
         ]);
         if ($v->fails()) {
@@ -217,9 +248,10 @@ class AuthController extends Controller
         $mail = $request->input('email');
         $pass = $request->input('password');
         $user = User::where("email", "=", $mail)->first();
-        if ($pass != $user->password)
+        if ($pass != Crypt::decrypt($user->password))
             abort(303, 'Wrong password.');
-        return $this->oauth2($user->id);
+        $result = $this->oauth2($user->id);
+        return $this->result($result);
     }
 
 }
