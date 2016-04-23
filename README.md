@@ -1,5 +1,7 @@
 ## Follow3
 
+[![Join the chat at https://gitter.im/lhzbxx/Follow3](https://badges.gitter.im/lhzbxx/Follow3.svg)](https://gitter.im/lhzbxx/Follow3?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 + 麻麻再也不用担心我错过直播了-计划3.0·Alpha
 + 时刻跟进主播状态，并通过邮件通知您！
 + 只需要一个平台，掌握所有主播的信息。
