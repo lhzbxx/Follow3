@@ -29,7 +29,6 @@ class SendNotify extends Job
         $followers = Follow::where('star_id', '=', $star_id)
             ->where('is_notify', '=', true)
             ->get();
-        Log::info('notify_star_id: ' . $star_id);
         $star = Star::find($star_id);
         $star_name = $star->nickname;
         $subject = $star_name . '开播啦~';
