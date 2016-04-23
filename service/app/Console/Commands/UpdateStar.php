@@ -11,6 +11,7 @@ namespace App\Console\Commands;
 use App\Jobs\SendNotify;
 use App\Models\Star;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 
 class UpdateStar extends Command
@@ -56,6 +57,7 @@ class UpdateStar extends Command
     {
         if ( ! $old_status and $new_status) {
             Queue::push(new SendNotify($star_id));
+            Log::info('Send notify with STAR: ' . $star_id . '.');
             return true;
         }
         return false;
@@ -124,6 +126,10 @@ class UpdateStar extends Command
         $auth = md5($url . '1231');
         $url =  'http://www.douyu.com/api/v1/' . $url . '&auth=' . $auth;
         $result = json_decode(file_get_contents($url));
+        if ( ! $result) {
+            $this->douyu($id);
+            return;
+        }
         $star->nickname = $result->data->nickname;
         $star->title = $result->data->room_name;
         $star->avatar = $result->data->owner_avatar;
