@@ -89,5 +89,8 @@
 
 ## 感谢
 
-1. You-get
-2. Materialize
+1. [You-get](https://github.com/soimort/you-get)
+2. [Materialize](https://github.com/Dogfalo/materialize)
+3. [Slackin](https://github.com/rauchg/slackin)
+4. [Lumen](https://github.com/laravel/lumen)
+5. [Vue](https://github.com/vuejs/vue)
