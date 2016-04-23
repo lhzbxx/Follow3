@@ -7,8 +7,8 @@
   <a href="https://gitter.im/lhzbxx/Follow3?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
     <img src="https://badges.gitter.im/lhzbxx/follow3.svg">
   </a>
-  <a href="https://slack.follow3.com">
-    <img src="https://slack.follow3.com/badge.svg">
+  <a href="https://follow3-slackin.herokuapp.com/">
+    <img src="https://follow3-slackin.herokuapp.com/badge.svg">
   </a>
 </p>
 <p align="center">麻麻再也不用担心我错过直播了-计划3.0·Alpha</p>
