@@ -46,3 +46,20 @@ $app->get('test', function () {
 $app->get('/phpinfo', function () {
     return phpinfo();
 });
+
+$app->get('/job', function () {
+    return array(
+        'douyu-success: ' => Cache::get('update:douyu:success'),
+        'zhanqi-success: ' => Cache::get('update:zhanqi:success'),
+        'quanmin-success: ' => Cache::get('update:quanmin:success'),
+        'panda-success: ' => Cache::get('update:panda:success'),
+        'douyu-fail: ' => Cache::get('update:douyu:fail'),
+        'zhanqi-fail: ' => Cache::get('update:zhanqi:fail'),
+        'quanmin-fail: ' => Cache::get('update:quanmin:fail'),
+        'panda-fail: ' => Cache::get('update:panda:fail')
+        );
+});
+
+$app->get('/now', function () {
+    return date("Y-m-d H:i:s");
+});

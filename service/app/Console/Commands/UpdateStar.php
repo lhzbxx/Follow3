@@ -11,6 +11,7 @@ namespace App\Console\Commands;
 use App\Jobs\SendNotify;
 use App\Models\Star;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 
@@ -77,6 +78,7 @@ class UpdateStar extends Command
         $url = 'http://api.m.panda.tv/ajax_get_liveroom_baseinfo?roomid='
             . $star->serial . '&slaveflag=1&type=json&__version=1.0.0.1172&__plat=android';
         $result = json_decode(file_get_contents($url));
+//        $result = $this->result($url, 'panda');
         $star->nickname = $result->data->info->hostinfo->name;
         $star->title = $result->data->info->roominfo->name;
         $star->avatar = $result->data->info->hostinfo->avatar;
@@ -100,6 +102,7 @@ class UpdateStar extends Command
         $star = Star::find($id);
         $url = 'http://www.quanmin.tv/json/rooms/' . $star->serial . '/info.json';
         $result = json_decode(file_get_contents($url));
+//        $result = $this->result($url, 'quanmin');
         $star->nickname = $result->nick;
         $star->title = $result->title;
         $star->avatar = $result->avatar;
@@ -125,11 +128,7 @@ class UpdateStar extends Command
         $url = 'room/' . $star->serial . '?aid=android&client_sys=android&time=' . time();
         $auth = md5($url . '1231');
         $url =  'http://www.douyu.com/api/v1/' . $url . '&auth=' . $auth;
-        $result = json_decode(file_get_contents($url));
-        if ( ! $result) {
-            $this->douyu($id);
-            return;
-        }
+        $result = $this->result($url, 'douyu');
         $star->nickname = $result->data->nickname;
         $star->title = $result->data->room_name;
         $star->avatar = $result->data->owner_avatar;
@@ -138,6 +137,39 @@ class UpdateStar extends Command
             $star->began_at = date("Y-m-d H:i:s");
         $star->is_live = $result->data->show_status == 1;
         $star->save();
+    }
+
+    /**
+     *
+     * CURL方式获取数据
+     *
+     * @param $url
+     * @param $platform
+     * @return int
+     * @author: LuHao
+     */
+    private function result($url, $platform)
+    {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($curl);
+        if ( ! ($result && curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200)) {
+            Cache::increment('update:' . $platform . ':fail');
+            echo $result;
+            return 0;
+//            return $this->result($url, $platform);
+        }
+        curl_close($curl);
+//        echo substr($result, 0, 100);
+        $result = json_decode($result);
+        if ( ! $result) {
+            Cache::increment('update:' . $platform . ':fail');
+            echo $result;
+            return 0;
+//            return $this->result($url, $platform);
+        }
+        Cache::increment('update:' . $platform . ':success');
+        return $result;
     }
 
     /**
@@ -153,6 +185,7 @@ class UpdateStar extends Command
         $star = Star::find($id);
         $url = 'http://www.zhanqi.tv/api/static/live.domain/' . $star->serial . '.json';
         $result = json_decode(file_get_contents($url));
+//        $result = $this->result($url, 'zhanqi');
         $star->nickname = $result->data->nickname;
         $star->title = $result->data->title;
         $star->avatar = $result->data->avatar;

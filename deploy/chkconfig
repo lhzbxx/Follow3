@@ -3,3 +3,4 @@ chkconfig nginx on
 chkconfig httpd on
 chkconfig postfix on
 chkconfig supervisord on
+chkconfig redis on
