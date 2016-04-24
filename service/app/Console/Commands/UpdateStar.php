@@ -129,6 +129,8 @@ class UpdateStar extends Command
         $auth = md5($url . '1231');
         $url =  'http://www.douyu.com/api/v1/' . $url . '&auth=' . $auth;
         $result = $this->result($url, 'douyu');
+        if ( ! $result)
+            return;
         $star->nickname = $result->data->nickname;
         $star->title = $result->data->room_name;
         $star->avatar = $result->data->owner_avatar;
@@ -156,17 +158,14 @@ class UpdateStar extends Command
         if ( ! ($result && curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200)) {
             Cache::increment('update:' . $platform . ':fail');
             echo $result;
-            return 0;
-//            return $this->result($url, $platform);
+            return false;
         }
         curl_close($curl);
-//        echo substr($result, 0, 100);
         $result = json_decode($result);
         if ( ! $result) {
             Cache::increment('update:' . $platform . ':fail');
             echo $result;
-            return 0;
-//            return $this->result($url, $platform);
+            return false;
         }
         Cache::increment('update:' . $platform . ':success');
         return $result;
