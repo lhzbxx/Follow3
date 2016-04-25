@@ -1,6 +1,8 @@
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope) {})
+.controller('HomeCtrl', function($scope) {
+
+})
 
 .controller('NotifyCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
@@ -23,6 +25,8 @@ angular.module('starter.controllers', [])
 
 .controller('SettingCtrl', function($scope) {
   $scope.settings = {
-    enableFriends: true
+    is_auto_notify: true,
+    is_app_notify: true,
+    is_no_disturb: false
   };
 });
