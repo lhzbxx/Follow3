@@ -3,14 +3,14 @@
     <ion-list>
       <ion-item class="item-divider">基本设置</ion-item>
       <ion-item class="item-icon-left">
-        <i class="icon ion-email"></i>
-        邮箱
-        <span class="item-note">416******@qq.com</span>
-      </ion-item>
-      <ion-item>
-        <i class="icon icon-email"></i>
+        <i class="icon ion-archive"></i>
         检查更新
         <span class="item-note">Version 0.3.1</span>
+      </ion-item>
+      <ion-item class="item-icon-left">
+        <i class="icon ion-paper-airplane"></i>
+        意见反馈
+        <span class="item-note">lhzbxx@gmail.com</span>
       </ion-item>
       <ion-item class="item-divider">账号设置</ion-item>
       <ion-item class="item-icon-left">
@@ -18,24 +18,26 @@
         邮箱
         <span class="item-note">416******@qq.com</span>
       </ion-item>
-      <ion-item>
-        <i class="icon icon-email"></i>
-        邮箱
-        <span class="item-note">416******@qq.com</span>
+      <ion-item class="item-icon-left">
+        <i class="icon ion-key"></i>
+        修改密码
+        <span class="item-note">*******</span>
       </ion-item>
-      <ion-toggle ng-model="settings.is_auto_notify">
-        自动添加邮件通知
-      </ion-toggle>
-      <ion-toggle ng-model="settings.is_auto_notify">
-        应用内推送通知
-      </ion-toggle>
       <ion-item class="item-divider">通知设置</ion-item>
       <ion-toggle ng-model="settings.is_auto_notify">
         自动添加邮件通知
       </ion-toggle>
-      <ion-toggle ng-model="settings.is_auto_notify">
+      <ion-toggle ng-model="settings.is_app_notify">
         应用内推送通知
       </ion-toggle>
+      <ion-toggle ng-model="settings.is_no_disturb">
+        免打扰模式
+      </ion-toggle>
+      <ion-item class="item-divider">其它</ion-item>
+      <ion-item class="item-icon-left">
+        <i class="icon ion-log-out"></i>
+        注销账号
+      </ion-item>
     </ion-list>
   </ion-content>
 </ion-view>
