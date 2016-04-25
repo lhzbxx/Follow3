@@ -3,6 +3,19 @@
   <ion-nav-buttons side="right">
     <button class="button button-icon ion-search"></button>
   </ion-nav-buttons>
-  <ion-content>
+  <ion-content lazy-scroll>
+    <ion-list ng-repeat="star in stars">
+      <ion-item class="item-avatar">
+        <img image-lazy-src="{{star.avatar}}">
+        <h2>{{star.nickname}}
+          · <span ng-if="star.is_live" style="color: green;">在线</span>
+          <span ng-if="!star.is_live" style="color: red;">休息</span>
+        </h2>
+        <p>{{star.title}}</p>
+        <img image-lazy-src="{{star.cover}}" lazy-scroll-resize="true" image-lazy-loader="lines" ng-if="star.is_live" style="width: 100%;">
+        <ion-option-button class="button-positive">删除
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

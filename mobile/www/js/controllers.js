@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
-.controller('HomeCtrl', function($scope) {
-
+.controller('HomeCtrl', function($scope, Stars) {
+  $scope.stars = Stars.online();
 })
 
 .controller('NotifyCtrl', function($scope, Chats) {
