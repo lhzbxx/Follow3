@@ -37,7 +37,9 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
     platform.ready().then(function () {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      _ionicNative.StatusBar.styleDefault();
+      // StatusBar.styleDefault();
+      _ionicNative.StatusBar.overlaysWebView(false);
+      _ionicNative.StatusBar.backgroundColorByHexString("#333");
     });
   }
 
@@ -50,7 +52,7 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Page1 = undefined;
+exports.Home = undefined;
 
 var _dec, _class;
 
@@ -58,10 +60,123 @@ var _ionicAngular = require('ionic-angular');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Page1 = exports.Page1 = (_dec = (0, _ionicAngular.Page)({
-  templateUrl: 'build/pages/page1/page1.html'
-}), _dec(_class = function Page1() {
-  _classCallCheck(this, Page1);
+var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
+  templateUrl: 'build/pages/Home/home.html'
+}), _dec(_class = function Home() {
+  _classCallCheck(this, Home);
+
+  // this.openSearch = function () {
+  //   this.nav.push(Search, { item: item });
+  // },
+  this.stars = [{
+    "id": 16,
+    "created_at": "2016-04-23 11:08:45",
+    "updated_at": "2016-04-25 00:00:05",
+    "user_id": 3,
+    "star_id": 16,
+    "is_notify": 1,
+    "nickname": "ChuaN黄福全",
+    "title": "ChuaN直播间 愤怒的主播",
+    "avatar": "http://uc.douyutv.com/upload/avatar/001/55/79/53_avatar_big.jpg?rltime4",
+    "cover": "http://rpic.douyucdn.cn/z1604/24/23/58718_160424235648.jpg",
+    "platform": "DOUYU",
+    "link": "http://www.douyu.com/58718",
+    "info": null,
+    "followers": 1,
+    "serial": 58718,
+    "is_live": 1,
+    "began_at": "2016-04-24 22:10:04"
+  }, {
+    "id": 8,
+    "created_at": "2016-04-22 11:55:52",
+    "updated_at": "2016-04-25 00:00:04",
+    "user_id": 3,
+    "star_id": 8,
+    "is_notify": 1,
+    "nickname": "安德罗妮丶",
+    "title": "素材竞技场，3个12胜很快打完的。···",
+    "avatar": "http://uc.douyutv.com/upload/avatar/000/40/88/12_avatar_big.jpg?rltime4",
+    "cover": "http://rpic.douyucdn.cn/z1604/24/22/16789_160424221609.jpg",
+    "platform": "DOUYU",
+    "link": "http://www.douyu.com/16789",
+    "info": null,
+    "followers": 3,
+    "serial": 16789,
+    "is_live": 0,
+    "began_at": "2016-04-24 19:10:03"
+  }, {
+    "id": 13,
+    "created_at": "2016-04-22 11:59:06",
+    "updated_at": "2016-04-25 00:00:04",
+    "user_id": 3,
+    "star_id": 13,
+    "is_notify": 1,
+    "nickname": "trevor行云",
+    "title": "拆尼斯逗比欢乐多",
+    "avatar": "http://i3.pdim.gs/t015d26246d895b5079.jpg",
+    "cover": "http://i8.pdim.gs/e07dd2b8882c81da6d1477dda696e79b/w338/h190.jpeg",
+    "platform": "PANDA",
+    "link": "http://www.panda.tv/10015",
+    "info": null,
+    "followers": 2,
+    "serial": 10015,
+    "is_live": 1,
+    "began_at": "2016-04-24 18:33:06"
+  }, {
+    "id": 14,
+    "created_at": "2016-04-22 11:59:14",
+    "updated_at": "2016-04-25 00:00:05",
+    "user_id": 3,
+    "star_id": 14,
+    "is_notify": 1,
+    "nickname": "瓦莉拉的小伙伴",
+    "title": "瓦王战天梯冲分啦！",
+    "avatar": "http://i1.pdim.gs/t018f5b32e6e545f11f.jpg",
+    "cover": "http://i6.pdim.gs/af04628223e1b1673a1ea20e214371a8/w338/h190.png",
+    "platform": "PANDA",
+    "link": "http://www.panda.tv/10027",
+    "info": null,
+    "followers": 1,
+    "serial": 10027,
+    "is_live": 1,
+    "began_at": "2016-04-24 21:30:05"
+  }, {
+    "id": 4,
+    "created_at": "2016-04-22 09:56:55",
+    "updated_at": "2016-04-25 00:00:03",
+    "user_id": 3,
+    "star_id": 4,
+    "is_notify": 1,
+    "nickname": "王师傅",
+    "title": "用一下马上就用不了的卡组们吧！",
+    "avatar": "http://i1.pdim.gs/t01d3c874fd7a7ea92f.jpg",
+    "cover": "http://i7.pdim.gs/eca3da657a85fe4e7d4aa52306aa2150/w338/h190.jpeg",
+    "platform": "PANDA",
+    "link": "http://www.panda.tv/10029",
+    "info": null,
+    "followers": 2,
+    "serial": 10029,
+    "is_live": 0,
+    "began_at": "2016-04-24 17:00:02"
+  }, {
+    "id": 9,
+    "created_at": "2016-04-22 11:56:10",
+    "updated_at": "2016-04-25 00:00:04",
+    "user_id": 3,
+    "star_id": 9,
+    "is_notify": 1,
+    "nickname": "女流66",
+    "title": "明天周一，Sigh",
+    "avatar": "http://uc.douyutv.com/upload/avatar/006/43/12/98_avatar_big.jpg?rltime4",
+    "cover": "http://rpic.douyucdn.cn/z1604/24/17/156277_160424175421.jpg",
+    "platform": "DOUYU",
+    "link": "http://www.douyu.com/156277",
+    "info": null,
+    "followers": 2,
+    "serial": 156277,
+    "is_live": 0,
+    "began_at": "2016-04-24 15:10:03"
+  }];
 }) || _class);
 
 },{"ionic-angular":339}],3:[function(require,module,exports){
@@ -70,7 +185,7 @@ var Page1 = exports.Page1 = (_dec = (0, _ionicAngular.Page)({
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Page2 = undefined;
+exports.Notify = undefined;
 
 var _dec, _class;
 
@@ -78,10 +193,10 @@ var _ionicAngular = require('ionic-angular');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Page2 = exports.Page2 = (_dec = (0, _ionicAngular.Page)({
-  templateUrl: 'build/pages/page2/page2.html'
-}), _dec(_class = function Page2() {
-  _classCallCheck(this, Page2);
+var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
+  templateUrl: 'build/pages/Notify/notify.html'
+}), _dec(_class = function Notify() {
+  _classCallCheck(this, Notify);
 }) || _class);
 
 },{"ionic-angular":339}],4:[function(require,module,exports){
@@ -90,7 +205,7 @@ var Page2 = exports.Page2 = (_dec = (0, _ionicAngular.Page)({
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Page3 = undefined;
+exports.Setting = undefined;
 
 var _dec, _class;
 
@@ -98,10 +213,10 @@ var _ionicAngular = require('ionic-angular');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Page3 = exports.Page3 = (_dec = (0, _ionicAngular.Page)({
-  templateUrl: 'build/pages/page3/page3.html'
-}), _dec(_class = function Page3() {
-  _classCallCheck(this, Page3);
+var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
+  templateUrl: 'build/pages/Setting/setting.html'
+}), _dec(_class = function Setting() {
+  _classCallCheck(this, Setting);
 
   this.settings = {
     is_auto_notify: true,
@@ -122,11 +237,11 @@ var _dec, _class;
 
 var _ionicAngular = require('ionic-angular');
 
-var _page = require('../page1/page1');
+var _home = require('../Home/home');
 
-var _page2 = require('../page2/page2');
+var _notify = require('../Notify/notify');
 
-var _page3 = require('../page3/page3');
+var _setting = require('../Setting/setting');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -137,12 +252,12 @@ var TabsPage = exports.TabsPage = (_dec = (0, _ionicAngular.Page)({
 
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  this.tab1Root = _page.Page1;
-  this.tab2Root = _page2.Page2;
-  this.tab3Root = _page3.Page3;
+  this.tab1Root = _home.Home;
+  this.tab2Root = _notify.Notify;
+  this.tab3Root = _setting.Setting;
 }) || _class);
 
-},{"../page1/page1":2,"../page2/page2":3,"../page3/page3":4,"ionic-angular":339}],6:[function(require,module,exports){
+},{"../Home/home":2,"../Notify/notify":3,"../Setting/setting":4,"ionic-angular":339}],6:[function(require,module,exports){
 'use strict';"use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];

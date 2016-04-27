@@ -7911,3 +7911,6 @@ body {
   font-family: -apple-system, "Helvetica Neue", "Roboto", sans-serif;
   font-size: 1.4rem;
   background-color: #fff; }
+
+.home h2 {
+  margin-top: 0; }

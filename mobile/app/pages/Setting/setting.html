@@ -1,10 +1,10 @@
-<ion-navbar *navbar>
+<ion-navbar *navbar primary>
   <ion-title>
     设定
   </ion-title>
 </ion-navbar>
 
-<ion-content>
+<ion-content class="setting" ng-controller="Setting">
   <ion-list>
     <ion-list-header>
       基本设置
@@ -40,17 +40,17 @@
       通知设置
     </ion-list-header>
     <ion-item>
-      <ion-toggle ngModel="setting.is_auto_notify"></ion-toggle>
+      <ion-toggle [checked]="settings.is_auto_notify"></ion-toggle>
       <ion-label>自动添加邮件通知</ion-label>
       <ion-icon name='at' item-left></ion-icon>
     </ion-item>
     <ion-item>
-      <ion-toggle ngModel="setting.is_auto_notify"></ion-toggle>
+      <ion-toggle [checked]="settings.is_app_notify"></ion-toggle>
       <ion-label>应用内推送通知</ion-label>
       <ion-icon name='notifications' item-left></ion-icon>
     </ion-item>
     <ion-item>
-      <ion-toggle ngModel="setting.is_auto_notify"></ion-toggle>
+      <ion-toggle [checked]="settings.is_no_disturb"></ion-toggle>
       <ion-label>免打扰模式</ion-label>
       <ion-icon name='notifications-off' item-left></ion-icon>
     </ion-item>

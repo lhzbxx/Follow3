@@ -2,9 +2,9 @@ import {Page} from 'ionic-angular';
 
 
 @Page({
-  templateUrl: 'build/pages/page3/page3.html'
+  templateUrl: 'build/pages/Setting/setting.html'
 })
-export class Page3 {
+export class Setting {
   constructor() {
     this.settings = {
       is_auto_notify: true,

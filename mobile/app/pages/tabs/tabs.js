@@ -1,7 +1,7 @@
 import {Page} from 'ionic-angular';
-import {Page1} from '../page1/page1';
-import {Page2} from '../page2/page2';
-import {Page3} from '../page3/page3';
+import {Home} from '../Home/home';
+import {Notify} from '../Notify/notify';
+import {Setting} from '../Setting/setting';
 
 
 @Page({
@@ -11,8 +11,8 @@ export class TabsPage {
   constructor() {
     // this tells the tabs component which Pages
     // should be each tab's root Page
-    this.tab1Root = Page1;
-    this.tab2Root = Page2;
-    this.tab3Root = Page3;
+    this.tab1Root = Home;
+    this.tab2Root = Notify;
+    this.tab3Root = Setting;
   }
 }
