@@ -81,7 +81,8 @@ class UpdateStar extends Command
 //        $result = $this->result($url, 'panda');
         $star->nickname = $result->data->info->hostinfo->name;
         $star->title = $result->data->info->roominfo->name;
-        $star->avatar = $result->data->info->hostinfo->avatar;
+        $avatar = $result->data->info->hostinfo->avatar;
+        $star->avatar = substr($avatar, 0, 17) . '/dmfd/200_200_100/' . substr($avatar, 18);
         $star->cover = $result->data->info->roominfo->pictures->img;
         if ($this->notify($star->is_live, $result->data->info->videoinfo->status == 2, $id))
             $star->began_at = date("Y-m-d H:i:s");
@@ -189,7 +190,7 @@ class UpdateStar extends Command
 //        $result = $this->result($url, 'zhanqi');
         $star->nickname = $result->data->nickname;
         $star->title = $result->data->title;
-        $star->avatar = $result->data->avatar;
+        $star->avatar = $result->data->avatar . '-medium';
         $star->cover = $result->data->spic;
         if ($this->notify($star->is_live, $result->data->status == 4, $id))
             $star->began_at = date("Y-m-d H:i:s");
