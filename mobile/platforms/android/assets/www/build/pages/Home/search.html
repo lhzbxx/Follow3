@@ -1,5 +1,24 @@
-<ion-navbar *navbar>
-    <ion-title>Other Page</ion-title>
+<ion-navbar *navbar primary>
+    <ion-title>添加主播</ion-title>
+    <ion-buttons end>
+        <button>
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-buttons>
 </ion-navbar>
 
-<ion-content>I'm the other page!</ion-content>`
+<ion-content>
+    <ion-searchbar placeholder="您要关注的主播..." (input)="getItems($event)"></ion-searchbar>
+    <ion-list>
+        <ion-list-header>搜索结果</ion-list-header>
+        <ion-item *ngFor="#star of stars">
+            <ion-avatar item-left>
+                <img [src]="star.avatar">
+            </ion-avatar>
+            <img [src]="star.cover" style="width: 100%;">
+            <h2><ion-badge secondary *ngIf="star.is_live">在线</ion-badge>
+                <ion-badge danger *ngIf="!star.is_live">休息</ion-badge> {{star.nickname}}</h2>
+            <p>{{star.title}}</p>
+        </ion-item>
+    </ion-list>
+</ion-content>`

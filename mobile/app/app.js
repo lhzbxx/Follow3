@@ -5,7 +5,8 @@ import {TabsPage} from './pages/tabs/tabs';
 
 @App({
   template: '<ion-nav [root]="rootPage"></ion-nav>',
-  config: {} // http://ionicframework.com/docs/v2/api/config/Config/
+  config: {
+  } // http://ionicframework.com/docs/v2/api/config/Config/
 })
 export class MyApp {
   static get parameters() {
@@ -18,8 +19,8 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      // StatusBar.styleDefault();
-      StatusBar.overlaysWebView(false);
+      StatusBar.styleDefault();
+      StatusBar.overlaysWebView(true);
       StatusBar.backgroundColorByHexString("#333");
     });
   }

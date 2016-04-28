@@ -1,30 +1,23 @@
 <ion-navbar *navbar primary>
   <ion-title>主页</ion-title>
   <ion-buttons end>
-    <button (click)="openSearch()">
+    <button [navPush]="search">
       <ion-icon name="search"></ion-icon>
     </button>
   </ion-buttons>
 </ion-navbar>
 
 <ion-content class="home" ng-controller="Home">
+  <ion-refresher (refresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list>
     <ion-list-header>我的关注</ion-list-header>
-
-    <!--<ion-item-sliding>-->
-      <!--<ion-item>-->
-        <!--Swipe me to the left-->
-      <!--</ion-item>-->
-      <!--<ion-item-options>-->
-        <!--<button danger (click)="removeItem()"><icon trash></icon> Delete</button>-->
-      <!--</ion-item-options>-->
-    <!--</ion-item-sliding>-->
-
     <ion-item *ngFor="#star of stars">
       <ion-avatar item-left>
         <img [src]="star.avatar">
       </ion-avatar>
-      <img [src]="star.cover">
+      <img [src]="star.cover" style="width: 100%;">
       <h2><ion-badge secondary *ngIf="star.is_live">在线</ion-badge>
         <ion-badge danger *ngIf="!star.is_live">休息</ion-badge> {{star.nickname}}</h2>
       <p>{{star.title}}</p>
