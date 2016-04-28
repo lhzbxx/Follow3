@@ -30,6 +30,7 @@ $app->get('user/follow/all', 'UserController@follow_list');
 $app->post('user/follow/{star_id}', 'UserController@follow_star');
 $app->delete('user/follow/{star_id}', 'UserController@unfollow_star');
 
+$app->get('star/search', 'StarController@search');
 $app->post('star/search', 'StarController@search');
 $app->post('star/add', 'StarController@add');
 $app->get('star/hot/{page}', 'StarController@hot');

@@ -81,7 +81,8 @@ class UpdateStar extends Command
 //        $result = $this->result($url, 'panda');
         $star->nickname = $result->data->info->hostinfo->name;
         $star->title = $result->data->info->roominfo->name;
-        $star->avatar = $result->data->info->hostinfo->avatar;
+        $avatar = $result->data->info->hostinfo->avatar;
+        $star->avatar = substr($avatar, 0, 17) . '/dmfd/200_200_100/' . substr($avatar, 18);
         $star->cover = $result->data->info->roominfo->pictures->img;
         if ($this->notify($star->is_live, $result->data->info->videoinfo->status == 2, $id))
             $star->began_at = date("Y-m-d H:i:s");
@@ -129,6 +130,7 @@ class UpdateStar extends Command
         $auth = md5($url . '1231');
         $url =  'http://www.douyu.com/api/v1/' . $url . '&auth=' . $auth;
         $result = $this->result($url, 'douyu');
+//        $result = json_decode(file_get_contents($url));
         if ( ! $result)
             return;
         $star->nickname = $result->data->nickname;
@@ -154,6 +156,7 @@ class UpdateStar extends Command
     {
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_USERAGENT, str_random(8));
         $result = curl_exec($curl);
         if ( ! ($result && curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200)) {
             Cache::increment('update:' . $platform . ':fail');
@@ -187,7 +190,7 @@ class UpdateStar extends Command
 //        $result = $this->result($url, 'zhanqi');
         $star->nickname = $result->data->nickname;
         $star->title = $result->data->title;
-        $star->avatar = $result->data->avatar;
+        $star->avatar = $result->data->avatar . '-medium';
         $star->cover = $result->data->spic;
         if ($this->notify($star->is_live, $result->data->status == 4, $id))
             $star->began_at = date("Y-m-d H:i:s");

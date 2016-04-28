@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Follow;
 use App\Models\Star;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -38,6 +39,8 @@ class SendNotify extends Job
         foreach ($followers as $follower) {
             $user = User::find($follower->user_id);
             $user_name = $user->nickname;
+            $user_id = $user->id;
+            Cache::increment('service:' . 'mail:' . $user_id);
             $message = str_replace('USER_NAME', $user_name, $template);
             $this->send_mail($subject, $user->email, $message);
         }
