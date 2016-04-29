@@ -91,8 +91,7 @@ class StarController extends Controller
         $query = $request->input('query');
         $star = Star::search($query)->get();
         if ( ! $star->isEmpty()) {
-            $r = json_encode($star);
-            return $this->result($r);
+            return $this->result($star);
         }
         abort(1000, 'No star found!');
     }

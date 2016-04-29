@@ -96,6 +96,7 @@ class UserController extends Controller
     {
         $data = Follow::where('user_id', $this->user_id)
             ->join('Star', 'Star.id', '=', 'Follow.star_id')
+            ->orderBy('began_at', 'desc')
             ->get();
         return $this->result($data);
     }
