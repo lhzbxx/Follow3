@@ -46,22 +46,23 @@ class UpdateStar extends Command
 
     /**
      *
-     * 检查是否发送通知
+     * 检查是否发送通知并记录上线和下线时间
      *
-     * @param $old_status
      * @param $new_status
-     * @param $star_id
+     * @param $star
      * @return bool
      * @author: LuHao
      */
-    private function notify($old_status, $new_status, $star_id)
+    private function notifyAndRecord($new_status, &$star)
     {
+        $old_status = $star->is_live;
         if ( ! $old_status and $new_status) {
-            Queue::push(new SendNotify($star_id));
-            Log::info('Send notify with STAR: ' . $star_id . '.');
-            return true;
+            Queue::push(new SendNotify($star->id));
+            Log::info('Send notify with STAR: ' . $star->id . '.');
+            $star->began_at = date("Y-m-d H:i:s");
+        } else if ( ! $new_status and $old_status) {
+            $star->end_at = date("Y-m-d H:i:s");
         }
-        return false;
     }
 
     /**
@@ -84,8 +85,7 @@ class UpdateStar extends Command
         $avatar = $result->data->info->hostinfo->avatar;
         $star->avatar = substr($avatar, 0, 17) . '/dmfd/200_200_100/' . substr($avatar, 18);
         $star->cover = $result->data->info->roominfo->pictures->img;
-        if ($this->notify($star->is_live, $result->data->info->videoinfo->status == 2, $id))
-            $star->began_at = date("Y-m-d H:i:s");
+        $this->notifyAndRecord($result->data->info->videoinfo->status == 2, $star);
         $star->is_live = $result->data->info->videoinfo->status == 2;
         $star->save();
     }
@@ -109,8 +109,7 @@ class UpdateStar extends Command
         $star->avatar = $result->avatar;
         if (isset($result->thumb))
             $star->cover = $result->thumb;
-        if ($this->notify($star->is_live, $result->play_status, $id))
-            $star->began_at = date("Y-m-d H:i:s");
+        $this->notifyAndRecord($result->play_status, $star);
         $star->is_live = $result->play_status;
         $star->save();
     }
@@ -137,8 +136,7 @@ class UpdateStar extends Command
         $star->title = $result->data->room_name;
         $star->avatar = $result->data->owner_avatar;
         $star->cover = $result->data->room_src;
-        if ($this->notify($star->is_live, $result->data->show_status == 1, $id))
-            $star->began_at = date("Y-m-d H:i:s");
+        $this->notifyAndRecord($result->data->show_status == 1, $star);
         $star->is_live = $result->data->show_status == 1;
         $star->save();
     }
@@ -192,8 +190,7 @@ class UpdateStar extends Command
         $star->title = $result->data->title;
         $star->avatar = $result->data->avatar . '-medium';
         $star->cover = $result->data->spic;
-        if ($this->notify($star->is_live, $result->data->status == 4, $id))
-            $star->began_at = date("Y-m-d H:i:s");
+        $this->notifyAndRecord($result->data->status == 4, $star);
         $star->is_live = $result->data->status == 4;
         $star->save();
     }

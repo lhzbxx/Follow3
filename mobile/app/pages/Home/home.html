@@ -13,7 +13,7 @@
   </ion-refresher>
   <ion-list>
     <ion-list-header>我的关注</ion-list-header>
-    <ion-item *ngFor="#star of stars">
+    <ion-item *ngFor="#star of stars" (click)="showAction(star)">
       <ion-avatar item-left>
         <img [src]="star.avatar">
       </ion-avatar>

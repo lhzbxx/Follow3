@@ -1,4 +1,4 @@
-import {Page, Toast} from 'ionic-angular';
+import {Page, Toast, ActionSheet, NavController} from 'ionic-angular';
 import {Search} from './search';
 import {Http} from 'angular2/http';
 import 'rxjs/Rx';
@@ -9,13 +9,14 @@ import 'rxjs/Rx';
 })
 export class Home {
     static get parameters() {
-        return [Http];
+        return [Http, NavController];
     }
 
-    constructor(http) {
+    constructor(http, navController) {
         this.http = http;
         this.fetch(null);
         this.search = Search;
+        this.nav = navController;
     }
 
     fetch(refresher) {
@@ -26,19 +27,51 @@ export class Home {
                 if (refresher) {
                     refresher.complete()
                 }
-                Toast.create({
-                    message: '无法连接到服务器...',
-                    duration: 3000
-                });
             }, error => {
-                Toast.create({
+                let t = Toast.create({
                     message: '无法连接到服务器...',
                     duration: 3000
                 });
+                this.nav.present(t)
             });
     }
 
     doRefresh(refresher) {
         this.fetch(refresher);
+    }
+
+    showAction(star) {
+        let actionSheet = ActionSheet.create({
+            title: star.nickname,
+            buttons: [
+                {
+                    text: '跳转观看',
+                    role: 'destructive',
+                    handler: () => {
+                        console.log('Destructive clicked');
+                    }
+                },{
+                    text: '分享到...',
+                    icon: !this.platform.is('ios') ? 'share' : null,
+                    handler: () => {
+                        console.log('Archive clicked');
+                    }
+                },{
+                    text: '取消关注',
+                    icon: !this.platform.is('ios') ? 'share' : null,
+                    handler: () => {
+                        console.log('Archive clicked');
+                    }
+                },{
+                    text: '取消',
+                    role: 'cancel',
+                    icon: !this.platform.is('ios') ? 'close' : null,
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
+        });
+        this.nav.present(actionSheet);
     }
 }
