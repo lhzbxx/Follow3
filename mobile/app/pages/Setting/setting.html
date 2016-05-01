@@ -1,67 +1,67 @@
 <ion-navbar *navbar primary>
-  <ion-title>
-    设定
-  </ion-title>
+    <ion-title>
+        设定
+    </ion-title>
 </ion-navbar>
 
 <ion-content class="setting" ng-controller="Setting">
-  <ion-list>
-    <ion-list-header>
-      基本设置
-    </ion-list-header>
-    <ion-item>
-      检查更新
-      <ion-icon name="archive" item-left></ion-icon>
-      <ion-note item-right>Version 0.3.1</ion-note>
-    </ion-item>
-    <ion-item>
-      意见反馈
-      <ion-icon name="send" item-left></ion-icon>
-      <ion-note item-right>lhzbxx@gmail.com</ion-note>
-    </ion-item>
-  </ion-list>
-  <ion-list>
-    <ion-list-header>
-      账号设置
-    </ion-list-header>
-    <ion-item>
-      邮箱
-      <ion-icon name="mail" item-left></ion-icon>
-      <ion-note item-right>416******@qq.com</ion-note>
-    </ion-item>
-    <ion-item>
-      修改密码
-      <ion-icon name="key" item-left></ion-icon>
-      <ion-note item-right>*******</ion-note>
-    </ion-item>
-  </ion-list>
-  <ion-list>
-    <ion-list-header>
-      通知设置
-    </ion-list-header>
-    <ion-item>
-      <ion-toggle [checked]="settings.is_auto_notify"></ion-toggle>
-      <ion-label>自动添加邮件通知</ion-label>
-      <ion-icon name='at' item-left></ion-icon>
-    </ion-item>
-    <ion-item>
-      <ion-toggle [checked]="settings.is_app_notify"></ion-toggle>
-      <ion-label>应用内推送通知</ion-label>
-      <ion-icon name='notifications' item-left></ion-icon>
-    </ion-item>
-    <ion-item>
-      <ion-toggle [checked]="settings.is_no_disturb"></ion-toggle>
-      <ion-label>免打扰模式</ion-label>
-      <ion-icon name='notifications-off' item-left></ion-icon>
-    </ion-item>
-  </ion-list>
-  <ion-list>
-    <ion-list-header>
-      其它
-    </ion-list-header>
-    <ion-item>
-      注销
-      <ion-icon name="log-out" item-left></ion-icon>
-    </ion-item>
-  </ion-list>
+    <ion-list>
+        <ion-list-header>
+            基本设置
+        </ion-list-header>
+        <ion-item>
+            检查更新
+            <ion-icon name="archive" item-left></ion-icon>
+            <ion-note item-right>Version 0.3.1</ion-note>
+        </ion-item>
+        <ion-item>
+            意见反馈
+            <ion-icon name="send" item-left></ion-icon>
+            <ion-note item-right>lhzbxx@gmail.com</ion-note>
+        </ion-item>
+    </ion-list>
+    <ion-list>
+        <ion-list-header>
+            账号设置
+        </ion-list-header>
+        <ion-item>
+            邮箱
+            <ion-icon name="mail" item-left></ion-icon>
+            <ion-note item-right>416******@qq.com</ion-note>
+        </ion-item>
+        <ion-item>
+            修改密码
+            <ion-icon name="key" item-left></ion-icon>
+            <ion-note item-right>*******</ion-note>
+        </ion-item>
+    </ion-list>
+    <ion-list>
+        <ion-list-header>
+            通知设置
+        </ion-list-header>
+        <ion-item>
+            <ion-toggle [checked]="settings.is_auto_notify"></ion-toggle>
+            <ion-label>自动添加邮件通知</ion-label>
+            <ion-icon name='at' item-left></ion-icon>
+        </ion-item>
+        <ion-item>
+            <ion-toggle [checked]="settings.is_app_notify"></ion-toggle>
+            <ion-label>应用内推送通知</ion-label>
+            <ion-icon name='notifications' item-left></ion-icon>
+        </ion-item>
+        <ion-item>
+            <ion-toggle [checked]="settings.is_no_disturb"></ion-toggle>
+            <ion-label>免打扰模式</ion-label>
+            <ion-icon name='notifications-off' item-left></ion-icon>
+        </ion-item>
+    </ion-list>
+    <ion-list>
+        <ion-list-header>
+            其它
+        </ion-list-header>
+        <ion-item>
+            注销
+            <ion-icon name="log-out" item-left></ion-icon>
+        </ion-item>
+    </ion-list>
 </ion-content>
