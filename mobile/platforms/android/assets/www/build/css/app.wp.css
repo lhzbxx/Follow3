@@ -8486,3 +8486,15 @@ body {
   font-family: "Segoe UI", "Noto Sans", sans-serif;
   font-size: 1.4rem;
   background-color: #fff; }
+
+.home .ion-md-remove-circle {
+  color: #ED4248; }
+
+.home .ion-md-play {
+  color: #508AE4; }
+
+.home .ion-md-share {
+  color: #31D55F; }
+
+.home .ion-md-close {
+  color: #757575; }

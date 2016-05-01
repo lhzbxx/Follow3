@@ -1,13 +1,14 @@
 import {Page, Toast, ActionSheet, NavController, Platform} from 'ionic-angular';
 import {Search} from './search';
 import {Http} from 'angular2/http';
-import {SocialSharing} from 'ionic-native';
+import {TimeAgoPipe} from 'angular2-moment';
 import 'rxjs/Rx';
 
-
 @Page({
+    pipes: [TimeAgoPipe],
     templateUrl: 'build/pages/Home/home.html'
 })
+
 export class Home {
     static get parameters() {
         return [Http, NavController, Platform];
@@ -60,7 +61,9 @@ export class Home {
                     handler: () => {
                         this.platform.ready().then(() => {
                             if (window.plugins.socialsharing) {
-                                window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！");
+                                window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！",
+                                    "Follow3", Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover),
+                                    "http://www.lhzbxx.top");
                             }
                         });
                     }
@@ -69,14 +72,14 @@ export class Home {
                     icon: !this.platform.is('ios') ? 'remove-circle' : null,
                     role: 'destructive',
                     handler: () => {
-                        console.log('Archive clicked');
+                        this.doRefresh(null);
                     }
                 },{
                     text: '取消',
                     role: 'cancel',
                     icon: !this.platform.is('ios') ? 'close' : null,
                     handler: () => {
-                        console.log('Cancel clicked');
+                        // Cancel
                     }
                 }
             ]
