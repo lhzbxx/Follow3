@@ -133,10 +133,12 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: function handler() {
                         _this2.platform.ready().then(function () {
-                            if (star.platform == 'DOUYU') cordova.InAppBrowser.open('douyutv://' + star.serial, "_system", "location=true");
-                            if (star.platform == 'ZHANQI') {
-                                cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                            }
+                            cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            // if (star.platform == 'DOUYU')
+                            //     cordova.InAppBrowser.open('douyutv://' + star.serial, "_system", "location=true");
+                            // if (star.platform == 'ZHANQI') {
+                            //     cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            // }
                         });
                     }
                 }, {
