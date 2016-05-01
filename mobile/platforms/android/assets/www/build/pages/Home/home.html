@@ -6,18 +6,19 @@
     </ion-buttons>
     <ion-title>主页</ion-title>
     <ion-buttons end>
-        <button>
+        <button (click)="showOptions()">
             <ion-icon name="more"></ion-icon>
         </button>
     </ion-buttons>
 </ion-navbar>
 
-<ion-content class="home" ng-controller="Home">
+<ion-content class="home">
     <ion-refresher (refresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-list>
         <ion-list-header>我的关注</ion-list-header>
+        <!--<ion-item *ngFor="#star of stars" *ngIf="setting.showOnlyOnline && !star.is_live" (click)="showAction(star)">-->
         <ion-item *ngFor="#star of stars" (click)="showAction(star)">
             <ion-avatar item-left>
                 <img [src]="star.avatar">

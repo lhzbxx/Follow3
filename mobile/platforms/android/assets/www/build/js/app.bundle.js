@@ -89,6 +89,11 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
         this.search = _search.Search;
         this.nav = navController;
         this.platform = platform;
+        this.setting = {
+            'showOnlyOnline': true,
+            'autoOpenApp': false,
+            'orderByFollow': false
+        };
     }
 
     _createClass(Home, [{
@@ -128,7 +133,10 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: function handler() {
                         _this2.platform.ready().then(function () {
-                            cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            if (star.platform == 'DOUYU') cordova.InAppBrowser.open('douyutv://' + star.serial, "_system", "location=true");
+                            if (star.platform == 'ZHANQI') {
+                                cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            }
                         });
                     }
                 }, {
@@ -137,7 +145,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     handler: function handler() {
                         _this2.platform.ready().then(function () {
                             if (window.plugins.socialsharing) {
-                                window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！", "Follow3", Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover), "http://www.lhzbxx.top");
+                                window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！", null, Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover), "http://www.lhzbxx.top");
                             }
                         });
                     }
@@ -158,6 +166,36 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                 }]
             });
             this.nav.present(actionSheet);
+        }
+    }, {
+        key: 'showOptions',
+        value: function showOptions() {
+            var alert = _ionicAngular.Alert.create();
+            alert.setTitle('Preference');
+            alert.addInput({
+                type: 'checkbox',
+                label: '仅显示在线主播',
+                value: this.setting.showOnlyOnline,
+                checked: this.setting.showOnlyOnline
+            });
+            alert.addInput({
+                type: 'checkbox',
+                label: '自动打开对应APP',
+                value: this.setting.autoOpenApp,
+                checked: this.setting.autoOpenApp
+            });
+            alert.addInput({
+                type: 'checkbox',
+                label: '按照关注顺序排列',
+                value: this.setting.orderByFollow,
+                checked: this.setting.orderByFollow
+            });
+            alert.addButton('Cancel');
+            alert.addButton({
+                text: 'Confirm',
+                handler: function handler(data) {}
+            });
+            this.nav.present(alert);
         }
     }]);
 

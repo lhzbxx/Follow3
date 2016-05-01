@@ -1,4 +1,4 @@
-import {Page, Toast, ActionSheet, NavController, Platform} from 'ionic-angular';
+import {Page, Toast, ActionSheet, NavController, Platform, Alert} from 'ionic-angular';
 import {Search} from './search';
 import {Http} from 'angular2/http';
 import {TimeAgoPipe} from 'angular2-moment';
@@ -20,6 +20,11 @@ export class Home {
         this.search = Search;
         this.nav = navController;
         this.platform = platform;
+        this.setting = {
+            'showOnlyOnline': true,
+            'autoOpenApp': false,
+            'orderByFollow': false
+        }
     }
 
     fetch(refresher) {
@@ -53,6 +58,11 @@ export class Home {
                     handler: () => {
                         this.platform.ready().then(() => {
                             cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            // if (star.platform == 'DOUYU')
+                            //     cordova.InAppBrowser.open('douyutv://' + star.serial, "_system", "location=true");
+                            // if (star.platform == 'ZHANQI') {
+                            //     cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            // }
                         });
                     }
                 },{
@@ -62,7 +72,7 @@ export class Home {
                         this.platform.ready().then(() => {
                             if (window.plugins.socialsharing) {
                                 window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！",
-                                    "Follow3", Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover),
+                                    null, Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover),
                                     "http://www.lhzbxx.top");
                             }
                         });
@@ -85,5 +95,35 @@ export class Home {
             ]
         });
         this.nav.present(actionSheet);
+    }
+
+    showOptions() {
+        let alert = Alert.create();
+        alert.setTitle('Preference');
+        alert.addInput({
+            type: 'checkbox',
+            label: '仅显示在线主播',
+            value: this.setting.showOnlyOnline,
+            checked: this.setting.showOnlyOnline
+        });
+        alert.addInput({
+            type: 'checkbox',
+            label: '自动打开对应APP',
+            value: this.setting.autoOpenApp,
+            checked: this.setting.autoOpenApp
+        });
+        alert.addInput({
+            type: 'checkbox',
+            label: '按照关注顺序排列',
+            value: this.setting.orderByFollow,
+            checked: this.setting.orderByFollow
+        });
+        alert.addButton('Cancel');
+        alert.addButton({
+            text: 'Confirm',
+            handler: data => {
+            }
+        });
+        this.nav.present(alert);
     }
 }
