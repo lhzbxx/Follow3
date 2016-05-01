@@ -24,6 +24,12 @@
         },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-x-socialsharing": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
         }
     },
     "dependent_plugins": {}

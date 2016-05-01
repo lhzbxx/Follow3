@@ -1,4 +1,4 @@
-import {Page} from 'ionic-angular';
+import {Page, ActionSheet, NavController, Platform} from 'ionic-angular';
 import {Http} from 'angular2/http';
 import 'rxjs/Rx';
 
@@ -8,10 +8,13 @@ import 'rxjs/Rx';
 })
 export class Search {
     static get parameters() {
-        return [Http];
+        return [Http, NavController, Platform];
     }
-    constructor(http){
+    constructor(http, navController, platform){
         this.http = http;
+        this.search = Search;
+        this.nav = navController;
+        this.platform = platform;
     }
     getItems(searchbar) {
         var q = searchbar.value;
@@ -31,5 +34,40 @@ export class Search {
                     this.stars = [];
                 }
             });
+    }
+    showAction(star) {
+        let actionSheet = ActionSheet.create({
+            title: star.nickname,
+            buttons: [
+                {
+                    text: '跳转观看',
+                    icon: !this.platform.is('ios') ? 'play' : null,
+                    handler: () => {
+                        console.log('Destructive clicked');
+                    }
+                },{
+                    text: '分享到...',
+                    icon: !this.platform.is('ios') ? 'share' : null,
+                    handler: () => {
+                        console.log('Archive clicked');
+                    }
+                },{
+                    text: '取消关注',
+                    icon: !this.platform.is('ios') ? 'remove-circle' : null,
+                    role: 'destructive',
+                    handler: () => {
+                        console.log('Archive clicked');
+                    }
+                },{
+                    text: '取消',
+                    role: 'cancel',
+                    icon: !this.platform.is('ios') ? 'close' : null,
+                    handler: () => {
+                        console.log('Cancel clicked');
+                    }
+                }
+            ]
+        });
+        this.nav.present(actionSheet);
     }
 }

@@ -74,17 +74,18 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     _createClass(Home, null, [{
         key: 'parameters',
         get: function get() {
-            return [_http.Http, _ionicAngular.NavController];
+            return [_http.Http, _ionicAngular.NavController, _ionicAngular.Platform];
         }
     }]);
 
-    function Home(http, navController) {
+    function Home(http, navController, platform) {
         _classCallCheck(this, Home);
 
         this.http = http;
         this.fetch(null);
         this.search = _search.Search;
         this.nav = navController;
+        this.platform = platform;
     }
 
     _createClass(Home, [{
@@ -115,22 +116,33 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'showAction',
         value: function showAction(star) {
+            var _this2 = this;
+
             var actionSheet = _ionicAngular.ActionSheet.create({
                 title: star.nickname,
                 buttons: [{
-                    text: '观看',
-                    role: 'destructive',
+                    text: '跳转观看',
+                    icon: !this.platform.is('ios') ? 'play' : null,
                     handler: function handler() {
-                        console.log('Destructive clicked');
+                        _this2.platform.ready().then(function () {
+                            cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                        });
                     }
                 }, {
-                    text: '分享',
+                    text: '分享到...',
                     icon: !this.platform.is('ios') ? 'share' : null,
                     handler: function handler() {
                         console.log('Archive clicked');
                     }
                 }, {
-                    text: 'Cancel',
+                    text: '取消关注',
+                    icon: !this.platform.is('ios') ? 'remove-circle' : null,
+                    role: 'destructive',
+                    handler: function handler() {
+                        console.log('Archive clicked');
+                    }
+                }, {
+                    text: '取消',
                     role: 'cancel',
                     icon: !this.platform.is('ios') ? 'close' : null,
                     handler: function handler() {
@@ -171,14 +183,17 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
     _createClass(Search, null, [{
         key: 'parameters',
         get: function get() {
-            return [_http.Http];
+            return [_http.Http, _ionicAngular.NavController, _ionicAngular.Platform];
         }
     }]);
 
-    function Search(http) {
+    function Search(http, navController, platform) {
         _classCallCheck(this, Search);
 
         this.http = http;
+        this.search = Search;
+        this.nav = navController;
+        this.platform = platform;
     }
 
     _createClass(Search, [{
@@ -204,6 +219,41 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
                     _this.stars = [];
                 }
             });
+        }
+    }, {
+        key: 'showAction',
+        value: function showAction(star) {
+            var actionSheet = _ionicAngular.ActionSheet.create({
+                title: star.nickname,
+                buttons: [{
+                    text: '跳转观看',
+                    icon: !this.platform.is('ios') ? 'play' : null,
+                    handler: function handler() {
+                        console.log('Destructive clicked');
+                    }
+                }, {
+                    text: '分享到...',
+                    icon: !this.platform.is('ios') ? 'share' : null,
+                    handler: function handler() {
+                        console.log('Archive clicked');
+                    }
+                }, {
+                    text: '取消关注',
+                    icon: !this.platform.is('ios') ? 'remove-circle' : null,
+                    role: 'destructive',
+                    handler: function handler() {
+                        console.log('Archive clicked');
+                    }
+                }, {
+                    text: '取消',
+                    role: 'cancel',
+                    icon: !this.platform.is('ios') ? 'close' : null,
+                    handler: function handler() {
+                        console.log('Cancel clicked');
+                    }
+                }]
+            });
+            this.nav.present(actionSheet);
         }
     }]);
 

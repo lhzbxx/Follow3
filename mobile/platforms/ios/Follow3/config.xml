@@ -32,6 +32,13 @@
     <feature name="Keyboard">
         <param name="ios-package" onload="true" value="IonicKeyboard" />
     </feature>
+    <feature name="InAppBrowser">
+        <param name="ios-package" value="CDVInAppBrowser" />
+    </feature>
+    <feature name="SocialSharing">
+        <param name="ios-package" value="SocialSharing" />
+        <param name="onload" value="true" />
+    </feature>
     <name>Follow3</name>
     <description>麻麻再也不用担心我错过直播了-计划3.0·Alpha</description>
     <author email="lhzbxx@gmail.com" href="http://www.lhzbxx.top/">lhzbxx</author>

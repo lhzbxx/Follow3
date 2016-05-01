@@ -1,6 +1,7 @@
-import {Page, Toast, ActionSheet, NavController} from 'ionic-angular';
+import {Page, Toast, ActionSheet, NavController, Platform} from 'ionic-angular';
 import {Search} from './search';
 import {Http} from 'angular2/http';
+import {SocialSharing} from 'ionic-native';
 import 'rxjs/Rx';
 
 
@@ -9,14 +10,15 @@ import 'rxjs/Rx';
 })
 export class Home {
     static get parameters() {
-        return [Http, NavController];
+        return [Http, NavController, Platform];
     }
 
-    constructor(http, navController) {
+    constructor(http, navController, platform) {
         this.http = http;
         this.fetch(null);
         this.search = Search;
         this.nav = navController;
+        this.platform = platform;
     }
 
     fetch(refresher) {
@@ -46,19 +48,26 @@ export class Home {
             buttons: [
                 {
                     text: '跳转观看',
-                    role: 'destructive',
+                    icon: !this.platform.is('ios') ? 'play' : null,
                     handler: () => {
-                        console.log('Destructive clicked');
+                        this.platform.ready().then(() => {
+                            cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                        });
                     }
                 },{
                     text: '分享到...',
                     icon: !this.platform.is('ios') ? 'share' : null,
                     handler: () => {
-                        console.log('Archive clicked');
+                        this.platform.ready().then(() => {
+                            if (window.plugins.socialsharing) {
+                                window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！");
+                            }
+                        });
                     }
                 },{
                     text: '取消关注',
-                    icon: !this.platform.is('ios') ? 'share' : null,
+                    icon: !this.platform.is('ios') ? 'remove-circle' : null,
+                    role: 'destructive',
                     handler: () => {
                         console.log('Archive clicked');
                     }
