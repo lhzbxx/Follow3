@@ -16,6 +16,9 @@
     <ion-refresher (refresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
+    <button style="z-index: 10000; position: fixed;" fab fab-right fab-bottom [navPush]="search">
+        <ion-icon name="add"></ion-icon>
+    </button>
     <ion-list>
         <ion-list-header>我的关注</ion-list-header>
         <!--<ion-item *ngFor="#star of stars" *ngIf="setting.showOnlyOnline && !star.is_live" (click)="showAction(star)">-->

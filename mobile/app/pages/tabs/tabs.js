@@ -1,7 +1,7 @@
 import {Page} from 'ionic-angular';
-import {Home} from '../Home/home';
-import {Notify} from '../Notify/notify';
-import {Setting} from '../Setting/setting';
+import {Home} from '../home/home';
+import {Notify} from '../notify/notify';
+import {Setting} from '../setting/setting';
 
 
 @Page({

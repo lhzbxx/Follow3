@@ -1,10 +1,11 @@
-import {Page, ActionSheet, NavController, Platform} from 'ionic-angular';
+import {Page, ActionSheet, NavController, Platform, Toast} from 'ionic-angular';
 import {Http} from 'angular2/http';
+import {Add} from './add'
 import 'rxjs/Rx';
 
 
 @Page({
-    templateUrl: 'build/pages/Home/search.html'
+    templateUrl: 'build/pages/home/search.html'
 })
 export class Search {
     static get parameters() {
@@ -12,7 +13,7 @@ export class Search {
     }
     constructor(http, navController, platform){
         this.http = http;
-        this.search = Search;
+        this.addStar = Add;
         this.nav = navController;
         this.platform = platform;
     }
@@ -33,6 +34,12 @@ export class Search {
                 } else {
                     this.stars = [];
                 }
+            }, error => {
+                let t = Toast.create({
+                    message: '无法连接到服务器...',
+                    duration: 3000
+                });
+                this.nav.present(t)
             });
     }
     showAction(star) {

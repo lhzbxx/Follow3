@@ -31,11 +31,6 @@
   ],
   "cordovaPlatforms": [
     "ios",
-    {
-      "platform": "ios",
-      "version": "",
-      "locator": "ios"
-    },
     "android"
   ],
   "name": "Follow3",

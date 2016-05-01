@@ -31,6 +31,8 @@ class Init extends Migration
             $table->string('link');
             // 上次开播时间
             $table->dateTime('began_at');
+            // 上次下线时间
+            $table->dateTime('end_at');
             // 额外信息
             $table->string('info')->nullable();
             // 关注数
@@ -50,6 +52,8 @@ class Init extends Migration
             $table->string('nickname');
             // 密码
             $table->string('password');
+            // 推送ID
+            $table->string('notify_id');
             // 是否自动邮件通知
             $table->boolean('is_auto_notify')->default(true);
         });

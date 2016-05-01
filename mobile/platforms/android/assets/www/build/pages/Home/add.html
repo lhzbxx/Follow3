@@ -1,0 +1,37 @@
+<ion-navbar *navbar primary>
+    <ion-title>添加主播</ion-title>
+</ion-navbar>
+
+<ion-content>
+    <ion-list>
+        <ion-item>
+            <ion-label>直播平台</ion-label>
+            <ion-select [(ngModel)]="platform">
+                <ion-option value="DOUYU">斗鱼</ion-option>
+                <ion-option value="PANDA">熊猫</ion-option>
+                <ion-option value="ZHANQI">战旗</ion-option>
+                <ion-option value="QUANMIN">全民</ion-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>房间号</ion-label>
+            <ion-input type="text"></ion-input>
+        </ion-item>
+    </ion-list>
+    <ion-card>
+        <ion-card-header>
+            搜索结果
+        </ion-card-header>
+        <ion-card-content>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
+<ion-toolbar position="bottom" primary>
+    <ion-title class="footer-title">Please confirm it correct!</ion-title>
+    <ion-buttons end>
+        <button royal outline>
+            <ion-icon name="add"></ion-icon>
+            Add
+        </button>
+    </ion-buttons>
+</ion-toolbar>

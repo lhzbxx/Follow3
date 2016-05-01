@@ -2,7 +2,7 @@ import {Page} from 'ionic-angular';
 
 
 @Page({
-  templateUrl: 'build/pages/Setting/setting.html'
+  templateUrl: 'build/pages/setting/setting.html'
 })
 export class Setting {
   constructor() {

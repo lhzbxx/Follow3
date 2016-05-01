@@ -6,7 +6,7 @@ import 'rxjs/Rx';
 
 @Page({
     pipes: [TimeAgoPipe],
-    templateUrl: 'build/pages/Home/home.html'
+    templateUrl: 'build/pages/home/home.html'
 })
 
 export class Home {
