@@ -40,17 +40,17 @@
             通知设置
         </ion-list-header>
         <ion-item>
-            <ion-toggle [checked]="settings.is_auto_notify"></ion-toggle>
+            <ion-toggle [checked]="settings.isAutoNotify"></ion-toggle>
             <ion-label>自动添加邮件通知</ion-label>
             <ion-icon name='at' item-left></ion-icon>
         </ion-item>
         <ion-item>
-            <ion-toggle [checked]="settings.is_app_notify"></ion-toggle>
+            <ion-toggle [checked]="settings.isAppNotify"></ion-toggle>
             <ion-label>应用内推送通知</ion-label>
             <ion-icon name='notifications' item-left></ion-icon>
         </ion-item>
         <ion-item>
-            <ion-toggle [checked]="settings.is_no_disturb"></ion-toggle>
+            <ion-toggle [checked]="settings.isNoDisturb"></ion-toggle>
             <ion-label>免打扰模式</ion-label>
             <ion-icon name='notifications-off' item-left></ion-icon>
         </ion-item>

@@ -1,30 +1,29 @@
 import {Page, Toast, ActionSheet, NavController, Platform, Alert} from 'ionic-angular';
 import {Search} from './search';
+import {UserConfig} from '../../providers/user_config'
 import {Http} from 'angular2/http';
 import {TimeAgoPipe} from 'angular2-moment';
 import 'rxjs/Rx';
 
 @Page({
     pipes: [TimeAgoPipe],
+    providers: [UserConfig],
     templateUrl: 'build/pages/home/home.html'
 })
 
 export class Home {
     static get parameters() {
-        return [Http, NavController, Platform];
+        return [Http, NavController, Platform, UserConfig];
     }
 
-    constructor(http, navController, platform) {
+    constructor(http, nav, platform, config) {
         this.http = http;
         this.fetch(null);
         this.search = Search;
-        this.nav = navController;
+        this.nav = nav;
         this.platform = platform;
-        this.setting = {
-            'showOnlyOnline': true,
-            'autoOpenApp': false,
-            'orderByFollow': false
-        }
+        this.config = config;
+        this.setting = config.getPreference();
     }
 
     fetch(refresher) {
@@ -62,13 +61,15 @@ export class Home {
                             }
                             if (star.platform == 'DOUYU') {
                                 if (this.platform.is('ios')) {
-                                    let info = JSON.parse(star.info);
                                     cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
+                                } else if (this.platform.is('android')) {
+                                    cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=1&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
                                 } else {
                                     cordova.InAppBrowser.open(star.link, "_system", "location=true");
                                 }
                             }
                             if (star.platform == 'ZHANQI') {
+                                let info = JSON.parse(star.info);
                                 cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
                             }
                             if (star.platform == 'QUANMIN') {
@@ -82,8 +83,11 @@ export class Home {
                     handler: () => {
                         this.platform.ready().then(() => {
                             if (window.plugins.socialsharing) {
+                                // window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！",
+                                //     null, Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover),
+                                //     "http://www.lhzbxx.top");
                                 window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！",
-                                    null, Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover),
+                                    null, null,
                                     "http://www.lhzbxx.top");
                             }
                         });
@@ -114,25 +118,28 @@ export class Home {
         alert.addInput({
             type: 'checkbox',
             label: '仅显示在线主播',
-            value: this.setting.showOnlyOnline,
+            value: 'showOnlyOnline',
             checked: this.setting.showOnlyOnline
         });
         alert.addInput({
             type: 'checkbox',
             label: '自动打开对应APP',
-            value: this.setting.autoOpenApp,
+            value: 'autoOpenApp',
             checked: this.setting.autoOpenApp
         });
         alert.addInput({
             type: 'checkbox',
             label: '按照关注顺序排列',
-            value: this.setting.orderByFollow,
+            value: 'orderByFollow',
             checked: this.setting.orderByFollow
         });
         alert.addButton('Cancel');
         alert.addButton({
             text: 'Confirm',
             handler: data => {
+                this.config.setPreference(data.indexOf('showOnlyOnline') > -1,
+                    data.indexOf('autoOpenApp') > -1,
+                    data.indexOf('orderByFollow') > -1);
             }
         });
         this.nav.present(alert);

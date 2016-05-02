@@ -8503,3 +8503,8 @@ body {
 
 .ion-md-close {
   color: #757575; }
+
+#add_star_btn {
+  position: fixed;
+  right: 0;
+  bottom: 50px; }
