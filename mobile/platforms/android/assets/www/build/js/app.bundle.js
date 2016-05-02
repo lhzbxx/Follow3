@@ -269,7 +269,10 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     handler: function handler() {
                         _this2.platform.ready().then(function () {
                             if (window.plugins.socialsharing) {
-                                window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！", null, Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover), "http://www.lhzbxx.top");
+                                // window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！",
+                                //     null, Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover),
+                                //     "http://www.lhzbxx.top");
+                                window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！", null, null, "http://www.lhzbxx.top");
                             }
                         });
                     }
@@ -404,19 +407,43 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'showAction',
         value: function showAction(star) {
+            var _this2 = this;
+
             var actionSheet = _ionicAngular.ActionSheet.create({
                 title: star.nickname,
                 buttons: [{
                     text: '跳转观看',
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: function handler() {
-                        console.log('Destructive clicked');
+                        _this2.platform.ready().then(function () {
+                            if (star.platform == 'PANDA') {
+                                cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
+                            }
+                            if (star.platform == 'DOUYU') {
+                                if (_this2.platform.is('ios')) {
+                                    cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
+                                } else if (_this2.platform.is('android')) {
+                                    cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=1&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
+                                } else {
+                                    cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                                }
+                            }
+                            if (star.platform == 'ZHANQI') {
+                                var info = JSON.parse(star.info);
+                                cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
+                            }
+                            if (star.platform == 'QUANMIN') {
+                                cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            }
+                        });
                     }
                 }, {
                     text: '分享到...',
                     icon: !this.platform.is('ios') ? 'share' : null,
                     handler: function handler() {
-                        console.log('Archive clicked');
+                        if (window.plugins.socialsharing) {
+                            window.plugins.socialsharing.share("我在Follow3上搜到了想要关注的" + star.nickname + "，实时获得他的开播信息。真的太棒了！", null, null, "http://www.lhzbxx.top");
+                        }
                     }
                 }, {
                     text: '取消关注',

@@ -58,7 +58,7 @@ export class Search {
                                 if (this.platform.is('ios')) {
                                     cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
                                 } else if (this.platform.is('android')) {
-                                    cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=1&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
+                                    cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=0&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
                                 } else {
                                     cordova.InAppBrowser.open(star.link, "_system", "location=true");
                                 }
