@@ -242,12 +242,23 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: function handler() {
                         _this2.platform.ready().then(function () {
-                            cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                            // if (star.platform == 'DOUYU')
-                            //     cordova.InAppBrowser.open('douyutv://' + star.serial, "_system", "location=true");
-                            // if (star.platform == 'ZHANQI') {
-                            //     cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                            // }
+                            if (star.platform == 'PANDA') {
+                                cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
+                            }
+                            if (star.platform == 'DOUYU') {
+                                if (_this2.platform.is('ios')) {
+                                    var _info = JSON.parse(star.info);
+                                    cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
+                                } else {
+                                    cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                                }
+                            }
+                            if (star.platform == 'ZHANQI') {
+                                cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
+                            }
+                            if (star.platform == 'QUANMIN') {
+                                cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            }
                         });
                     }
                 }, {
@@ -436,15 +447,18 @@ var _dec, _class;
 
 var _ionicAngular = require('ionic-angular');
 
+var _angular2Moment = require('angular2-moment');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
+  pipes: [_angular2Moment.TimeAgoPipe],
   templateUrl: 'build/pages/notify/notify.html'
 }), _dec(_class = function Notify() {
   _classCallCheck(this, Notify);
 }) || _class);
 
-},{"ionic-angular":347}],6:[function(require,module,exports){
+},{"angular2-moment":13,"ionic-angular":347}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

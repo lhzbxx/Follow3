@@ -57,12 +57,23 @@ export class Home {
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: () => {
                         this.platform.ready().then(() => {
-                            cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                            // if (star.platform == 'DOUYU')
-                            //     cordova.InAppBrowser.open('douyutv://' + star.serial, "_system", "location=true");
-                            // if (star.platform == 'ZHANQI') {
-                            //     cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                            // }
+                            if (star.platform == 'PANDA') {
+                                cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
+                            }
+                            if (star.platform == 'DOUYU') {
+                                if (this.platform.is('ios')) {
+                                    let info = JSON.parse(star.info);
+                                    cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
+                                } else {
+                                    cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                                }
+                            }
+                            if (star.platform == 'ZHANQI') {
+                                cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
+                            }
+                            if (star.platform == 'QUANMIN') {
+                                cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            }
                         });
                     }
                 },{

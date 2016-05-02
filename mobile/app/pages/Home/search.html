@@ -7,8 +7,11 @@
     </ion-buttons>
 </ion-navbar>
 
-<ion-content>
+<ion-toolbar primary>
     <ion-searchbar placeholder="您要关注的主播..." (input)="getItems($event)"></ion-searchbar>
+</ion-toolbar>
+
+<ion-content>
     <ion-list>
         <ion-list-header>搜索结果</ion-list-header>
         <ion-item *ngFor="#star of stars" (click)="showAction(star)">

@@ -275,6 +275,7 @@ class StarController extends Controller
             $star->is_live = $result->data->status == 4;
             $star->serial = $result->data->code;
             $star->link = 'http://www.zhanqi.tv/' . $star->serial;
+            $star->info = json_encode(array('id' => $result->data->id));
             $star->save();
         } else {
             abort(123213, 'Platform response error!');
