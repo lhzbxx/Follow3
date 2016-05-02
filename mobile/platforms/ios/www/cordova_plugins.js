@@ -97,6 +97,14 @@ module.exports = [
         "clobbers": [
             "navigator.geolocation"
         ]
+    },
+    {
+        "file": "plugins/cn.jpush.phonegap.JPushPlugin/www/JPushPlugin.js",
+        "id": "cn.jpush.phonegap.JPushPlugin.JPushPlugin",
+        "pluginId": "cn.jpush.phonegap.JPushPlugin",
+        "clobbers": [
+            "jPushPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -111,7 +119,8 @@ module.exports.metadata =
     "cordova-plugin-inappbrowser": "1.4.0",
     "cordova-plugin-x-socialsharing": "5.0.12",
     "cordova-plugin-compat": "1.0.0",
-    "cordova-plugin-geolocation": "2.2.0"
+    "cordova-plugin-geolocation": "2.2.0",
+    "cn.jpush.phonegap.JPushPlugin": "2.1.6"
 }
 // BOTTOM OF METADATA
 });

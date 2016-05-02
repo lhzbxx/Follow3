@@ -7917,6 +7917,9 @@ body {
   right: 0;
   bottom: 0; }
 
+.home img {
+  width: 100%; }
+
 .ion-md-remove-circle {
   color: #ED4248; }
 

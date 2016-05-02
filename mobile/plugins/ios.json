@@ -33,6 +33,10 @@
         },
         "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cn.jpush.phonegap.JPushPlugin": {
+            "API_KEY": "0aefd58ed167584a6d7612e7",
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
         }
     },
     "dependent_plugins": {

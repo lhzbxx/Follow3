@@ -22,6 +22,7 @@ export class MyApp {
             // StatusBar.overlaysWebView(true);
             StatusBar.backgroundColorByName("red");
             cordova.plugins.Keyboard.disableScroll(true);
+            window.plugins.jPushPlugin.init();
         });
     }
 }

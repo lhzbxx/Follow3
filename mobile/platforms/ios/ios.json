@@ -47,6 +47,10 @@
                         {
                             "xml": "<feature name=\"Geolocation\"><param name=\"ios-package\" value=\"CDVLocation\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"JPushPlugin\"><param name=\"ios-package\" value=\"JPushPlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -56,6 +60,16 @@
                     "NSLocationWhenInUseUsageDescription": [
                         {
                             "xml": "<string />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "*PushConfig.plist": {
+                "parents": {
+                    "APP_KEY": [
+                        {
+                            "xml": "<string>0aefd58ed167584a6d7612e7</string>",
                             "count": 1
                         }
                     ]
@@ -92,6 +106,10 @@
             "PACKAGE_NAME": "top.lhzbxx.follow3"
         },
         "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cn.jpush.phonegap.JPushPlugin": {
+            "API_KEY": "0aefd58ed167584a6d7612e7",
             "PACKAGE_NAME": "top.lhzbxx.follow3"
         }
     },
@@ -194,6 +212,14 @@
             "clobbers": [
                 "navigator.geolocation"
             ]
+        },
+        {
+            "file": "plugins/cn.jpush.phonegap.JPushPlugin/www/JPushPlugin.js",
+            "id": "cn.jpush.phonegap.JPushPlugin.JPushPlugin",
+            "pluginId": "cn.jpush.phonegap.JPushPlugin",
+            "clobbers": [
+                "jPushPlugin"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -206,6 +232,7 @@
         "cordova-plugin-inappbrowser": "1.4.0",
         "cordova-plugin-x-socialsharing": "5.0.12",
         "cordova-plugin-compat": "1.0.0",
-        "cordova-plugin-geolocation": "2.2.0"
+        "cordova-plugin-geolocation": "2.2.0",
+        "cn.jpush.phonegap.JPushPlugin": "2.1.6"
     }
 }

@@ -39,8 +39,9 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             // Here you can do any higher level native things you might need.
             _ionicNative.StatusBar.styleDefault();
             // StatusBar.overlaysWebView(true);
-            // StatusBar.backgroundColorByHexString("#333");
-            // cordova.plugins.Keyboard.disableScroll(true);
+            _ionicNative.StatusBar.backgroundColorByName("red");
+            cordova.plugins.Keyboard.disableScroll(true);
+            window.plugins.jPushPlugin.init();
         });
     }
 
