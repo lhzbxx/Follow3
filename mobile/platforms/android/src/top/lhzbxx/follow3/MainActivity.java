@@ -21,6 +21,7 @@ package top.lhzbxx.follow3;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends CordovaActivity
 {
@@ -30,5 +31,17 @@ public class MainActivity extends CordovaActivity
         super.onCreate(savedInstanceState);
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
     }
 }

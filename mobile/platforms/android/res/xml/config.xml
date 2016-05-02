@@ -33,6 +33,12 @@
         <param name="android-package" value="cn.jpush.phonegap.JPushPlugin" />
     </feature>
     <allow-intent href="market:*" />
+    <icon density="hdpi" src="resources/android/icon/hdpi.png" />
+    <icon density="ldpi" src="resources/android/icon/ldpi.png" />
+    <icon density="mdpi" src="resources/android/icon/mdpi.png" />
+    <icon density="xhdpi" src="resources/android/icon/xhdpi.png" />
+    <icon density="xxhdpi" src="resources/android/icon/xxhdpi.png" />
+    <icon density="xxxhdpi" src="resources/android/icon/xxxhdpi.png" />
     <name>Follow3</name>
     <description>麻麻再也不用担心我错过直播了-计划3.0·Alpha</description>
     <author email="lhzbxx@gmail.com" href="http://www.lhzbxx.top/">lhzbxx</author>

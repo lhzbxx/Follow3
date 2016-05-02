@@ -19,7 +19,7 @@ class UpdateStar extends Command
 {
     protected $signature = 'update:star';
 
-    protected $description = 'Update all the stars\' info';
+    protected $description = 'Update all the stars\' info.';
 
     /**
      *
