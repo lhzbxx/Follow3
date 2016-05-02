@@ -117,4 +117,26 @@ class UserController extends Controller
         return $this->result($result);
     }
 
+    /**
+     *
+     * 包含了是否关注信息的搜索
+     *
+     * @author: LuHao
+     */
+    public function search_star(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'query' => 'required'
+        ]);
+        if ($v->fails()) {
+            abort(999, $v->errors());
+        }
+        $query = $request->input('query');
+        $star = Star::search($query)->get();
+        if ( ! $star->isEmpty()) {
+            return $this->result($star);
+        }
+        abort(1000, 'No star found!');
+    }
+
 }

@@ -13,6 +13,7 @@ export class ConferenceData {
         // inject the Http provider and set to this instance
         this.http = http;
         this.user = user;
+        this.BASE_URL = "http://www.lhzbxx.top:10000/"
     }
 
     load() {
