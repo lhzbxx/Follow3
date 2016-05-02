@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Follow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\Validator;
 
 class UserController extends Controller

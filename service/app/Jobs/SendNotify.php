@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use JPush;
 
 class SendNotify extends Job
 {
@@ -43,6 +44,7 @@ class SendNotify extends Job
             Cache::increment('service:' . 'mail:' . $user_id);
             $message = str_replace('USER_NAME', $user_name, $template);
             $this->send_mail($subject, $user->email, $message);
+            $this->send_notify($star->nickname);
         }
     }
 
@@ -63,5 +65,23 @@ class SendNotify extends Job
             . 'From: Follow3@lhzbxx.top' . "\r\n"
             . 'X-Mailer: PHP/' . phpversion();
         mail($mail, $subject, $message, $headers);
+    }
+
+    /**
+     *
+     * 推送通知
+     *
+     * @param $nickname
+     * @author: LuHao
+     */
+    private function send_notify($nickname)
+    {
+        $client = new JPush('0aefd58ed167584a6d7612e7', '3fd3cffb02e92cddd17205c2');
+        $result = $client
+            ->push()->setPlatform('all')
+            ->addAllAudience()
+            ->setNotificationAlert($nickname . '开播啦~~~')
+            ->send();
+        echo json_encode($result) . "\n";
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
+use JPush;
 
 class AuthController extends Controller
 {
@@ -253,5 +254,33 @@ class AuthController extends Controller
         $result = $this->oauth2($user->id);
         return $this->result($result);
     }
+
+    /**
+     *
+     * 注销账号
+     *
+     * @param Request $request
+     * @author: LuHao
+     */
+    public function logout(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'register_id' => 'required',
+            'access_token' => 'required',
+            'refresh_token' => 'required'
+        ]);
+        if ($v->fails()) {
+            abort(999, $v->errors());
+        }
+        $register_id = $request->input('register_id');
+        // 删除Register
+        $client = new JPush('0aefd58ed167584a6d7612e7', '3fd3cffb02e92cddd17205c2');
+        $client->device()->updateDevice($register_id);
+        // 删除Token
+        Cache::forget('access_token:' . $request->input('access_token'));
+        Cache::forget('refresh_token:' . $request->input('access_token'));
+        return $this->result();
+    }
+
 
 }

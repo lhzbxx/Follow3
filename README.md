@@ -62,10 +62,12 @@
 
 ## 已知问题
 
-1. iOS下的SearchBar存在bug.
-2. 使用link打开App存在问题。
-3. ngFor和ngIf存在冲突。
-4. ...
+1. <del>iOS下的SearchBar存在bug.</del>稍微解决了一下，但并不完美。
+2. <del>使用link打开App存在问题。</del>已经完美修正。
+3. <del>ngFor和ngIf存在冲突。</del>改用后台增加接口的方案。
+4. iOS的Fab Button感觉怪怪的。
+5. 需要对网络通信做一个Provider，现在太乱了。
+6. 用户的Profile需要进行更新。
 
 ---
 
@@ -98,6 +100,10 @@
 * 2016.4.30
 
 	确定加入推荐系统了！
+	
+* 2016.5.2
+
+	添加了极光推送，但是Android端休眠状态下根本收不到...需要fix...
 
 
 ---

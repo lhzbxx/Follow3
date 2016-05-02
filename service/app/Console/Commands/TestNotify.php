@@ -31,7 +31,13 @@ class TestNotify extends Command {
             ->addAllAudience()
             ->setNotificationAlert('Test JPush notification.')
             ->send();
-        echo json_encode($result);
+        echo json_encode($result) . "\n";
+        $result = $client
+            ->push()->setPlatform('all')
+            ->addAlias('416005376_qq_com')
+            ->setNotificationAlert('P2P notification using alias!')
+            ->send();
+        echo json_encode($result) . "\n";
     }
 
 }

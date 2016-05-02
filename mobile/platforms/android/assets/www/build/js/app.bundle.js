@@ -42,6 +42,7 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             _ionicNative.StatusBar.backgroundColorByName("red");
             cordova.plugins.Keyboard.disableScroll(true);
             window.plugins.jPushPlugin.init();
+            window.plugins.jPushPlugin.setAlias('416005376_qq_com');
         });
     }
 
