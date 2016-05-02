@@ -2,7 +2,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.MyApp = undefined;
 
@@ -20,30 +20,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 // http://ionicframework.com/docs/v2/api/config/Config/
 var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
-  template: '<ion-nav [root]="rootPage"></ion-nav>',
-  config: {} }), _dec(_class = function () {
-  _createClass(MyApp, null, [{
-    key: 'parameters',
-    get: function get() {
-      return [[_ionicAngular.Platform]];
+    template: '<ion-nav [root]="rootPage"></ion-nav>',
+    config: {} }), _dec(_class = function () {
+    _createClass(MyApp, null, [{
+        key: 'parameters',
+        get: function get() {
+            return [[_ionicAngular.Platform]];
+        }
+    }]);
+
+    function MyApp(platform) {
+        _classCallCheck(this, MyApp);
+
+        this.rootPage = _tabs.TabsPage;
+
+        platform.ready().then(function () {
+            // Okay, so the platform is ready and our plugins are available.
+            // Here you can do any higher level native things you might need.
+            _ionicNative.StatusBar.styleDefault();
+            // StatusBar.overlaysWebView(true);
+            // StatusBar.backgroundColorByHexString("#333");
+            // cordova.plugins.Keyboard.disableScroll(true);
+        });
     }
-  }]);
 
-  function MyApp(platform) {
-    _classCallCheck(this, MyApp);
-
-    this.rootPage = _tabs.TabsPage;
-
-    platform.ready().then(function () {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      _ionicNative.StatusBar.styleDefault();
-      _ionicNative.StatusBar.overlaysWebView(true);
-      _ionicNative.StatusBar.backgroundColorByHexString("#333");
-    });
-  }
-
-  return MyApp;
+    return MyApp;
 }()) || _class);
 
 },{"./pages/tabs/tabs":7,"ionic-angular":348,"ionic-native":370}],2:[function(require,module,exports){

@@ -39,6 +39,9 @@
         <param name="ios-package" value="SocialSharing" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Geolocation">
+        <param name="ios-package" value="CDVLocation" />
+    </feature>
     <name>Follow3</name>
     <description>麻麻再也不用担心我错过直播了-计划3.0·Alpha</description>
     <author email="lhzbxx@gmail.com" href="http://www.lhzbxx.top/">lhzbxx</author>
