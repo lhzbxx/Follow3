@@ -30,6 +30,7 @@ class UpdateStar extends Command
     public function handle()
     {
         $stars = Star::all();
+        $elapse = microtime();
         foreach ($stars as $star) {
             $id = $star->id;
             $platform = $star->platform;
@@ -42,6 +43,7 @@ class UpdateStar extends Command
             if ($platform === "QUANMIN")
                 $this->quanmin($id);
         }
+        Log::info('Update star costs: ' . (microtime() - $elapse) . 'ms');
     }
 
     /**
@@ -76,8 +78,9 @@ class UpdateStar extends Command
     private function panda($id)
     {
         $star = Star::find($id);
+        $serial = $star->serial;
         $url = 'http://api.m.panda.tv/ajax_get_liveroom_baseinfo?roomid='
-            . $star->serial . '&slaveflag=1&type=json&__version=1.0.0.1203&__plat=android';
+            . $serial . '&slaveflag=1&type=json&__version=1.0.0.1203&__plat=android';
         $result = json_decode(file_get_contents($url));
 //        $result = $this->result($url, 'panda');
         $star->nickname = $result->data->info->hostinfo->name;
@@ -86,10 +89,12 @@ class UpdateStar extends Command
         $star->avatar = substr($avatar, 0, 17) . '/dmfd/200_200_100/' . substr($avatar, 18);
         $this->notifyAndRecord($result->data->info->videoinfo->status == 2, $star);
         $star->is_live = $result->data->info->videoinfo->status == 2;
-        $url = 'http://api.m.panda.tv/ajax_search?roomid='
-            . $star->serial . '&__version=1.0.0.1203&__plat=android';
-        $result = json_decode(file_get_contents($url));
-        $star->cover = $result->data->items->pictures->img;
+        $star->cover = $result->data->info->roominfo->pictures->img;
+//        直播封面临时方案 - 不准确
+//        $url = 'http://api.m.panda.tv/ajax_search?roomid='
+//            . $serial . '&__version=1.0.0.1203&__plat=android';
+//        $result = json_decode(file_get_contents($url));
+//        $star->cover = $result->data->items[0]->pictures->img;
         $star->save();
     }
 
