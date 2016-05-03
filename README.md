@@ -68,6 +68,10 @@
 4. iOS的Fab Button感觉怪怪的。
 5. 需要对网络通信做一个Provider，现在太乱了。
 6. 用户的Profile需要进行更新。
+7. iOS的ICON需要修正。
+8. 添加一个单主播的Modal页面？
+9. Android端双击Back退出。
+10. 取消关注后添加撤销的Toast。
 
 ---
 

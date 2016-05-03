@@ -24,6 +24,22 @@ export class Home {
         this.platform = platform;
         this.config = config;
         this.setting = config.getPreference();
+        this.platform.ready();
+        var backCount = 0;
+        let exitMsg = Toast.create({
+            message: '再次点击返回退出...',
+            duration: 3000
+        });
+        platform.ready().then(() => {
+            document.addEventListener('backbutton', () => {
+                if (backCount === 0) {
+                    this.nav.present(exitMsg);
+                    timeout("backCount = 0", 3000);
+                } else {
+                    this.exitApp();
+                }
+            }, false);
+        };
     }
 
     fetch(refresher) {
