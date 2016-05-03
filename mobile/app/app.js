@@ -1,5 +1,5 @@
-import {App, Platform} from 'ionic-angular';
-import {StatusBar} from 'ionic-native';
+import {App, Platform, Toast} from 'ionic-angular';
+// import {StatusBar} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
 
 
@@ -14,31 +14,36 @@ export class MyApp {
 
     constructor(platform) {
         this.rootPage = TabsPage;
+        // this.nav = navController;
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             StatusBar.styleDefault();
-            // StatusBar.overlaysWebView(true);
-            StatusBar.backgroundColorByName("red");
+            if (platform.is('android'))
+                StatusBar.backgroundColorByHexString("#25312C");
+            // StatusBar.show();
             cordova.plugins.Keyboard.disableScroll(true);
             window.plugins.jPushPlugin.init();
             window.plugins.jPushPlugin.setAlias('JPush_1');
             var backCount = 0;
             let exitMsg = Toast.create({
                 message: '再次点击返回退出...',
-                duration: 3000
+                duration: 1000
             });
-            platform.ready().then(() => {
-                document.addEventListener('backbutton', () => {
-                    if (backCount === 0) {
-                        backCount++;
-                        this.nav.present(exitMsg);
-                        timeout("backCount = 0", 3000);
-                    } else {
-                        this.exitApp();
-                    }
-                }, false);
-            });
+            document.addEventListener('backbutton', (e) => {
+                alert(backCount);
+                e.preventDefault();
+                if (backCount == 0) {
+                    backCount++;
+                    alert("OK");
+                    // this.nav.present(exitMsg);
+                    setTimeout(() => {
+                        backCount = 0;
+                    }, 1000);
+                } else {
+                    this.exitApp();
+                }
+            }, false);
         });
     }
 }

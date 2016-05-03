@@ -77,16 +77,19 @@ class UpdateStar extends Command
     {
         $star = Star::find($id);
         $url = 'http://api.m.panda.tv/ajax_get_liveroom_baseinfo?roomid='
-            . $star->serial . '&slaveflag=1&type=json&__version=1.0.0.1172&__plat=android';
+            . $star->serial . '&slaveflag=1&type=json&__version=1.0.0.1203&__plat=android';
         $result = json_decode(file_get_contents($url));
 //        $result = $this->result($url, 'panda');
         $star->nickname = $result->data->info->hostinfo->name;
         $star->title = $result->data->info->roominfo->name;
         $avatar = $result->data->info->hostinfo->avatar;
         $star->avatar = substr($avatar, 0, 17) . '/dmfd/200_200_100/' . substr($avatar, 18);
-        $star->cover = $result->data->info->roominfo->pictures->img;
         $this->notifyAndRecord($result->data->info->videoinfo->status == 2, $star);
         $star->is_live = $result->data->info->videoinfo->status == 2;
+        $url = 'http://api.m.panda.tv/ajax_search?roomid='
+            . $star->serial . '&__version=1.0.0.1203&__plat=android';
+        $result = json_decode(file_get_contents($url));
+        $star->cover = $result->data->items->pictures->img;
         $star->save();
     }
 
