@@ -30,10 +30,11 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
     }]);
 
     function MyApp(platform) {
+        var _this = this;
+
         _classCallCheck(this, MyApp);
 
         this.rootPage = _tabs.TabsPage;
-
         platform.ready().then(function () {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
@@ -42,7 +43,23 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             _ionicNative.StatusBar.backgroundColorByName("red");
             cordova.plugins.Keyboard.disableScroll(true);
             window.plugins.jPushPlugin.init();
-            window.plugins.jPushPlugin.setAlias('416005376_qq_com');
+            window.plugins.jPushPlugin.setAlias('JPush_1');
+            var backCount = 0;
+            var exitMsg = Toast.create({
+                message: '再次点击返回退出...',
+                duration: 3000
+            });
+            platform.ready().then(function () {
+                document.addEventListener('backbutton', function () {
+                    if (backCount === 0) {
+                        backCount++;
+                        _this.nav.present(exitMsg);
+                        timeout("backCount = 0", 3000);
+                    } else {
+                        _this.exitApp();
+                    }
+                }, false);
+            });
         });
     }
 
@@ -206,6 +223,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
         this.platform = platform;
         this.config = config;
         this.setting = config.getPreference();
+        this.platform.ready();
     }
 
     _createClass(Home, [{

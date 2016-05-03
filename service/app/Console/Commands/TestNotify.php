@@ -33,8 +33,12 @@ class TestNotify extends Command {
             ->send();
         echo json_encode($result) . "\n";
         $result = $client
+            ->device()
+            ->getAliasDevices('JPush_1');
+        echo json_encode($result) . "\n";
+        $result = $client
             ->push()->setPlatform('all')
-            ->addAlias('416005376_qq_com')
+            ->addAlias('JPush_1')
             ->setNotificationAlert('P2P notification using alias!')
             ->send();
         echo json_encode($result) . "\n";

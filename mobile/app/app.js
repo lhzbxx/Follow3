@@ -22,7 +22,23 @@ export class MyApp {
             StatusBar.backgroundColorByName("red");
             cordova.plugins.Keyboard.disableScroll(true);
             window.plugins.jPushPlugin.init();
-            window.plugins.jPushPlugin.setAlias('416005376_qq_com');
+            window.plugins.jPushPlugin.setAlias('JPush_1');
+            var backCount = 0;
+            let exitMsg = Toast.create({
+                message: '再次点击返回退出...',
+                duration: 3000
+            });
+            platform.ready().then(() => {
+                document.addEventListener('backbutton', () => {
+                    if (backCount === 0) {
+                        backCount++;
+                        this.nav.present(exitMsg);
+                        timeout("backCount = 0", 3000);
+                    } else {
+                        this.exitApp();
+                    }
+                }, false);
+            });
         });
     }
 }

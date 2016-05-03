@@ -28,24 +28,24 @@ class SendNotify extends Job
     public function handle()
     {
         $star_id = $this->star_id;
-        $followers = Follow::where('star_id', '=', $star_id)
-            ->where('is_notify', '=', true)
-            ->get();
+        $followers = Follow::where('star_id', '=', $star_id)->get();
         $star = Star::find($star_id);
         $star_name = $star->nickname;
         $subject = $star_name . '开播啦~';
         $template = file_get_contents(dirname(__FILE__) . '/notify.html');
         $template = str_replace('WATCH_LINK', $star->link, $template);
         $template = str_replace('STAR_NAME', $star_name, $template);
+        $elapse = microtime();
         foreach ($followers as $follower) {
             $user = User::find($follower->user_id);
             $user_name = $user->nickname;
             $user_id = $user->id;
-            Cache::increment('service:' . 'mail:' . $user_id);
             $message = str_replace('USER_NAME', $user_name, $template);
-            $this->send_mail($subject, $user->email, $message);
-            $this->send_notify($star->nickname);
+            if ($follower->is_notify)
+                $this->send_mail($subject, $user->email, $message, $user_id);
+            $this->send_notify($star->nickname, $user_id);
         }
+        Log::info('Total time used to notify: ' . (microtime() - $elapse) . 'ms.');
     }
 
     /**
@@ -55,9 +55,10 @@ class SendNotify extends Job
      * @param $subject
      * @param $mail
      * @param $message
+     * @param $user_id
      * @author: LuHao
      */
-    private function send_mail($subject, $mail, &$message)
+    private function send_mail($subject, $mail, &$message, $user_id)
     {
         $message = wordwrap($message, 70, "\r\n");
         $headers = "MIME-Version: 1.0" . "\r\n"
@@ -65,6 +66,7 @@ class SendNotify extends Job
             . 'From: Follow3@lhzbxx.top' . "\r\n"
             . 'X-Mailer: PHP/' . phpversion();
         mail($mail, $subject, $message, $headers);
+        Cache::increment('service:' . 'mail:' . $user_id);
     }
 
     /**
@@ -72,16 +74,20 @@ class SendNotify extends Job
      * 推送通知
      *
      * @param $nickname
+     * @param $user_id
      * @author: LuHao
      */
-    private function send_notify($nickname)
+    private function send_notify($nickname, $user_id)
     {
         $client = new JPush('0aefd58ed167584a6d7612e7', '3fd3cffb02e92cddd17205c2');
-        $result = $client
-            ->push()->setPlatform('all')
-            ->addAllAudience()
-            ->setNotificationAlert($nickname . '开播啦~~~')
-            ->send();
-        echo json_encode($result) . "\n";
+        $result = $client->device()
+            ->getAliasDevices('JPush_' . $user_id);
+        if ($result->data->registration_ids) {
+            $client->push()
+                ->setPlatform('all')
+                ->addAlias('JPush_' . $user_id)
+                ->setNotificationAlert($nickname . '开播啦~~~')
+                ->send();
+        }
     }
 }
