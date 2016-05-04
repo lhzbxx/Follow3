@@ -13,7 +13,7 @@
 
 <ion-content>
     <ion-list>
-        <ion-list-header>搜索结果</ion-list-header>
+        <ion-list-header *ngIf="stars">搜索结果</ion-list-header>
         <ion-item *ngFor="#star of stars" (click)="showAction(star)">
             <ion-avatar item-left>
                 <img [src]="star.avatar">

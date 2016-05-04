@@ -15,14 +15,15 @@ export class Add {
         this.addStar = Add;
         this.nav = navController;
         this.platform = platform;
+        this.loading = true;
     }
-    getItems(searchbar) {
+    getResult() {
         var q = searchbar.value;
         if (q == '') {
             this.stars = [];
             return;
         }
-        this.http.get('http://www.lhzbxx.top:9900/star/search?query=' + encodeURI(q))
+        this.http.get('http://www.lhzbxx.top:9900/star/add?query=' + encodeURI(q))
             // JSON.stringify({"query": q}))
             .map(res => res.json())
             .subscribe(data => {

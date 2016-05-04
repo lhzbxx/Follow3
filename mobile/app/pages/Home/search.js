@@ -20,10 +20,10 @@ export class Search {
     getItems(searchbar) {
         var q = searchbar.value;
         if (q == '') {
-            this.stars = [];
+            this.stars = null;
             return;
         }
-        this.http.get('http://www.lhzbxx.top:9900/star/search?query=' + encodeURI(q))
+        this.http.get('http://www.lhzbxx.top:9900/user/search?query=' + encodeURI(q) + "&access_token=fKCixnowbvDYIxWJ")
             // JSON.stringify({"query": q}))
             .map(res => res.json())
             .subscribe(data => {
@@ -83,11 +83,16 @@ export class Search {
                         }
                     }
                 },{
-                    text: '取消关注',
-                    icon: !this.platform.is('ios') ? 'remove-circle' : null,
+                    text: star.user_id ? '取消关注' : '关注',
+                    icon: !this.platform.is('ios') ? (star.user_id ? 'remove-circle' : 'add-circle') : null,
                     role: 'destructive',
                     handler: () => {
-                        console.log('Archive clicked');
+                        if (star.user_id) {
+                            // 取消关注
+                        } else {
+                            // 关注
+                            star.user_id = 1;
+                        }
                     }
                 },{
                     text: '取消',

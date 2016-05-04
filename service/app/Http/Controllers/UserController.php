@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Follow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -118,8 +118,10 @@ class UserController extends Controller
 
     /**
      *
-     * 包含了是否关注信息的搜索
+     * 包含了是否关注信息的查询主播
      *
+     * @param Request $request
+     * @return mixed
      * @author: LuHao
      */
     public function search_star(Request $request)
@@ -131,7 +133,11 @@ class UserController extends Controller
             abort(999, $v->errors());
         }
         $query = $request->input('query');
-        $star = Star::search($query)->get();
+        $star = Star::search($query)
+            ->leftJoin('Follow', function ($join) {
+                $join->on('Follow.star_id', '=', 'Star.id')
+                    ->where('Follow.user_id', '=', $this->user_id);
+            })->get();
         if ( ! $star->isEmpty()) {
             return $this->result($star);
         }

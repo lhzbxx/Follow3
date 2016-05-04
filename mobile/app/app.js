@@ -1,5 +1,5 @@
 import {App, Platform, Toast} from 'ionic-angular';
-// import {StatusBar} from 'ionic-native';
+import {StatusBar} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
 
 
@@ -25,6 +25,7 @@ export class MyApp {
             cordova.plugins.Keyboard.disableScroll(true);
             window.plugins.jPushPlugin.init();
             window.plugins.jPushPlugin.setAlias('JPush_1');
+            // this.registerBackButtonListener();
             var backCount = 0;
             let exitMsg = Toast.create({
                 message: '再次点击返回退出...',
@@ -40,6 +41,7 @@ export class MyApp {
                     setTimeout(() => {
                         backCount = 0;
                     }, 1000);
+                    return;
                 } else {
                     this.exitApp();
                 }
