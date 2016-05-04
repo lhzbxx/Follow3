@@ -32,7 +32,7 @@ export class Search {
                     this.stars = data.data;
                     console.log(data.data);
                 } else {
-                    this.stars = [];
+                    this.stars = null;
                 }
             }, error => {
                 let t = Toast.create({

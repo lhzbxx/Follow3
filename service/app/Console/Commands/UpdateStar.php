@@ -162,6 +162,7 @@ class UpdateStar extends Command
     {
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        // 伪造user-agent
         curl_setopt($curl, CURLOPT_USERAGENT, str_random(8));
         $result = curl_exec($curl);
         if ( ! ($result && curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200)) {

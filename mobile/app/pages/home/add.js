@@ -1,5 +1,5 @@
-import {Page, ActionSheet, NavController, Platform, Toast} from 'ionic-angular';
-import {Http} from 'angular2/http';
+import {Page, NavController, Platform, Toast} from 'ionic-angular';
+import {Http, Headers} from 'angular2/http';
 import 'rxjs/Rx';
 
 
@@ -16,23 +16,28 @@ export class Add {
         this.nav = navController;
         this.platform = platform;
         this.loading = true;
+        this.result = null;
     }
     getResult() {
-        var q = searchbar.value;
-        if (q == '') {
-            this.stars = [];
+        var q = this.room;
+        var p = this.plat;
+        console.log(this.room);
+        console.log(this.plat);
+        if (q == '' || p == '')
             return;
-        }
-        this.http.get('http://www.lhzbxx.top:9900/star/add?query=' + encodeURI(q))
-            // JSON.stringify({"query": q}))
+        let body = JSON.stringify({'platform': p, 'query': q});
+        let headers = new Headers({'Content-Type': 'application/json'});
+        this.http.post('http://www.lhzbxx.top:9900/star/add?platform=' + p + '&query=' + q, body, {headers: headers})
             .map(res => res.json())
             .subscribe(data => {
+                console.log(data);
                 console.log(data.status);
+                console.log(data.message);
                 if (data.status == 200) {
-                    this.stars = data.data;
+                    this.result = data.data;
                     console.log(data.data);
                 } else {
-                    this.stars = [];
+                    this.result = null;
                 }
             }, error => {
                 let t = Toast.create({
@@ -41,40 +46,5 @@ export class Add {
                 });
                 this.nav.present(t)
             });
-    }
-    showAction(star) {
-        let actionSheet = ActionSheet.create({
-            title: star.nickname,
-            buttons: [
-                {
-                    text: '跳转观看',
-                    icon: !this.platform.is('ios') ? 'play' : null,
-                    handler: () => {
-                        console.log('Destructive clicked');
-                    }
-                },{
-                    text: '分享到...',
-                    icon: !this.platform.is('ios') ? 'share' : null,
-                    handler: () => {
-                        console.log('Archive clicked');
-                    }
-                },{
-                    text: '取消关注',
-                    icon: !this.platform.is('ios') ? 'remove-circle' : null,
-                    role: 'destructive',
-                    handler: () => {
-                        console.log('Archive clicked');
-                    }
-                },{
-                    text: '取消',
-                    role: 'cancel',
-                    icon: !this.platform.is('ios') ? 'close' : null,
-                    handler: () => {
-                        console.log('Cancel clicked');
-                    }
-                }
-            ]
-        });
-        this.nav.present(actionSheet);
     }
 }

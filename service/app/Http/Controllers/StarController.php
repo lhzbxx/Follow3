@@ -229,7 +229,7 @@ class StarController extends Controller
         $url = 'room/' . $query . '?aid=android&client_sys=android&time=' . time();
         $auth = md5($url . '1231');
         $url =  'http://www.douyu.com/api/v1/' . $url . '&auth=' . $auth;
-        $result = json_decode(file_get_contents($url));
+        $result = $this->curl_result($url);
         if ($result->error === 0) {
             $star = $this->valid_duplicate('DOUYU', $result->data->room_id);
             if ($star)
@@ -248,6 +248,32 @@ class StarController extends Controller
             abort(123213, 'Platform response error!');
         }
         return $star;
+    }
+
+    /**
+     *
+     * CURL方式获取数据
+     *
+     * @param $url
+     * @return int
+     * @author: LuHao
+     */
+    private function curl_result($url)
+    {
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        // 伪造user-agent
+        curl_setopt($curl, CURLOPT_USERAGENT, str_random(8));
+        $result = curl_exec($curl);
+        if ( ! ($result && curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200)) {
+            abort(123213, 'Platform response error!');
+        }
+        curl_close($curl);
+        $result = json_decode($result);
+        if ( ! $result) {
+            abort(123213, 'Platform response error!');
+        }
+        return $result;
     }
 
     /**

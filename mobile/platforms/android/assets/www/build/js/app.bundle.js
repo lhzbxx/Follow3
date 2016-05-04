@@ -110,6 +110,7 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
         this.nav = navController;
         this.platform = platform;
         this.loading = true;
+        this.result = null;
     }
 
     _createClass(Add, [{
@@ -117,22 +118,24 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
         value: function getResult() {
             var _this = this;
 
-            var q = searchbar.value;
-            if (q == '') {
-                this.stars = [];
-                return;
-            }
-            this.http.get('http://www.lhzbxx.top:9900/star/add?query=' + encodeURI(q))
-            // JSON.stringify({"query": q}))
-            .map(function (res) {
+            var q = this.room;
+            var p = this.plat;
+            console.log(this.room);
+            console.log(this.plat);
+            if (q == '' || p == '') return;
+            var body = JSON.stringify({ 'platform': p, 'query': q });
+            var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+            this.http.post('http://www.lhzbxx.top:9900/star/add?platform=' + p + '&query=' + q, body, { headers: headers }).map(function (res) {
                 return res.json();
             }).subscribe(function (data) {
+                console.log(data);
                 console.log(data.status);
+                console.log(data.message);
                 if (data.status == 200) {
-                    _this.stars = data.data;
+                    _this.result = data.data;
                     console.log(data.data);
                 } else {
-                    _this.stars = [];
+                    _this.result = null;
                 }
             }, function (error) {
                 var t = _ionicAngular.Toast.create({
@@ -141,41 +144,6 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
                 });
                 _this.nav.present(t);
             });
-        }
-    }, {
-        key: 'showAction',
-        value: function showAction(star) {
-            var actionSheet = _ionicAngular.ActionSheet.create({
-                title: star.nickname,
-                buttons: [{
-                    text: '跳转观看',
-                    icon: !this.platform.is('ios') ? 'play' : null,
-                    handler: function handler() {
-                        console.log('Destructive clicked');
-                    }
-                }, {
-                    text: '分享到...',
-                    icon: !this.platform.is('ios') ? 'share' : null,
-                    handler: function handler() {
-                        console.log('Archive clicked');
-                    }
-                }, {
-                    text: '取消关注',
-                    icon: !this.platform.is('ios') ? 'remove-circle' : null,
-                    role: 'destructive',
-                    handler: function handler() {
-                        console.log('Archive clicked');
-                    }
-                }, {
-                    text: '取消',
-                    role: 'cancel',
-                    icon: !this.platform.is('ios') ? 'close' : null,
-                    handler: function handler() {
-                        console.log('Cancel clicked');
-                    }
-                }]
-            });
-            this.nav.present(actionSheet);
         }
     }]);
 
@@ -422,7 +390,7 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
                     _this.stars = data.data;
                     console.log(data.data);
                 } else {
-                    _this.stars = [];
+                    _this.stars = null;
                 }
             }, function (error) {
                 var t = _ionicAngular.Toast.create({

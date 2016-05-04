@@ -2,7 +2,7 @@
     <ion-title>添加主播</ion-title>
 </ion-navbar>
 
-<ion-content>
+<ion-content padding>
     <ion-list>
         <ion-item>
             <ion-label>直播平台</ion-label>
@@ -18,16 +18,38 @@
             <ion-input type="text" [(ngModel)]="room"></ion-input>
         </ion-item>
     </ion-list>
-    <ion-loading *ngif="loading"></ion-loading>
-    <ion-card *ngIf="result">
-        <ion-card-header>
-            搜索结果
-        </ion-card-header>
-        <ion-card-content>
-        </ion-card-content>
-    </ion-card>
-    <button royal full *ngIf="result">
+    <button royal block *ngIf="!result" (click)="getResult()">
         <ion-icon name="add"></ion-icon>
         Add
     </button>
+    <ion-card *ngIf="result">
+        <ion-card-header>
+            添加成功！
+        </ion-card-header>
+        <ion-card-content>
+            <ion-item>
+                <ion-avatar item-left>
+                    <img [src]="result.avatar">
+                </ion-avatar>
+                <h2>{{result.nickname}}</h2>
+                <p>{{result.title}}</p>
+            </ion-item>
+            <img [src]="result.cover">
+            <ion-card-content>
+            </ion-card-content>
+            <ion-item>
+                <button primary clear item-left>
+                    <ion-icon name="thumbs-up"></ion-icon>
+                    <div>12 Likes</div>
+                </button>
+                <button primary clear item-left>
+                    <ion-icon name="text"></ion-icon>
+                    <div>4 Comments</div>
+                </button>
+                <ion-note item-right>
+                    11h ago
+                </ion-note>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
 </ion-content>
