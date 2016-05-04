@@ -128,11 +128,16 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
             this.http.post('http://www.lhzbxx.top:9900/star/add?platform=' + p + '&query=' + q, body, { headers: headers }).map(function (res) {
                 return res.json();
             }).subscribe(function (data) {
-                console.log(data);
+                var t = _ionicAngular.Toast.create({
+                    message: '添加成功！',
+                    duration: 2000
+                });
+                _this.nav.present(t);
+                alert(data.data);
                 console.log(data.status);
-                console.log(data.message);
                 if (data.status == 200) {
-                    _this.result = data.data;
+                    _this.result = JSON.parse(data.data);
+                    alert(_this.result.cover);
                     console.log(data.data);
                 } else {
                     _this.result = null;

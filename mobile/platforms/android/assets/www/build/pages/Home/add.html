@@ -23,10 +23,8 @@
         Add
     </button>
     <ion-card *ngIf="result">
-        <ion-card-header>
-            添加成功！
-        </ion-card-header>
         <ion-card-content>
+            <img [src]="result.cover">
             <ion-item>
                 <ion-avatar item-left>
                     <img [src]="result.avatar">
@@ -34,17 +32,14 @@
                 <h2>{{result.nickname}}</h2>
                 <p>{{result.title}}</p>
             </ion-item>
-            <img [src]="result.cover">
-            <ion-card-content>
-            </ion-card-content>
             <ion-item>
                 <button primary clear item-left>
-                    <ion-icon name="thumbs-up"></ion-icon>
-                    <div>12 Likes</div>
+                    <ion-icon name="play"></ion-icon>
+                    <div>观看</div>
                 </button>
                 <button primary clear item-left>
-                    <ion-icon name="text"></ion-icon>
-                    <div>4 Comments</div>
+                    <ion-icon name="add-circle"></ion-icon>
+                    <div>关注</div>
                 </button>
                 <ion-note item-right>
                     11h ago

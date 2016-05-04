@@ -30,11 +30,16 @@ export class Add {
         this.http.post('http://www.lhzbxx.top:9900/star/add?platform=' + p + '&query=' + q, body, {headers: headers})
             .map(res => res.json())
             .subscribe(data => {
-                console.log(data);
+                let t = Toast.create({
+                    message: '添加成功！',
+                    duration: 2000
+                });
+                this.nav.present(t)
+                alert(data.data);
                 console.log(data.status);
-                console.log(data.message);
                 if (data.status == 200) {
-                    this.result = data.data;
+                    this.result = JSON.parse(data.data);
+                    alert(this.result.cover);
                     console.log(data.data);
                 } else {
                     this.result = null;
