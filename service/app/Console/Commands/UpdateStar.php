@@ -30,7 +30,7 @@ class UpdateStar extends Command
     public function handle()
     {
         $stars = Star::all();
-        $elapse = microtime();
+        $elapse = microtime(true);
         foreach ($stars as $star) {
             $id = $star->id;
             $platform = $star->platform;
@@ -43,7 +43,7 @@ class UpdateStar extends Command
             if ($platform === "QUANMIN")
                 $this->quanmin($id);
         }
-        Log::info('Update star costs: ' . (microtime() - $elapse) . 'ms');
+        Log::info('Update star costs: ' . (microtime(true) - $elapse) . 'ms');
     }
 
     /**

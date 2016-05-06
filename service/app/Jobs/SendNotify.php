@@ -35,7 +35,7 @@ class SendNotify extends Job
         $template = file_get_contents(dirname(__FILE__) . '/notify.html');
         $template = str_replace('WATCH_LINK', $star->link, $template);
         $template = str_replace('STAR_NAME', $star_name, $template);
-        $elapse = microtime();
+        $elapse = microtime(true);
         foreach ($followers as $follower) {
             $user = User::find($follower->user_id);
             $user_name = $user->nickname;
@@ -45,7 +45,7 @@ class SendNotify extends Job
                 $this->send_mail($subject, $user->email, $message, $user_id);
             $this->send_notify($star->nickname, $user_id);
         }
-        Log::info('Total time used to notify: ' . (microtime() - $elapse) . 'ms.');
+        Log::info('Total time used to notify: ' . (microtime(true) - $elapse) . 'ms.');
     }
 
     /**
