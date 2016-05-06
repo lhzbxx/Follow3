@@ -45,7 +45,7 @@ class SendNotify extends Job
                 $this->send_mail($subject, $user->email, $message, $user_id);
             $this->send_notify($star->nickname, $user_id);
         }
-        Log::info('Total time used to notify: ' . (microtime(true) - $elapse) . 'ms.');
+        Log::info('Total time used to notify: ' . (microtime(true) - $elapse) . 's.');
     }
 
     /**

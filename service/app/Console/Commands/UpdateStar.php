@@ -43,7 +43,7 @@ class UpdateStar extends Command
             if ($platform === "QUANMIN")
                 $this->quanmin($id);
         }
-        Log::info('Update star costs: ' . (microtime(true) - $elapse) . 'ms');
+        Log::info('Update star costs: ' . (microtime(true) - $elapse) . 's');
     }
 
     /**
