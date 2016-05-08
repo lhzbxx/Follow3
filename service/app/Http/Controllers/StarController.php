@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Star;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class StarController extends Controller
@@ -127,7 +128,7 @@ class StarController extends Controller
         $url = 'http://api.m.panda.tv/ajax_get_liveroom_baseinfo?roomid='
             . $query . '&slaveflag=1&type=json&__version=1.0.0.1172&__plat=android';
         $result = json_decode(file_get_contents($url));
-        if ($result->errno === 0) {
+        if ($result->data->info->roominfo->id) {
             $star = $this->valid_duplicate('PANDA', $result->data->info->roominfo->id);
             if ($star)
                 return $star;
@@ -143,9 +144,8 @@ class StarController extends Controller
             $star->link = 'http://www.panda.tv/' . $star->serial;
             $star->save();
             return $star;
-        } else {
-            abort(123213, 'Platform response error!');
         }
+        abort(2134, 'Platform response error!');
     }
 
 //    /**
@@ -173,7 +173,7 @@ class StarController extends Controller
 //            $star->is_live = $result->play_status;
 //            $star->save();
 //        } else {
-//            abort(123213, 'Platform response error!');
+//            abort(1234, 'Platform response error!');
 //        }
 //        return $star;
 //    }
@@ -211,9 +211,8 @@ class StarController extends Controller
             $star->link = 'http://www.quanmin.tv/star/' . $star->serial;
             $star->save();
             return $star;
-        } else {
-            abort(123213, 'Platform response error!');
         }
+        abort(1234, 'Platform response error!');
     }
 
     /**
@@ -245,9 +244,8 @@ class StarController extends Controller
             $star->link = 'http://www.douyu.com/' . $star->serial;
             $star->save();
             return $star;
-        } else {
-            abort(123213, 'Platform response error!');
         }
+        abort(1234, 'Platform response error!');
     }
 
     /**
@@ -266,12 +264,12 @@ class StarController extends Controller
         curl_setopt($curl, CURLOPT_USERAGENT, str_random(8));
         $result = curl_exec($curl);
         if ( ! ($result && curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200)) {
-            abort(123213, 'Platform response error!');
+            abort(1234, 'Platform response error!');
         }
         curl_close($curl);
         $result = json_decode($result);
         if ( ! $result) {
-            abort(123213, 'Platform response error!');
+            abort(1234, 'Platform response error!');
         }
         return $result;
     }
@@ -304,8 +302,7 @@ class StarController extends Controller
             $star->info = json_encode(array('id' => $result->data->id));
             $star->save();
             return $star;
-        } else {
-            abort(123213, 'Platform response error!');
         }
+        abort(1234, 'Platform response error!');
     }
 }

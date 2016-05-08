@@ -128,6 +128,7 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
                 return res.json();
             }).subscribe(function (data) {
                 if (data.status == 200) {
+                    _this.addFailed = false;
                     var t = _ionicAngular.Toast.create({
                         message: '添加成功！',
                         duration: 2000

@@ -32,6 +32,7 @@ export class Add {
             .map(res => res.json())
             .subscribe(data => {
                 if (data.status == 200) {
+                    this.addFailed = false;
                     let t = Toast.create({
                         message: '添加成功！',
                         duration: 2000
