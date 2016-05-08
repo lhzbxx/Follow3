@@ -1,7 +1,9 @@
 <p align="center">
   <a href="http://www.lhzbxx.top">
-    <img src="http://7xsz4e.com2.z0.glb.clouddn.com/logo.png">
+    <img src="http://7xsz4e.com2.z0.glb.clouddn.com/logo.png">    
   </a>
+  <br>
+  <img src="http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png?imageView/2/w/90">
 </p>
 <p align="center">
   <a href="https://gitter.im/lhzbxx/Follow3?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">
