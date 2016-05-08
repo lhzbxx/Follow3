@@ -19,10 +19,11 @@
         <ion-item-sliding *ngFor="#notification of notifications">
             <ion-item>
                 <ion-thumbnail item-left>
-                    <img src="http://i3.pdim.gs/dmfd/200_200_100/t015d26246d895b5079.jpg">
+                    <img [src]="notification.avatar">
                 </ion-thumbnail>
-                <h2>Trevor行云</h2>
-                <p>开播啦~</p>
+                <h2>{{notification.nickname}}</h2>
+                <p>{{notification.title}}</p>
+                <p>Start at {{notification.notified_at | amTimeAgo}}~</p>
             </ion-item>
             <ion-item-options>
                 <button primary>

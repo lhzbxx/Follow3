@@ -43,7 +43,7 @@ class SendNotify extends Job
             $message = str_replace('USER_NAME', $user_name, $template);
             if ($follower->is_notify)
                 $this->send_mail($subject, $user->email, $message, $user_id);
-            $this->send_notify($star->nickname, $user_id);
+            $this->send_notify($star, $user_id);
         }
         Log::info('Total time used to notify: ' . (microtime(true) - $elapse) . 's.');
     }
@@ -73,11 +73,11 @@ class SendNotify extends Job
      *
      * 推送通知
      *
-     * @param $nickname
+     * @param $star
      * @param $user_id
      * @author: LuHao
      */
-    private function send_notify($nickname, $user_id)
+    private function send_notify(&$star, $user_id)
     {
         $client = new JPush('0aefd58ed167584a6d7612e7', '3fd3cffb02e92cddd17205c2');
         $result = $client->device()
@@ -86,7 +86,14 @@ class SendNotify extends Job
             $client->push()
                 ->setPlatform('all')
                 ->addAlias('JPush_' . $user_id)
-                ->setNotificationAlert($nickname . '开播啦~~~')
+                ->addAndroidNotification($star->nickname . '开播啦~~~', 'Follow3', 1, array(
+                    "nickname" => $star->nickname, "title" => $star->title,
+                    "notified_at" => time(), "avatar" => $star->avatar,
+                ))
+                ->addIosNotification($star->nickname . '开播啦~~~', 'iOS sound', '+1', true, 'iOS category', array(
+                    "nickname" => $star->nickname, "title" => $star->title,
+                    "notified_at" => time(), "avatar" => $star->avatar,
+                ))
                 ->send();
         }
     }

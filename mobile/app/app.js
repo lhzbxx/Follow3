@@ -56,21 +56,31 @@ export class MyApp {
 
             document.addEventListener("jpush.receiveNotification", (e) => {
                 var nickname;
-                var
+                var title;
+                var notified_at;
+                var avatar;
                 if (platform.is('android')) {
-                    alertContent = window.plugins.jPushPlugin.receiveNotification.extras.key1;
+                    nickname = window.plugins.jPushPlugin.receiveNotification.extras.nickname;
+                    title = window.plugins.jPushPlugin.receiveNotification.extras.title;
+                    notified_at = window.plugins.jPushPlugin.receiveNotification.extras.notified_at;
+                    avatar = window.plugins.jPushPlugin.receiveNotification.extras.avatar;
                 } else {
-                    alertContent = event.key1;
+                    nickname = event.nickname;
+                    title = event.title;
+                    notified_at = event.notified_at;
+                    avatar = event.avatar;
                 }
-                alert(alertContent);
-                // this.storage.query('INSERT INTO notifications (received_at, content)' +
-                //     'VALUES (' + new Date().getTime() / 1000 +
-                //     ', "' + alertContent +
-                //     '")').then((data) => {
-                //     alert(JSON.stringify(data.res))
-                // }, (error) => {
-                //     alert("ERROR -> " + JSON.stringify(error.err));
-                // });
+                this.storage.query('INSERT INTO notifications (received_at, content, nickname, notified_at, avatar)' +
+                    'VALUES (' + new Date().getTime() / 1000 +
+                    ', "' + title +
+                    '", "' + nickname +
+                    '", "' + notified_at +
+                    '", "' + avatar +
+                    '")').then((data) => {
+                    alert(JSON.stringify(data.res))
+                }, (error) => {
+                    alert("ERROR -> " + JSON.stringify(error.err));
+                });
             }, false);
         });
     }
