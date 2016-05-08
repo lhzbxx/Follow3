@@ -35,7 +35,8 @@
       },
       "locator": "jpush-phonegap-plugin",
       "id": "cn.jpush.phonegap.JPushPlugin"
-    }
+    },
+    "cordova-plugin-apprate"
   ],
   "cordovaPlatforms": [
     "ios",

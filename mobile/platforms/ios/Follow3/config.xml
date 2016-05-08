@@ -45,6 +45,15 @@
     <feature name="JPushPlugin">
         <param name="ios-package" value="JPushPlugin" />
     </feature>
+    <feature name="Notification">
+        <param name="ios-package" value="CDVNotification" />
+    </feature>
+    <feature name="Globalization">
+        <param name="ios-package" value="CDVGlobalization" />
+    </feature>
+    <feature name="AppRate">
+        <param name="ios-package" value="CDVAppRate" />
+    </feature>
     <name>Follow3</name>
     <description>麻麻再也不用担心我错过直播了-计划3.0·Alpha</description>
     <author email="lhzbxx@gmail.com" href="http://www.lhzbxx.top/">lhzbxx</author>
@@ -74,8 +83,6 @@
     <icon height="50" src="resources/ios/icon/icon-50.png" width="50" />
     <icon height="100" src="resources/ios/icon/icon-50@2x.png" width="100" />
     <preference name="AllowInlineMediaPlayback" value="false" />
-    <preference name="BackupWebStorage" value="none" />
-    <preference name="DisallowOverscroll" value="true" />
     <preference name="EnableViewportScale" value="false" />
     <preference name="KeyboardDisplayRequiresUserAction" value="true" />
     <preference name="MediaPlaybackRequiresUserAction" value="false" />
@@ -90,5 +97,7 @@
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="16" />
+    <preference name="BackupWebStorage" value="none" />
 </widget>

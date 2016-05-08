@@ -43,6 +43,18 @@
                         {
                             "xml": "<feature name=\"JPushPlugin\"><param name=\"android-package\" value=\"cn.jpush.phonegap.JPushPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"android-package\" value=\"org.apache.cordova.dialogs.Notification\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"android-package\" value=\"org.apache.cordova.globalization.Globalization\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"AppRate\"><param name=\"android-package\" value=\"org.pushandplay.cordova.apprate.AppRate\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -189,6 +201,15 @@
         "cn.jpush.phonegap.JPushPlugin": {
             "API_KEY": "0aefd58ed167584a6d7612e7",
             "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-apprate": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
         }
     },
     "dependent_plugins": {},
@@ -255,6 +276,46 @@
             "clobbers": [
                 "jPushPlugin"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+            "id": "cordova-plugin-dialogs.notification",
+            "merges": [
+                "navigator.notification"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/android/notification.js",
+            "id": "cordova-plugin-dialogs.notification_android",
+            "merges": [
+                "navigator.notification"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+            "id": "cordova-plugin-globalization.GlobalizationError",
+            "clobbers": [
+                "window.GlobalizationError"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+            "id": "cordova-plugin-globalization.globalization",
+            "clobbers": [
+                "navigator.globalization"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-apprate/www/AppRate.js",
+            "id": "cordova-plugin-apprate.AppRate",
+            "clobbers": [
+                "AppRate"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-apprate/www/locales.js",
+            "id": "cordova-plugin-apprate.locales",
+            "runs": true
         }
     ],
     "plugin_metadata": {
@@ -268,6 +329,9 @@
         "cordova-plugin-x-socialsharing": "5.0.12",
         "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-geolocation": "2.2.0",
-        "cn.jpush.phonegap.JPushPlugin": "2.1.6"
+        "cn.jpush.phonegap.JPushPlugin": "2.1.6",
+        "cordova-plugin-dialogs": "1.2.1",
+        "cordova-plugin-globalization": "1.0.3",
+        "cordova-plugin-apprate": "1.1.7"
     }
 }

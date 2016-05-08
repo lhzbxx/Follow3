@@ -105,6 +105,44 @@ module.exports = [
         "clobbers": [
             "jPushPlugin"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+        "id": "cordova-plugin-dialogs.notification",
+        "pluginId": "cordova-plugin-dialogs",
+        "merges": [
+            "navigator.notification"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+        "id": "cordova-plugin-globalization.GlobalizationError",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "window.GlobalizationError"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+        "id": "cordova-plugin-globalization.globalization",
+        "pluginId": "cordova-plugin-globalization",
+        "clobbers": [
+            "navigator.globalization"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-apprate/www/AppRate.js",
+        "id": "cordova-plugin-apprate.AppRate",
+        "pluginId": "cordova-plugin-apprate",
+        "clobbers": [
+            "AppRate"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-apprate/www/locales.js",
+        "id": "cordova-plugin-apprate.locales",
+        "pluginId": "cordova-plugin-apprate",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -120,7 +158,10 @@ module.exports.metadata =
     "cordova-plugin-x-socialsharing": "5.0.12",
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-geolocation": "2.2.0",
-    "cn.jpush.phonegap.JPushPlugin": "2.1.6"
+    "cn.jpush.phonegap.JPushPlugin": "2.1.6",
+    "cordova-plugin-dialogs": "1.2.1",
+    "cordova-plugin-globalization": "1.0.3",
+    "cordova-plugin-apprate": "1.1.7"
 }
 // BOTTOM OF METADATA
 });

@@ -51,6 +51,18 @@
                         {
                             "xml": "<feature name=\"JPushPlugin\"><param name=\"ios-package\" value=\"JPushPlugin\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"AppRate\"><param name=\"ios-package\" value=\"CDVAppRate\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -110,6 +122,15 @@
         },
         "cn.jpush.phonegap.JPushPlugin": {
             "API_KEY": "0aefd58ed167584a6d7612e7",
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-apprate": {
             "PACKAGE_NAME": "top.lhzbxx.follow3"
         }
     },
@@ -220,6 +241,44 @@
             "clobbers": [
                 "jPushPlugin"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+            "id": "cordova-plugin-dialogs.notification",
+            "pluginId": "cordova-plugin-dialogs",
+            "merges": [
+                "navigator.notification"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+            "id": "cordova-plugin-globalization.GlobalizationError",
+            "pluginId": "cordova-plugin-globalization",
+            "clobbers": [
+                "window.GlobalizationError"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+            "id": "cordova-plugin-globalization.globalization",
+            "pluginId": "cordova-plugin-globalization",
+            "clobbers": [
+                "navigator.globalization"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-apprate/www/AppRate.js",
+            "id": "cordova-plugin-apprate.AppRate",
+            "pluginId": "cordova-plugin-apprate",
+            "clobbers": [
+                "AppRate"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-apprate/www/locales.js",
+            "id": "cordova-plugin-apprate.locales",
+            "pluginId": "cordova-plugin-apprate",
+            "runs": true
         }
     ],
     "plugin_metadata": {
@@ -233,6 +292,9 @@
         "cordova-plugin-x-socialsharing": "5.0.12",
         "cordova-plugin-compat": "1.0.0",
         "cordova-plugin-geolocation": "2.2.0",
-        "cn.jpush.phonegap.JPushPlugin": "2.1.6"
+        "cn.jpush.phonegap.JPushPlugin": "2.1.6",
+        "cordova-plugin-dialogs": "1.2.1",
+        "cordova-plugin-globalization": "1.0.3",
+        "cordova-plugin-apprate": "1.1.7"
     }
 }

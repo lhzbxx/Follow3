@@ -37,10 +37,19 @@
         "cn.jpush.phonegap.JPushPlugin": {
             "API_KEY": "0aefd58ed167584a6d7612e7",
             "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-apprate": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-compat": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-plugin-globalization": {
             "PACKAGE_NAME": "top.lhzbxx.follow3"
         }
     }

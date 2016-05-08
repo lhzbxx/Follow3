@@ -503,9 +503,11 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.Setting = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class;
 
@@ -514,16 +516,55 @@ var _ionicAngular = require('ionic-angular');
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
-  templateUrl: 'build/pages/setting/setting.html'
-}), _dec(_class = function Setting() {
-  _classCallCheck(this, Setting);
+    templateUrl: 'build/pages/setting/setting.html'
+}), _dec(_class = function () {
+    function Setting() {
+        _classCallCheck(this, Setting);
 
-  this.settings = {
-    isAutoNotify: true,
-    isAppNotify: true,
-    isNoDisturb: false
-  };
-}) || _class);
+        this.settings = {
+            isAutoNotify: true,
+            isAppNotify: true,
+            isNoDisturb: false
+        };
+    }
+
+    _createClass(Setting, [{
+        key: 'differOpinion',
+        value: function differOpinion() {
+            Alert.create({
+                title: '意见反馈',
+                message: "向lhzbxx提建议~",
+                inputs: [{
+                    name: 'title',
+                    placeholder: 'Title'
+                }],
+                buttons: [{
+                    text: '取消',
+                    handler: function handler(data) {}
+                }, {
+                    text: '确认',
+                    handler: function handler(data) {}
+                }]
+            }).show();
+        }
+    }, {
+        key: 'checkUpdate',
+        value: function checkUpdate() {
+            alert("您已是最新版！");
+        }
+    }, {
+        key: 'rateMe',
+        value: function rateMe() {
+            AppRate.preferences.storeAppURL.ios = '<my_app_id>';
+            AppRate.preferences.storeAppURL.android = 'market://details?id=<package_name>';
+            AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
+            AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
+            AppRate.promptForRating(true);
+        }
+    }]);
+
+    return Setting;
+}()) || _class);
 
 },{"ionic-angular":348}],7:[function(require,module,exports){
 'use strict';

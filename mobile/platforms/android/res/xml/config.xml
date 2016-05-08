@@ -32,6 +32,15 @@
     <feature name="JPushPlugin">
         <param name="android-package" value="cn.jpush.phonegap.JPushPlugin" />
     </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
+    <feature name="AppRate">
+        <param name="android-package" value="org.pushandplay.cordova.apprate.AppRate" />
+    </feature>
     <allow-intent href="market:*" />
     <icon density="hdpi" src="resources/android/icon/hdpi.png" />
     <icon density="ldpi" src="resources/android/icon/ldpi.png" />
