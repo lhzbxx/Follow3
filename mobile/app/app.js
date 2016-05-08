@@ -44,6 +44,13 @@ export class MyApp {
                     this.exitApp();
                 }
             }, false);
+            document.addEventListener("jpush.receiveNotification", (e) => {
+                if(platform.is('android')) {
+                    alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+                } else {
+                    alertContent = event.aps.alert;
+                }
+            }, false);
         });
     }
 }

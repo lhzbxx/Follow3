@@ -16,6 +16,7 @@ export class Search {
         this.addStar = Add;
         this.nav = navController;
         this.platform = platform;
+        this.searchFailed = false;
     }
     getItems(searchbar) {
         var q = searchbar.value;
@@ -29,10 +30,12 @@ export class Search {
             .subscribe(data => {
                 console.log(data.status);
                 if (data.status == 200) {
+                    this.searchFailed = false;
                     this.stars = data.data;
                     console.log(data.data);
                 } else {
                     this.stars = null;
+                    this.searchFailed = true;
                 }
             }, error => {
                 let t = Toast.create({

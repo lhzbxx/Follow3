@@ -8,12 +8,12 @@
 </ion-navbar>
 
 <ion-toolbar primary>
-    <ion-searchbar placeholder="您要关注的主播..." (input)="getItems($event)"></ion-searchbar>
+    <ion-searchbar placeholder="Search (ID or nickname)..." (input)="getItems($event)"></ion-searchbar>
 </ion-toolbar>
 
 <ion-content>
     <ion-list>
-        <ion-list-header *ngIf="stars">搜索结果</ion-list-header>
+        <ion-list-header *ngIf="stars || searchFailed">搜索结果</ion-list-header>
         <ion-item *ngFor="#star of stars" (click)="showAction(star)">
             <ion-avatar item-left>
                 <img [src]="star.avatar">
@@ -22,6 +22,9 @@
             <h2><ion-badge secondary *ngIf="star.is_live">在线</ion-badge>
                 <ion-badge danger *ngIf="!star.is_live">休息</ion-badge> {{star.nickname}}</h2>
             <p>{{star.title}}</p>
+        </ion-item>
+        <ion-item *ngIf="searchFailed">
+            未找到相关主播
         </ion-item>
     </ion-list>
 </ion-content>

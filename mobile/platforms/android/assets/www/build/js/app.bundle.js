@@ -64,6 +64,13 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                     _this.exitApp();
                 }
             }, false);
+            document.addEventListener("jpush.receiveNotification", function (e) {
+                if (platform.is('android')) {
+                    alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+                } else {
+                    alertContent = event.aps.alert;
+                }
+            }, false);
         });
     }
 
@@ -375,6 +382,7 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
         this.addStar = _add.Add;
         this.nav = navController;
         this.platform = platform;
+        this.searchFailed = false;
     }
 
     _createClass(Search, [{
@@ -394,10 +402,12 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
             }).subscribe(function (data) {
                 console.log(data.status);
                 if (data.status == 200) {
+                    _this.searchFailed = false;
                     _this.stars = data.data;
                     console.log(data.data);
                 } else {
                     _this.stars = null;
+                    _this.searchFailed = true;
                 }
             }, function (error) {
                 var t = _ionicAngular.Toast.create({
@@ -573,7 +583,7 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
             AppRate.preferences.storeAppURL.android = 'market://details?id=<package_name>';
             AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
             AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
-            AppRate.promptForRating(false);
+            AppRate.promptForRating(true);
         }
     }]);
 
