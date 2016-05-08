@@ -18,9 +18,12 @@ export class Notify {
         this.platform.ready().then(() => {
             this.storage = new Storage(SqlStorage);
             this.storage.query('SELECT * FROM notifications').then((data) => {
-                alert(data.res.rows);
                 if(data.res.rows.length > 0) {
-                    this.notifications = data.res.rows;
+                    this.notifications = [];
+                    for (var i = 0; i < data.res.rows.length; i++) {
+                        this.notifications.push(data.res.rows.item(i));
+                    }
+                    alert(this.notifications);
                 }
             }, (error) => {
                 alert("ERROR -> " + JSON.stringify(error.err));

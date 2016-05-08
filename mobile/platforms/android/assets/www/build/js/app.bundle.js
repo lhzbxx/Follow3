@@ -70,7 +70,17 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                 }
             }, false);
 
-            _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, ' + 'content TEXT');
+            _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER' + 'content TEXT,' + 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
+            _this.storage.query('INSERT INTO notifications (received_at, content)' + 'VALUES (123, "test")').then(function (data) {
+                alert(JSON.stringify(data.res));
+            }, function (error) {
+                alert("ERROR -> " + JSON.stringify(error.err));
+            });
+            _this.storage.query('INSERT INTO notifications (received_at, content)' + 'VALUES (321, "hello")').then(function (data) {
+                alert(JSON.stringify(data.res));
+            }, function (error) {
+                alert("ERROR -> " + JSON.stringify(error.err));
+            });
 
             document.addEventListener("jpush.receiveNotification", function (e) {
                 var alertContent;
@@ -86,11 +96,6 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                     alert("ERROR -> " + JSON.stringify(error.err));
                 });
             }, false);
-
-            // this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' +
-            //     'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER' +
-            //     'content TEXT,' +
-            //     'avatar TEXT, nickname TEXT, status INTEGER default 0)');
         });
     }
 
@@ -547,8 +552,11 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
             _this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
             _this.storage.query('SELECT * FROM notifications').then(function (data) {
                 if (data.res.rows.length > 0) {
-                    _this.notifications = data.res.rows;
-                    alert(data.res.rows);
+                    _this.notifications = [];
+                    for (var i = 0; i < data.res.rows.length; i++) {
+                        _this.notifications.push(data.res.rows.item(i));
+                    }
+                    alert(_this.notifications);
                 }
             }, function (error) {
                 alert("ERROR -> " + JSON.stringify(error.err));
