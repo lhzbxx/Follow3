@@ -40,6 +40,9 @@
         },
         "cordova-plugin-apprate": {
             "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
         }
     },
     "dependent_plugins": {

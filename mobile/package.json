@@ -36,7 +36,8 @@
       "locator": "jpush-phonegap-plugin",
       "id": "cn.jpush.phonegap.JPushPlugin"
     },
-    "cordova-plugin-apprate"
+    "cordova-plugin-apprate",
+    "cordova-sqlite-storage"
   ],
   "cordovaPlatforms": [
     "ios",

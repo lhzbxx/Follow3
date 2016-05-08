@@ -3,7 +3,7 @@
         通知
     </ion-title>
     <ion-buttons end>
-        <button>
+        <button (click)="readAll()">
             <ion-icon name="done-all"></ion-icon>
         </button>
     </ion-buttons>
@@ -11,7 +11,9 @@
 
 <ion-content class="notify">
     <ion-list>
-        <ion-item-sliding>
+        <ion-item *ngIf="!notifications">暂无任何通知消息</ion-item>
+        <ion-list-header *ngIf="notifications">开播通知</ion-list-header>
+        <ion-item-sliding *ngFor="#notification of notifications">
             <ion-item>
                 <ion-thumbnail item-left>
                     <img src="http://i3.pdim.gs/dmfd/200_200_100/t015d26246d895b5079.jpg">

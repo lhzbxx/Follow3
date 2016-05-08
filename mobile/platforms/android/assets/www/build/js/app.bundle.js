@@ -46,12 +46,16 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             cordova.plugins.Keyboard.disableScroll(true);
             window.plugins.jPushPlugin.init();
             window.plugins.jPushPlugin.setAlias('JPush_1');
+
             // this.registerBackButtonListener();
             var backCount = 0;
             var exitMsg = _ionicAngular.Toast.create({
                 message: '再次点击返回退出...',
                 duration: 1000
             });
+
+            _this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
+
             document.addEventListener('backbutton', function (e) {
                 e.preventDefault();
                 if (backCount == 0) {
@@ -65,13 +69,28 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                     _this.exitApp();
                 }
             }, false);
+
+            _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, ' + 'content TEXT');
+
             document.addEventListener("jpush.receiveNotification", function (e) {
+                var alertContent;
                 if (platform.is('android')) {
                     alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
                 } else {
                     alertContent = event.aps.alert;
                 }
+                // alert(alertContent);
+                _this.storage.query('INSERT INTO notifications (received_at, content)' + 'VALUES (' + new date().getTime() / 1000 + ',' + alertContent + ')').then(function (data) {
+                    alert(JSON.stringify(data.res));
+                }, function (error) {
+                    alert("ERROR -> " + JSON.stringify(error.err));
+                });
             }, false);
+
+            // this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' +
+            //     'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER' +
+            //     'content TEXT,' +
+            //     'avatar TEXT, nickname TEXT, status INTEGER default 0)');
         });
     }
 
@@ -491,9 +510,11 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.Notify = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class;
 
@@ -504,11 +525,61 @@ var _angular2Moment = require('angular2-moment');
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
-  pipes: [_angular2Moment.TimeAgoPipe],
-  templateUrl: 'build/pages/notify/notify.html'
-}), _dec(_class = function Notify() {
-  _classCallCheck(this, Notify);
-}) || _class);
+    pipes: [_angular2Moment.TimeAgoPipe],
+    templateUrl: 'build/pages/notify/notify.html'
+}), _dec(_class = function () {
+    _createClass(Notify, null, [{
+        key: 'parameters',
+        get: function get() {
+            return [_ionicAngular.NavController, _ionicAngular.Platform];
+        }
+    }]);
+
+    function Notify(NavController, Platform) {
+        var _this = this;
+
+        _classCallCheck(this, Notify);
+
+        this.notifications = null;
+        this.nav = NavController;
+        this.platform = Platform;
+        this.platform.ready().then(function () {
+            _this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
+            _this.storage.query('SELECT * FROM notifications').then(function (data) {
+                if (data.res.rows.length > 0) {
+                    _this.notifications = data.res.rows;
+                    alert(data.res.rows);
+                }
+            }, function (error) {
+                alert("ERROR -> " + JSON.stringify(error.err));
+            });
+        });
+    }
+
+    _createClass(Notify, [{
+        key: 'readAll',
+        value: function readAll() {
+            var confirm = _ionicAngular.Alert.create({
+                title: '全部已读？',
+                message: '该操作将移除所有的通知消息。',
+                buttons: [{
+                    text: '取消',
+                    handler: function handler() {
+                        console.log('Disagree clicked');
+                    }
+                }, {
+                    text: '确认',
+                    handler: function handler() {
+                        console.log('Agree clicked');
+                    }
+                }]
+            });
+            this.nav.present(confirm);
+        }
+    }]);
+
+    return Notify;
+}()) || _class);
 
 },{"angular2-moment":14,"ionic-angular":348}],6:[function(require,module,exports){
 'use strict';
@@ -595,7 +666,7 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.TabsPage = undefined;
 
@@ -612,15 +683,15 @@ var _setting = require('../setting/setting');
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var TabsPage = exports.TabsPage = (_dec = (0, _ionicAngular.Page)({
-  templateUrl: 'build/pages/tabs/tabs.html'
+    templateUrl: 'build/pages/tabs/tabs.html'
 }), _dec(_class = function TabsPage() {
-  _classCallCheck(this, TabsPage);
+    _classCallCheck(this, TabsPage);
 
-  // this tells the tabs component which Pages
-  // should be each tab's root Page
-  this.tab1Root = _home.Home;
-  this.tab2Root = _notify.Notify;
-  this.tab3Root = _setting.Setting;
+    // this tells the tabs component which Pages
+    // should be each tab's root Page
+    this.tab1Root = _home.Home;
+    this.tab2Root = _notify.Notify;
+    this.tab3Root = _setting.Setting;
 }) || _class);
 
 },{"../home/home":3,"../notify/notify":5,"../setting/setting":6,"ionic-angular":348}],8:[function(require,module,exports){

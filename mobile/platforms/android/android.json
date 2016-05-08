@@ -55,6 +55,10 @@
                         {
                             "xml": "<feature name=\"AppRate\"><param name=\"android-package\" value=\"org.pushandplay.cordova.apprate.AppRate\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"SQLitePlugin\"><param name=\"android-package\" value=\"io.sqlc.SQLitePlugin\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -210,6 +214,9 @@
         },
         "cordova-plugin-apprate": {
             "PACKAGE_NAME": "top.lhzbxx.follow3"
+        },
+        "cordova-sqlite-storage": {
+            "PACKAGE_NAME": "top.lhzbxx.follow3"
         }
     },
     "dependent_plugins": {},
@@ -316,6 +323,13 @@
             "file": "plugins/cordova-plugin-apprate/www/locales.js",
             "id": "cordova-plugin-apprate.locales",
             "runs": true
+        },
+        {
+            "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
+            "id": "cordova-sqlite-storage.SQLitePlugin",
+            "clobbers": [
+                "SQLitePlugin"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -332,6 +346,7 @@
         "cn.jpush.phonegap.JPushPlugin": "2.1.6",
         "cordova-plugin-dialogs": "1.2.1",
         "cordova-plugin-globalization": "1.0.3",
-        "cordova-plugin-apprate": "1.1.7"
+        "cordova-plugin-apprate": "1.1.7",
+        "cordova-sqlite-storage": "1.4.0"
     }
 }

@@ -143,6 +143,14 @@ module.exports = [
         "id": "cordova-plugin-apprate.locales",
         "pluginId": "cordova-plugin-apprate",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-sqlite-storage/www/SQLitePlugin.js",
+        "id": "cordova-sqlite-storage.SQLitePlugin",
+        "pluginId": "cordova-sqlite-storage",
+        "clobbers": [
+            "SQLitePlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -161,7 +169,8 @@ module.exports.metadata =
     "cn.jpush.phonegap.JPushPlugin": "2.1.6",
     "cordova-plugin-dialogs": "1.2.1",
     "cordova-plugin-globalization": "1.0.3",
-    "cordova-plugin-apprate": "1.1.7"
+    "cordova-plugin-apprate": "1.1.7",
+    "cordova-sqlite-storage": "1.4.0"
 }
 // BOTTOM OF METADATA
 });
