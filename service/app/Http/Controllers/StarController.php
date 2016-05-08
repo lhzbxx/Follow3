@@ -142,10 +142,10 @@ class StarController extends Controller
             $star->serial = $result->data->info->roominfo->id;
             $star->link = 'http://www.panda.tv/' . $star->serial;
             $star->save();
+            return $star;
         } else {
             abort(123213, 'Platform response error!');
         }
-        return $star;
     }
 
 //    /**
@@ -210,10 +210,10 @@ class StarController extends Controller
             $star->is_live = $result->play_status;
             $star->link = 'http://www.quanmin.tv/star/' . $star->serial;
             $star->save();
+            return $star;
         } else {
             abort(123213, 'Platform response error!');
         }
-        return $star;
     }
 
     /**
@@ -244,10 +244,10 @@ class StarController extends Controller
             $star->serial = $result->data->room_id;
             $star->link = 'http://www.douyu.com/' . $star->serial;
             $star->save();
+            return $star;
         } else {
             abort(123213, 'Platform response error!');
         }
-        return $star;
     }
 
     /**
@@ -303,9 +303,9 @@ class StarController extends Controller
             $star->link = 'http://www.zhanqi.tv/' . $star->serial;
             $star->info = json_encode(array('id' => $result->data->id));
             $star->save();
+            return $star;
         } else {
             abort(123213, 'Platform response error!');
         }
-        return $star;
     }
 }

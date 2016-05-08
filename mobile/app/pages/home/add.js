@@ -17,6 +17,7 @@ export class Add {
         this.platform = platform;
         this.loading = true;
         this.result = null;
+        this.addFailed = false;
     }
     getResult() {
         var q = this.room;
@@ -30,18 +31,20 @@ export class Add {
         this.http.post('http://www.lhzbxx.top:9900/star/add?platform=' + p + '&query=' + q, body, {headers: headers})
             .map(res => res.json())
             .subscribe(data => {
-                let t = Toast.create({
-                    message: '添加成功！',
-                    duration: 2000
-                });
-                this.nav.present(t)
-                alert(data.data);
-                console.log(data.status);
                 if (data.status == 200) {
+                    let t = Toast.create({
+                        message: '添加成功！',
+                        duration: 2000
+                    });
+                    this.nav.present(t)
                     this.result = JSON.parse(data.data);
-                    alert(this.result.cover);
-                    console.log(data.data);
                 } else {
+                    let t = Toast.create({
+                        message: '添加失败...',
+                        duration: 2000
+                    });
+                    this.nav.present(t)
+                    this.addFailed = true;
                     this.result = null;
                 }
             }, error => {

@@ -32,11 +32,9 @@ export class MyApp {
                 duration: 1000
             });
             document.addEventListener('backbutton', (e) => {
-                alert(backCount);
                 e.preventDefault();
                 if (backCount == 0) {
                     backCount++;
-                    alert("OK");
                     // this.nav.present(exitMsg);
                     setTimeout(() => {
                         backCount = 0;

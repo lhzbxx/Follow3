@@ -18,31 +18,37 @@
             <ion-input type="text" [(ngModel)]="room"></ion-input>
         </ion-item>
     </ion-list>
-    <button royal block *ngIf="!result" (click)="getResult()">
+    <button royal *ngIf="!result" block (click)="getResult()">
         <ion-icon name="add"></ion-icon>
-        Add
+        添加
     </button>
+    <ion-card *ngIf="addFailed">
+        <ion-card-content>
+            QAQ 木有找到您要找的主播...
+        </ion-card-content>
+    </ion-card>
     <ion-card *ngIf="result">
         <ion-card-content>
-            <img [src]="result.cover">
             <ion-item>
                 <ion-avatar item-left>
                     <img [src]="result.avatar">
                 </ion-avatar>
-                <h2>{{result.nickname}}</h2>
+                <h2 style="margin-top: 0;">Mr.wang</h2>
                 <p>{{result.title}}</p>
             </ion-item>
+            <img [src]="result.cover">
             <ion-item>
-                <button primary clear item-left>
+                <button clear item-left>
                     <ion-icon name="play"></ion-icon>
                     <div>观看</div>
                 </button>
-                <button primary clear item-left>
+                <button clear item-left>
                     <ion-icon name="add-circle"></ion-icon>
                     <div>关注</div>
                 </button>
                 <ion-note item-right>
-                    11h ago
+                    <span *ngIf="!result.is_live">休息</span>
+                    <span *ngIf="result.is_live">在线</span>
                 </ion-note>
             </ion-item>
         </ion-card-content>
