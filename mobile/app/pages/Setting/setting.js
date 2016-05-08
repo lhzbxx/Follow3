@@ -1,27 +1,30 @@
-import {Page} from 'ionic-angular';
+import {Page, Alert, NavController} from 'ionic-angular';
 
 
 @Page({
     templateUrl: 'build/pages/setting/setting.html'
 })
 export class Setting {
-    constructor() {
+    static get parameters() {
+        return [NavController];
+    }
+    constructor(NavController) {
         this.settings = {
             isAutoNotify: true,
             isAppNotify: true,
             isNoDisturb: false
         };
+        this.nav = NavController;
     }
-
     differOpinion() {
-        Alert.create({
+        let alert = Alert.create({
             title: '意见反馈',
             message: "向lhzbxx提建议~",
             inputs: [
                 {
-                    name: 'title',
-                    placeholder: 'Title'
-                },
+                    name: 'advice',
+                    placeholder: '建议...'
+                }
             ],
             buttons: [
                 {
@@ -35,11 +38,17 @@ export class Setting {
                     }
                 }
             ]
-        }).show();
+        });
+        this.nav.present(alert);
     }
 
     checkUpdate() {
-        alert("您已是最新版！");
+        let alert = Alert.create({
+            title: '',
+            subTitle: '已是最新版本！',
+            buttons: ['OK']
+        });
+        this.nav.present(alert);
     }
     
     rateMe() {

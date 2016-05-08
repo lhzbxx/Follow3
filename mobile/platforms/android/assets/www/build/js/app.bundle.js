@@ -518,7 +518,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
     templateUrl: 'build/pages/setting/setting.html'
 }), _dec(_class = function () {
-    function Setting() {
+    _createClass(Setting, null, [{
+        key: 'parameters',
+        get: function get() {
+            return [_ionicAngular.NavController];
+        }
+    }]);
+
+    function Setting(NavController) {
         _classCallCheck(this, Setting);
 
         this.settings = {
@@ -526,17 +533,18 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
             isAppNotify: true,
             isNoDisturb: false
         };
+        this.nav = NavController;
     }
 
     _createClass(Setting, [{
         key: 'differOpinion',
         value: function differOpinion() {
-            Alert.create({
+            var alert = _ionicAngular.Alert.create({
                 title: '意见反馈',
                 message: "向lhzbxx提建议~",
                 inputs: [{
-                    name: 'title',
-                    placeholder: 'Title'
+                    name: 'advice',
+                    placeholder: '建议...'
                 }],
                 buttons: [{
                     text: '取消',
@@ -545,12 +553,18 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
                     text: '确认',
                     handler: function handler(data) {}
                 }]
-            }).show();
+            });
+            this.nav.present(alert);
         }
     }, {
         key: 'checkUpdate',
         value: function checkUpdate() {
-            alert("您已是最新版！");
+            var alert = _ionicAngular.Alert.create({
+                title: '',
+                subTitle: '已是最新版本！',
+                buttons: ['OK']
+            });
+            this.nav.present(alert);
         }
     }, {
         key: 'rateMe',
@@ -559,7 +573,7 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
             AppRate.preferences.storeAppURL.android = 'market://details?id=<package_name>';
             AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
             AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
-            AppRate.promptForRating(true);
+            AppRate.promptForRating(false);
         }
     }]);
 
