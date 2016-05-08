@@ -50,38 +50,27 @@ export class MyApp {
             }, false);
 
             this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' +
-                'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER' +
+                'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' +
                 'content TEXT,' +
                 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
-            this.storage.query('INSERT INTO notifications (received_at, content)' +
-                'VALUES (123, "test")').then((data) => {
-                alert(JSON.stringify(data.res))
-            }, (error) => {
-                alert("ERROR -> " + JSON.stringify(error.err));
-            });
-            this.storage.query('INSERT INTO notifications (received_at, content)' +
-                'VALUES (321, "hello")').then((data) => {
-                alert(JSON.stringify(data.res))
-            }, (error) => {
-                alert("ERROR -> " + JSON.stringify(error.err));
-            });
 
             document.addEventListener("jpush.receiveNotification", (e) => {
-                var alertContent;
+                var nickname;
+                var
                 if (platform.is('android')) {
-                    alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+                    alertContent = window.plugins.jPushPlugin.receiveNotification.extras.key1;
                 } else {
-                    alertContent = event.aps.alert;
+                    alertContent = event.key1;
                 }
-                // alert(alertContent);
-                this.storage.query('INSERT INTO notifications (received_at, content)' +
-                    'VALUES (' + new date().getTime() / 1000 +
-                    ',' + alertContent +
-                    ')').then((data) => {
-                    alert(JSON.stringify(data.res))
-                }, (error) => {
-                    alert("ERROR -> " + JSON.stringify(error.err));
-                });
+                alert(alertContent);
+                // this.storage.query('INSERT INTO notifications (received_at, content)' +
+                //     'VALUES (' + new Date().getTime() / 1000 +
+                //     ', "' + alertContent +
+                //     '")').then((data) => {
+                //     alert(JSON.stringify(data.res))
+                // }, (error) => {
+                //     alert("ERROR -> " + JSON.stringify(error.err));
+                // });
             }, false);
         });
     }

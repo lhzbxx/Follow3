@@ -15,6 +15,10 @@ export class Notify {
         this.notifications = null;
         this.nav = NavController;
         this.platform = Platform;
+        this.refresh();
+    }
+
+    refresh() {
         this.platform.ready().then(() => {
             this.storage = new Storage(SqlStorage);
             this.storage.query('SELECT * FROM notifications').then((data) => {
@@ -23,12 +27,16 @@ export class Notify {
                     for (var i = 0; i < data.res.rows.length; i++) {
                         this.notifications.push(data.res.rows.item(i));
                     }
-                    alert(this.notifications);
                 }
             }, (error) => {
-                alert("ERROR -> " + JSON.stringify(error.err));
+                console.log("ERROR -> " + JSON.stringify(error.err));
             });
         });
+    }
+
+    doRefresh(refresher) {
+        this.refresh();
+        refresher.complete();
     }
 
     readAll() {

@@ -39,7 +39,8 @@ class TestNotify extends Command {
         $result = $client
             ->push()->setPlatform('all')
             ->addAlias('JPush_1')
-            ->setNotificationAlert('P2P notification using alias!')
+            ->addAndroidNotification('Test P2P notify.', 'Follow3', 1, array("key1"=>"value1", "key2"=>"value2"))
+            ->addIosNotification("Test P2P notify.", 'iOS sound', '+1', true, 'iOS category', array("key1"=>"value1", "key2"=>"value2"))
             ->send();
         echo json_encode($result) . "\n";
     }

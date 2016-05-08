@@ -10,6 +10,9 @@
 </ion-navbar>
 
 <ion-content class="notify">
+    <ion-refresher (refresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-list>
         <ion-item *ngIf="!notifications">暂无任何通知消息</ion-item>
         <ion-list-header *ngIf="notifications">开播通知</ion-list-header>

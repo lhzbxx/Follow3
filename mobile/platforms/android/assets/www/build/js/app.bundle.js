@@ -70,31 +70,24 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                 }
             }, false);
 
-            _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER' + 'content TEXT,' + 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
-            _this.storage.query('INSERT INTO notifications (received_at, content)' + 'VALUES (123, "test")').then(function (data) {
-                alert(JSON.stringify(data.res));
-            }, function (error) {
-                alert("ERROR -> " + JSON.stringify(error.err));
-            });
-            _this.storage.query('INSERT INTO notifications (received_at, content)' + 'VALUES (321, "hello")').then(function (data) {
-                alert(JSON.stringify(data.res));
-            }, function (error) {
-                alert("ERROR -> " + JSON.stringify(error.err));
-            });
+            _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' + 'content TEXT,' + 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
 
             document.addEventListener("jpush.receiveNotification", function (e) {
                 var alertContent;
                 if (platform.is('android')) {
-                    alertContent = window.plugins.jPushPlugin.receiveNotification.alert;
+                    alertContent = window.plugins.jPushPlugin.receiveNotification.extras.key1;
                 } else {
-                    alertContent = event.aps.alert;
+                    alertContent = event.key1;
                 }
-                // alert(alertContent);
-                _this.storage.query('INSERT INTO notifications (received_at, content)' + 'VALUES (' + new date().getTime() / 1000 + ',' + alertContent + ')').then(function (data) {
-                    alert(JSON.stringify(data.res));
-                }, function (error) {
-                    alert("ERROR -> " + JSON.stringify(error.err));
-                });
+                alert(alertContent);
+                // this.storage.query('INSERT INTO notifications (received_at, content)' +
+                //     'VALUES (' + new Date().getTime() / 1000 +
+                //     ', "' + alertContent +
+                //     '")').then((data) => {
+                //     alert(JSON.stringify(data.res))
+                // }, (error) => {
+                //     alert("ERROR -> " + JSON.stringify(error.err));
+                // });
             }, false);
         });
     }
@@ -541,30 +534,40 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
     }]);
 
     function Notify(NavController, Platform) {
-        var _this = this;
-
         _classCallCheck(this, Notify);
 
         this.notifications = null;
         this.nav = NavController;
         this.platform = Platform;
-        this.platform.ready().then(function () {
-            _this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
-            _this.storage.query('SELECT * FROM notifications').then(function (data) {
-                if (data.res.rows.length > 0) {
-                    _this.notifications = [];
-                    for (var i = 0; i < data.res.rows.length; i++) {
-                        _this.notifications.push(data.res.rows.item(i));
-                    }
-                    alert(_this.notifications);
-                }
-            }, function (error) {
-                alert("ERROR -> " + JSON.stringify(error.err));
-            });
-        });
+        this.refresh();
     }
 
     _createClass(Notify, [{
+        key: 'refresh',
+        value: function refresh() {
+            var _this = this;
+
+            this.platform.ready().then(function () {
+                _this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
+                _this.storage.query('SELECT * FROM notifications').then(function (data) {
+                    if (data.res.rows.length > 0) {
+                        _this.notifications = [];
+                        for (var i = 0; i < data.res.rows.length; i++) {
+                            _this.notifications.push(data.res.rows.item(i));
+                        }
+                    }
+                }, function (error) {
+                    console.log("ERROR -> " + JSON.stringify(error.err));
+                });
+            });
+        }
+    }, {
+        key: 'doRefresh',
+        value: function doRefresh(refresher) {
+            this.refresh();
+            refresher.complete();
+        }
+    }, {
         key: 'readAll',
         value: function readAll() {
             var confirm = _ionicAngular.Alert.create({
