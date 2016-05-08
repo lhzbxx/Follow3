@@ -19,8 +19,8 @@ export class MyApp {
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             StatusBar.styleDefault();
-            if (platform.is('android'))
-                StatusBar.backgroundColorByHexString("#25312C");
+            // if (platform.is('android'))
+            //     StatusBar.backgroundColorByHexString("#25312C");
             // StatusBar.show();
             cordova.plugins.Keyboard.disableScroll(true);
             window.plugins.jPushPlugin.init();

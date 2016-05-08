@@ -40,7 +40,8 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             _ionicNative.StatusBar.styleDefault();
-            if (platform.is('android')) _ionicNative.StatusBar.backgroundColorByHexString("#25312C");
+            // if (platform.is('android'))
+            //     StatusBar.backgroundColorByHexString("#25312C");
             // StatusBar.show();
             cordova.plugins.Keyboard.disableScroll(true);
             window.plugins.jPushPlugin.init();
