@@ -14,7 +14,7 @@
         <!--<ion-refresher-content></ion-refresher-content>-->
     <!--</ion-refresher>-->
     <ion-list>
-        <ion-item *ngIf="!notifications" (click)="spreadOption($event)">暂无任何通知消息</ion-item>
+        <ion-item *ngIf="!notifications">暂无任何通知消息</ion-item>
         <ion-list-header *ngIf="notifications">开播通知</ion-list-header>
         <ion-item-sliding *ngFor="#notification of notifications">
             <ion-item>
@@ -26,11 +26,15 @@
                 <p>Start at {{notification.notified_at | amTimeAgo}}</p>
             </ion-item>
             <ion-item-options>
-                <button primary>
+                <button primary (click)="watchDirect(notification)">
                     <ion-icon light name="play"></ion-icon>
                     观看
                 </button>
-                <button danger>
+                <button secondary (click)="shareOut(notification)">
+                    <ion-icon light name="share"></ion-icon>
+                    分享
+                </button>
+                <button danger (click)="removeNotification(notification)">
                     <ion-icon light name="close"></ion-icon>
                     删除
                 </button>

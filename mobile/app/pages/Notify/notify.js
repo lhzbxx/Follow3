@@ -41,8 +41,21 @@ export class Notify {
         refresher.complete();
     }
 
-    spreadOption(e) {
-        // spread the ion-sliding
+    removeNotification(notification) {
+        this.storage.query('DELETE FROM notifications WHERE id = ' + notification.id).then((data) => {
+            console.log(JSON.stringify(data.res));
+        }, (error) => {
+            console.log("ERROR -> " + JSON.stringify(error.err));
+        });
+        this.refresh();
+    }
+
+    watchDirect(notification) {
+        //
+    }
+
+    shareOut() {
+        //
     }
 
     readAll() {

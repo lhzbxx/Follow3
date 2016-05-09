@@ -575,9 +575,24 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
             refresher.complete();
         }
     }, {
-        key: 'spreadOption',
-        value: function spreadOption(e) {
-            // spread the ion-sliding
+        key: 'removeNotification',
+        value: function removeNotification(notification) {
+            this.storage.query('DELETE FROM notifications WHERE id = ' + notification.id).then(function (data) {
+                console.log(JSON.stringify(data.res));
+            }, function (error) {
+                console.log("ERROR -> " + JSON.stringify(error.err));
+            });
+            this.refresh();
+        }
+    }, {
+        key: 'watchDirect',
+        value: function watchDirect(notification) {
+            //
+        }
+    }, {
+        key: 'shareOut',
+        value: function shareOut() {
+            //
         }
     }, {
         key: 'readAll',
