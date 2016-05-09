@@ -8636,6 +8636,9 @@ body {
 .home img {
   width: 100%; }
 
+ion-refresher {
+  z-index: 2; }
+
 .ion-md-remove-circle {
   color: #ED4248; }
 

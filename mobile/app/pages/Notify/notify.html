@@ -10,11 +10,11 @@
 </ion-navbar>
 
 <ion-content class="notify">
-    <ion-refresher (refresh)="doRefresh($event)">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
+    <!--<ion-refresher (refresh)="doRefresh($event)">-->
+        <!--<ion-refresher-content></ion-refresher-content>-->
+    <!--</ion-refresher>-->
     <ion-list>
-        <ion-item *ngIf="!notifications">暂无任何通知消息</ion-item>
+        <ion-item *ngIf="!notifications" (click)="spreadOption($event)">暂无任何通知消息</ion-item>
         <ion-list-header *ngIf="notifications">开播通知</ion-list-header>
         <ion-item-sliding *ngFor="#notification of notifications">
             <ion-item>
@@ -22,17 +22,17 @@
                     <img [src]="notification.avatar">
                 </ion-thumbnail>
                 <h2>{{notification.nickname}}</h2>
-                <p>{{notification.title}}</p>
-                <p>Start at {{notification.notified_at | amTimeAgo}}~</p>
+                <p>{{notification.content}}</p>
+                <p>Start at {{notification.notified_at | amTimeAgo}}</p>
             </ion-item>
             <ion-item-options>
                 <button primary>
-                    <ion-icon name="text"></ion-icon>
-                    Text
+                    <ion-icon light name="play"></ion-icon>
+                    观看
                 </button>
-                <button secondary>
-                    <ion-icon name="call"></ion-icon>
-                    Call
+                <button danger>
+                    <ion-icon light name="close"></ion-icon>
+                    删除
                 </button>
             </ion-item-options>
         </ion-item-sliding>

@@ -15,18 +15,20 @@ export class Notify {
         this.notifications = null;
         this.nav = NavController;
         this.platform = Platform;
+        this.storage = new Storage(SqlStorage);
         this.refresh();
     }
 
     refresh() {
         this.platform.ready().then(() => {
-            this.storage = new Storage(SqlStorage);
-            this.storage.query('SELECT * FROM notifications').then((data) => {
+            this.storage.query('SELECT * FROM notifications ORDER BY id DESC').then((data) => {
                 if(data.res.rows.length > 0) {
                     this.notifications = [];
                     for (var i = 0; i < data.res.rows.length; i++) {
                         this.notifications.push(data.res.rows.item(i));
                     }
+                } else {
+                    this.notifications = null;
                 }
             }, (error) => {
                 console.log("ERROR -> " + JSON.stringify(error.err));
@@ -39,6 +41,10 @@ export class Notify {
         refresher.complete();
     }
 
+    spreadOption(e) {
+        // spread the ion-sliding
+    }
+
     readAll() {
         let confirm = Alert.create({
             title: '全部已读？',
@@ -47,13 +53,14 @@ export class Notify {
                 {
                     text: '取消',
                     handler: () => {
-                        console.log('Disagree clicked');
+                        //
                     }
                 },
                 {
                     text: '确认',
                     handler: () => {
-                        console.log('Agree clicked');
+                        this.storage.query('DELETE FROM notifications');
+                        this.refresh();
                     }
                 }
             ]

@@ -37,14 +37,14 @@ export class Add {
                         message: '添加成功！',
                         duration: 2000
                     });
-                    this.nav.present(t)
+                    this.nav.present(t);
                     this.result = JSON.parse(data.data);
                 } else {
                     let t = Toast.create({
                         message: '添加失败...',
                         duration: 2000
                     });
-                    this.nav.present(t)
+                    this.nav.present(t);
                     this.addFailed = true;
                     this.result = null;
                 }

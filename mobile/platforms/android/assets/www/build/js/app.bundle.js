@@ -88,10 +88,10 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                     notified_at = event.notified_at;
                     avatar = event.avatar;
                 }
-                _this.storage.query('INSERT INTO notifications (received_at, content, nickname, notified_at, avatar)' + 'VALUES (' + new Date().getTime() / 1000 + ', "' + title + '", "' + nickname + '", "' + notified_at + '", "' + avatar + '")').then(function (data) {
-                    alert(JSON.stringify(data.res));
+                _this.storage.query('INSERT INTO notifications (received_at, content, nickname, notified_at, avatar)' + 'VALUES (' + new Date().getTime() + ', "' + title + '", "' + nickname + '", "' + notified_at * 1000 + '", "' + avatar + '")').then(function (data) {
+                    console.log(JSON.stringify(data.res));
                 }, function (error) {
-                    alert("ERROR -> " + JSON.stringify(error.err));
+                    console.log("ERROR -> " + JSON.stringify(error.err));
                 });
             }, false);
         });
@@ -544,6 +544,7 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
         this.notifications = null;
         this.nav = NavController;
         this.platform = Platform;
+        this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
         this.refresh();
     }
 
@@ -553,13 +554,14 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
             var _this = this;
 
             this.platform.ready().then(function () {
-                _this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
-                _this.storage.query('SELECT * FROM notifications').then(function (data) {
+                _this.storage.query('SELECT * FROM notifications ORDER BY id DESC').then(function (data) {
                     if (data.res.rows.length > 0) {
                         _this.notifications = [];
                         for (var i = 0; i < data.res.rows.length; i++) {
                             _this.notifications.push(data.res.rows.item(i));
                         }
+                    } else {
+                        _this.notifications = null;
                     }
                 }, function (error) {
                     console.log("ERROR -> " + JSON.stringify(error.err));
@@ -573,20 +575,28 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
             refresher.complete();
         }
     }, {
+        key: 'spreadOption',
+        value: function spreadOption(e) {
+            // spread the ion-sliding
+        }
+    }, {
         key: 'readAll',
         value: function readAll() {
+            var _this2 = this;
+
             var confirm = _ionicAngular.Alert.create({
                 title: '全部已读？',
                 message: '该操作将移除所有的通知消息。',
                 buttons: [{
                     text: '取消',
                     handler: function handler() {
-                        console.log('Disagree clicked');
+                        //
                     }
                 }, {
                     text: '确认',
                     handler: function handler() {
-                        console.log('Agree clicked');
+                        _this2.storage.query('DELETE FROM notifications');
+                        _this2.refresh();
                     }
                 }]
             });

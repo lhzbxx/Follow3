@@ -83,4 +83,5 @@
     <preference name="SplashScreenDelay" value="10000" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="FadeSplashScreen" value="false" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
 </widget>

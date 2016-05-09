@@ -71,15 +71,15 @@ export class MyApp {
                     avatar = event.avatar;
                 }
                 this.storage.query('INSERT INTO notifications (received_at, content, nickname, notified_at, avatar)' +
-                    'VALUES (' + new Date().getTime() / 1000 +
+                    'VALUES (' + new Date().getTime() +
                     ', "' + title +
                     '", "' + nickname +
-                    '", "' + notified_at +
+                    '", "' + notified_at * 1000 +
                     '", "' + avatar +
                     '")').then((data) => {
-                    alert(JSON.stringify(data.res))
+                    console.log(JSON.stringify(data.res))
                 }, (error) => {
-                    alert("ERROR -> " + JSON.stringify(error.err));
+                    console.log("ERROR -> " + JSON.stringify(error.err));
                 });
             }, false);
         });
