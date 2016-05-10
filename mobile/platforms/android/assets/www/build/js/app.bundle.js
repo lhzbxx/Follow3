@@ -541,8 +541,8 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
     function Notify(NavController, Platform) {
         _classCallCheck(this, Notify);
 
-        this.notifications = null;
         this.nav = NavController;
+        this.notifications = null;
         this.platform = Platform;
         this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
         this.refresh();
@@ -555,13 +555,11 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
 
             this.platform.ready().then(function () {
                 _this.storage.query('SELECT * FROM notifications ORDER BY id DESC').then(function (data) {
+                    _this.notifications = [];
                     if (data.res.rows.length > 0) {
-                        _this.notifications = [];
                         for (var i = 0; i < data.res.rows.length; i++) {
                             _this.notifications.push(data.res.rows.item(i));
                         }
-                    } else {
-                        _this.notifications = null;
                     }
                 }, function (error) {
                     console.log("ERROR -> " + JSON.stringify(error.err));

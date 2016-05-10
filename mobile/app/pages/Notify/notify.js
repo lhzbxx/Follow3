@@ -12,8 +12,8 @@ export class Notify {
     }
 
     constructor(NavController, Platform) {
-        this.notifications = null;
         this.nav = NavController;
+        this.notifications = null;
         this.platform = Platform;
         this.storage = new Storage(SqlStorage);
         this.refresh();
@@ -22,13 +22,11 @@ export class Notify {
     refresh() {
         this.platform.ready().then(() => {
             this.storage.query('SELECT * FROM notifications ORDER BY id DESC').then((data) => {
+                this.notifications = [];
                 if(data.res.rows.length > 0) {
-                    this.notifications = [];
                     for (var i = 0; i < data.res.rows.length; i++) {
                         this.notifications.push(data.res.rows.item(i));
                     }
-                } else {
-                    this.notifications = null;
                 }
             }, (error) => {
                 console.log("ERROR -> " + JSON.stringify(error.err));

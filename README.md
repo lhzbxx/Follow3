@@ -139,8 +139,8 @@
 
 所以，跪求各位土豪包养！如果您觉得这个项目不错，可以通过下面的二维码请我喝一杯咖啡。
 
-![支付宝](http://7xsz4e.com2.z0.glb.clouddn.com/alipay_10.jpg?imageView/2/w/250)
-![微信](http://7xsz4e.com2.z0.glb.clouddn.com/weixin_10.jpg?imageView/2/w/250)
+![支付宝](http://o6xwrt3vx.bkt.clouddn.com/ali_pay.jpg?imageView/2/h/250)
+![微信](http://o6xwrt3vx.bkt.clouddn.com/wechat_pay.jpg?imageView/2/h/250)
 
 ---
 
