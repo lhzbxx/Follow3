@@ -94,6 +94,8 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                     console.log("ERROR -> " + JSON.stringify(error.err));
                 });
             }, false);
+
+            _ionicNative.Splashscreen.hide();
         });
     }
 

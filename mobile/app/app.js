@@ -1,5 +1,5 @@
 import {App, Platform, Toast, Storage, SqlStorage} from 'ionic-angular';
-import {StatusBar} from 'ionic-native';
+import {StatusBar, Splashscreen} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
 
 
@@ -82,6 +82,8 @@ export class MyApp {
                     console.log("ERROR -> " + JSON.stringify(error.err));
                 });
             }, false);
+            
+            Splashscreen.hide();
         });
     }
 }

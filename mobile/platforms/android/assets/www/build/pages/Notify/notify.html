@@ -15,7 +15,7 @@
     <!--</ion-refresher>-->
     <ion-list>
         <!--<ion-item *ngIf="notifications.length==1">暂无任何通知消息</ion-item>-->
-        <!--<ion-spinner *ngIf="!notifications"></ion-spinner>-->
+        <ion-spinner align="center" *ngIf="!notifications"></ion-spinner>
         <!--<ion-list-header *ngIf="notifications.length>1">开播通知</ion-list-header>-->
         <ion-item-sliding *ngFor="#notification of notifications">
             <ion-item>
