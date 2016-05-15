@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
-use JPush;
 
 class AuthController extends Controller
 {
@@ -117,14 +116,19 @@ class AuthController extends Controller
     public function reset_password(Request $request)
     {
         $v = Validator::make($request->all(), [
-            'email' => 'required|email|exists:User,email'
+            'email' => 'required|email|exists:User,email',
+            'password' => 'required|max:32'
         ]);
         if ($v->fails()) {
             abort(999, $v->errors());
         }
         $mail = $request->input('email');
+        $passwd = $request->input('password');
         $reset_token = str_random(32);
-        $reset_info = $mail;
+        $reset_info = array(
+            'mail' => $mail,
+            'passwd' => $passwd
+        );
         $this->send_reset_mail($mail, $reset_token);
         Cache::put('reset:' . $reset_token, $reset_info, 60*24);
         return $this->result();
@@ -134,22 +138,20 @@ class AuthController extends Controller
      *
      * 确认修改密码
      *
-     * @param Request $request
-     * @param         $reset_token
+     * @param $reset_token
      * @return mixed
      * @author: LuHao
      */
-    public function confirm_reset_password(Request $request, $reset_token)
+    public function confirm_reset_password($reset_token)
     {
-        $v = Validator::make($request->all(), [
-            'password' => 'required'
-        ]);
-        if ($v->fails()) {
-            abort(999, $v->errors());
+        if ( ! Cache::has('reset:' . $reset_token)) {
+            abort(123213, 'Reset token has expired.');
         }
-        $reset_info = Cache::pull('reset_info:' . $reset_token);
-        $user = User::where('email', $reset_info)->first();
-        $user->password = $request->input('password');
+        $reset_info = Cache::pull('reset:' . $reset_token);
+        $mail = $reset_info['mail'];
+        $passwd = $reset_info['passwd'];
+        $user = User::where('email', $mail)->first();
+        $user->password = Crypt::encrypt($passwd);
         $user->save();
         $result = $this->oauth2($user->id);
         return $this->result($result);
@@ -187,7 +189,7 @@ class AuthController extends Controller
         $v = Validator::make($request->all(), [
             'email' => 'required|email|unique:User,email',
             'nickname' => 'required|max:32',
-            'password' => 'required'
+            'password' => 'required|max:32'
         ]);
         if ($v->fails()) {
             abort(999, $v->errors());
@@ -265,7 +267,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $v = Validator::make($request->all(), [
-            'register_id' => 'required',
+//            'register_id' => 'required',
             'access_token' => 'required',
             'refresh_token' => 'required'
         ]);
@@ -274,11 +276,11 @@ class AuthController extends Controller
         }
         $register_id = $request->input('register_id');
         // 删除Register
-        $client = new JPush('0aefd58ed167584a6d7612e7', '3fd3cffb02e92cddd17205c2');
-        $client->device()->updateDevice($register_id);
+//        $client = new JPush('0aefd58ed167584a6d7612e7', '3fd3cffb02e92cddd17205c2');
+//        $client->device()->updateDevice($register_id);
         // 删除Token
         Cache::forget('access_token:' . $request->input('access_token'));
-        Cache::forget('refresh_token:' . $request->input('access_token'));
+        Cache::forget('refresh_token:' . $request->input('refresh_token'));
         return $this->result();
     }
 
