@@ -27,33 +27,33 @@ export class MyApp {
             window.plugins.jPushPlugin.setAlias('JPush_1');
 
             // this.registerBackButtonListener();
-            var backCount = 0;
-            let exitMsg = Toast.create({
-                message: '再次点击返回退出...',
-                duration: 1000
-            });
+            // var backCount = 0;
+            // let exitMsg = Toast.create({
+            //     message: '再次点击返回退出...',
+            //     duration: 1000
+            // });
 
             this.storage = new Storage(SqlStorage);
 
-            document.addEventListener('backbutton', (e) => {
-                e.preventDefault();
-                if (backCount == 0) {
-                    backCount++;
-                    // this.nav.present(exitMsg);
-                    setTimeout(() => {
-                        backCount = 0;
-                    }, 1000);
-                    return;
-                } else {
-                    this.exitApp();
-                }
-            }, false);
+            // document.addEventListener('backbutton', (e) => {
+            //     e.preventDefault();
+            //     if (backCount == 0) {
+            //         backCount++;
+            //         // this.nav.present(exitMsg);
+            //         setTimeout(() => {
+            //             backCount = 0;
+            //         }, 1000);
+            //         return;
+            //     } else {
+            //         this.exitApp();
+            //     }
+            // }, false);
 
             this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' +
                 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' +
                 'content TEXT,' +
                 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
-
+            
             document.addEventListener("jpush.receiveNotification", (e) => {
                 var nickname;
                 var title;
