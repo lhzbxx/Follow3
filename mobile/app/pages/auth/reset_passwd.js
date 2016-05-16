@@ -3,8 +3,8 @@ import {Page, ViewController} from 'ionic-angular';
 @Page({
     templateUrl: 'build/pages/auth/reset_passwd.html'
 })
-class ResetPasswd {
 
+class ResetPasswd {
     constructor(viewCtrl: ViewController) {
         this.viewCtrl = viewCtrl;
     }

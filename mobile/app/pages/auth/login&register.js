@@ -1,9 +1,10 @@
 import {Page, Modal, NavController} from 'ionic-angular';
-
+import {ResetPasswd} from './reset_passwd';
 
 @Page({
     templateUrl: 'build/pages/auth/login&register.html'
 })
+
 export class LoginAndRegister {
     constructor(nav: NavController) {
         this.auth = 'login';
@@ -21,18 +22,9 @@ export class LoginAndRegister {
     }
     
     showResetPasswd() {
-        let resetPasswd = Modal.create(ContactUs);
+        let resetPasswd = Modal.create(ResetPasswd, { mail: this.login_mail });
         this.nav.present(resetPasswd);
     }
-
-    presentProfileModal() {
-        let profileModal = Modal.create(Profile, { userId: 8675309 });
-        profileModal.onDismiss(data => {
-            console.log(data);
-        });
-        this.nav.present(profileModal);
-    }
-
 }
 
 
