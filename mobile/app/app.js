@@ -1,4 +1,4 @@
-import {App, Platform, Toast, Storage, SqlStorage} from 'ionic-angular';
+import {App, Platform, Toast, Storage, SqlStorage, LocalStorage} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
 import {LoginAndRegister} from './pages/auth/login&register'
@@ -14,12 +14,17 @@ export class MyApp {
     }
 
     constructor(platform) {
-        this.rootPage = LoginAndRegister;
-        // this.rootPage = TabsPage;
+        this.local = new Storage(LocalStorage);
         // this.nav = navController;
         platform.ready().then(() => {
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
+            let context = this;
+            this.local.get('LOGIN').then(function (value) {
+                if (value) {
+                    context.rootPage = TabsPage;
+                } else {
+                    context.rootPage = LoginAndRegister;
+                }
+            });
             StatusBar.styleDefault();
             // if (platform.is('android'))
             //     StatusBar.backgroundColorByHexString("#25312C");
@@ -55,7 +60,7 @@ export class MyApp {
                 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' +
                 'content TEXT,' +
                 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
-            
+
             document.addEventListener("jpush.receiveNotification", (e) => {
                 var nickname;
                 var title;
@@ -84,7 +89,7 @@ export class MyApp {
                     console.log("ERROR -> " + JSON.stringify(error.err));
                 });
             }, false);
-            
+
             Splashscreen.hide();
         });
     }

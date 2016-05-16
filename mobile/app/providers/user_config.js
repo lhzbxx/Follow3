@@ -18,6 +18,7 @@ export class UserConfig {
         this.IS_AUTO_NOTIFY = "IS_AUTO_NOTIFY";
         this.IS_APP_NOTIFY = "IS_APP_NOTIFY";
         this.IS_NO_DISTURB = "IS_NO_DISTURB";
+        this.LOGIN = "LOGIN"
     }
     setAuth(access_token, refresh_token) {
         this.storage.set(this.ACCESS_TOKEN, access_token);
@@ -63,23 +64,23 @@ export class UserConfig {
     }
 
     login(username, password) {
-        this.storage.set(this.HAS_LOGGED_IN, true);
+        this.storage.set(this.LOGIN, true);
         this.events.publish('user:login');
     }
 
     signup(username, password) {
-        this.storage.set(this.HAS_LOGGED_IN, true);
+        this.storage.set(this.LOGIN, true);
         this.events.publish('user:signup');
     }
 
     logout() {
-        this.storage.remove(this.HAS_LOGGED_IN);
+        this.storage.remove(this.LOGIN);
         this.events.publish('user:logout');
     }
 
     // return a promise
     hasLoggedIn() {
-        return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
+        return this.storage.get(this.LOGIN).then((value) => {
             return value;
         });
     }

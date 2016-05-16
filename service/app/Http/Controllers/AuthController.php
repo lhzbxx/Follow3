@@ -153,8 +153,10 @@ class AuthController extends Controller
         $user = User::where('email', $mail)->first();
         $user->password = Crypt::encrypt($passwd);
         $user->save();
-        $result = $this->oauth2($user->id);
-        return $this->result($result);
+//        $result = $this->oauth2($user->id);
+//        return $this->result($result);
+        // todo: 美观的视图
+        return "Reset success!";
     }
 
     /**
@@ -226,9 +228,11 @@ class AuthController extends Controller
         $user->password = $user_info['password'];
         $user->nickname = $user_info['nickname'];
         $user->save();
-        $user_id = $user->id;
-        $result = $this->oauth2($user_id);
-        return $this->result($result);
+//        $user_id = $user->id;
+//        $result = $this->oauth2($user_id);
+//        return $this->result($result);
+        // todo: 美观的视图
+        return "Congratulation!";
     }
 
     /**

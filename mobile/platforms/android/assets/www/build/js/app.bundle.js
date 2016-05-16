@@ -36,12 +36,18 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
 
         _classCallCheck(this, MyApp);
 
-        this.rootPage = _loginRegister.LoginAndRegister;
-        // this.rootPage = TabsPage;
+        this.local = new _ionicAngular.Storage(_ionicAngular.LocalStorage);
         // this.nav = navController;
         platform.ready().then(function () {
-            // Okay, so the platform is ready and our plugins are available.
-            // Here you can do any higher level native things you might need.
+            var context = _this;
+            _this.local.get('login').then(function (value) {
+                if (value) {
+                    alert(value);
+                    context.rootPage = _tabs.TabsPage;
+                } else {
+                    context.rootPage = _loginRegister.LoginAndRegister;
+                }
+            });
             _ionicNative.StatusBar.styleDefault();
             // if (platform.is('android'))
             //     StatusBar.backgroundColorByHexString("#25312C");
