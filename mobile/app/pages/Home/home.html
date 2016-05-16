@@ -20,7 +20,7 @@
     <ion-list no-padding>
         <ion-list-header>我的关注</ion-list-header>
         <!--<ion-item *ngFor="#star of stars" *ngIf="setting.showOnlyOnline && !star.is_live" (click)="showAction(star)">-->
-        <ion-item *ngFor="#star of stars" (click)="showAction(star)">
+        <ion-item *ngFor="#star of stars" tappable (click)="showAction(star)">
             <ion-avatar item-left>
                 <img [src]="star.avatar">
             </ion-avatar>

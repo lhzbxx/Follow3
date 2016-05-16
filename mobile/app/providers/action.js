@@ -4,7 +4,7 @@ import {UserConfig} from './user_config';
 
 
 @Injectable()
-export class ConferenceData {
+export class Action {
     static get parameters(){
         return [[Http], [UserConfig]];
     }

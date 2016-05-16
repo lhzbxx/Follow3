@@ -1,7 +1,9 @@
 import {Page, Modal, NavController, ViewController, NavParams} from 'ionic-angular';
+import {Data} from '../../providers/data';
 
 @Page({
-    templateUrl: 'build/pages/auth/login&register.html'
+    templateUrl: 'build/pages/auth/login&register.html',
+    providers: [Data]
 })
 
 export class LoginAndRegister {
@@ -9,9 +11,10 @@ export class LoginAndRegister {
         return [NavController];
     }
 
-    constructor(nav) {
+    constructor(nav, data) {
         this.auth = 'login';
         this.nav = nav;
+        this.data = Data;
     }
 
     register() {
@@ -21,15 +24,10 @@ export class LoginAndRegister {
     }
 
     login() {
-
+        this.data.login(this.login_mail, this.login_passwd);
     }
     
     showResetPasswd() {
-        // if (this.login_mail) {
-        //     let resetPasswd = Modal.create(ResetPasswd, { mail: this.login_mail });
-        // } else {
-        //     let resetPasswd = Modal.create(ResetPasswd);
-        // }
         let resetPasswd = Modal.create(ResetPasswd, {mail: this.login_mail});
         this.nav.present(resetPasswd);
     }
