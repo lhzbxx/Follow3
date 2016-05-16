@@ -23,6 +23,7 @@ export class UserConfig {
     setAuth(access_token, refresh_token) {
         this.storage.set(this.ACCESS_TOKEN, access_token);
         this.storage.set(this.REFRESH_TOKEN, refresh_token);
+        this.storage.set(this.LOGIN, true);
     }
     getAuth() {
         return {'access_token': this.storage.get(this.ACCESS_TOKEN),

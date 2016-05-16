@@ -18,11 +18,16 @@ var _tabs = require('./pages/tabs/tabs');
 
 var _loginRegister = require('./pages/auth/login&register');
 
+var _dataService = require('./providers/data-service');
+
+var _userConfig = require('./providers/user-config');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // http://ionicframework.com/docs/v2/api/config/Config/
 var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
     template: '<ion-nav [root]="rootPage"></ion-nav>',
+    providers: [_dataService.DataService, _userConfig.UserConfig],
     config: {} }), _dec(_class = function () {
     _createClass(MyApp, null, [{
         key: 'parameters',
@@ -110,7 +115,7 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
     return MyApp;
 }()) || _class);
 
-},{"./pages/auth/login&register":2,"./pages/tabs/tabs":8,"ionic-angular":350,"ionic-native":372}],2:[function(require,module,exports){
+},{"./pages/auth/login&register":2,"./pages/tabs/tabs":8,"./providers/data-service":9,"./providers/user-config":10,"ionic-angular":350,"ionic-native":372}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -124,7 +129,9 @@ var _dec, _class, _dec2, _class2;
 
 var _ionicAngular = require('ionic-angular');
 
-var _data = require('../../providers/data');
+var _dataService = require('../../providers/data-service');
+
+var _md = require('ts-md5/dist/md5');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -134,20 +141,22 @@ var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page
     _createClass(LoginAndRegister, null, [{
         key: 'parameters',
         get: function get() {
-            return [_ionicAngular.NavController];
+            return [[_ionicAngular.NavController], [_dataService.DataService]];
         }
     }]);
 
-    function LoginAndRegister(nav) {
+    function LoginAndRegister(nav, data) {
         _classCallCheck(this, LoginAndRegister);
 
         this.auth = 'login';
         this.nav = nav;
+        this.data = data;
     }
 
     _createClass(LoginAndRegister, [{
         key: 'register',
         value: function register() {
+            this.data.register(this.register_mail, this.register_nickname, this.register_passwd, this.nav);
             this.login_mail = this.register_mail;
             this.login_passwd = this.register_passwd;
             this.auth = 'login';
@@ -155,16 +164,11 @@ var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page
     }, {
         key: 'login',
         value: function login() {
-            _data.Data.login(this.login_mail, this.login_passwd);
+            this.data.login(this.login_mail, _md.Md5.hashStr(this.login_passwd), this.nav);
         }
     }, {
         key: 'showResetPasswd',
         value: function showResetPasswd() {
-            // if (this.login_mail) {
-            //     let resetPasswd = Modal.create(ResetPasswd, { mail: this.login_mail });
-            // } else {
-            //     let resetPasswd = Modal.create(ResetPasswd);
-            // }
             var resetPasswd = _ionicAngular.Modal.create(ResetPasswd, { mail: this.login_mail });
             this.nav.present(resetPasswd);
         }
@@ -173,20 +177,21 @@ var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page
     return LoginAndRegister;
 }()) || _class);
 var ResetPasswd = (_dec2 = (0, _ionicAngular.Page)({
-    templateUrl: 'build/pages/auth/reset_passwd.html'
+    templateUrl: 'build/pages/auth/reset-passwd.html'
 }), _dec2(_class2 = function () {
     _createClass(ResetPasswd, null, [{
         key: 'parameters',
         get: function get() {
-            return [_ionicAngular.ViewController, _ionicAngular.NavParams];
+            return [_ionicAngular.ViewController, _ionicAngular.NavParams, _dataService.DataService];
         }
     }]);
 
-    function ResetPasswd(viewCtrl, param) {
+    function ResetPasswd(viewCtrl, param, data) {
         _classCallCheck(this, ResetPasswd);
 
         this.viewCtrl = viewCtrl;
         this.reset_mail = param.get('mail');
+        this.data = data;
     }
 
     _createClass(ResetPasswd, [{
@@ -202,7 +207,7 @@ var ResetPasswd = (_dec2 = (0, _ionicAngular.Page)({
     return ResetPasswd;
 }()) || _class2);
 
-},{"../../providers/data":9,"ionic-angular":350}],3:[function(require,module,exports){
+},{"../../providers/data-service":9,"ionic-angular":350,"ts-md5/dist/md5":671}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -305,7 +310,7 @@ var _ionicAngular = require('ionic-angular');
 
 var _search = require('./search');
 
-var _user_config = require('../../providers/user_config');
+var _userConfig = require('../../providers/user-config');
 
 var _http = require('angular2/http');
 
@@ -317,13 +322,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     pipes: [_angular2Moment.TimeAgoPipe],
-    providers: [_user_config.UserConfig],
     templateUrl: 'build/pages/home/home.html'
 }), _dec(_class = function () {
     _createClass(Home, null, [{
         key: 'parameters',
         get: function get() {
-            return [_http.Http, _ionicAngular.NavController, _ionicAngular.Platform, _user_config.UserConfig];
+            return [_http.Http, _ionicAngular.NavController, _ionicAngular.Platform, _userConfig.UserConfig];
         }
     }]);
 
@@ -468,7 +472,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     return Home;
 }()) || _class);
 
-},{"../../providers/user_config":10,"./search":5,"angular2-moment":16,"angular2/http":20,"ionic-angular":350,"rxjs/Rx":424}],5:[function(require,module,exports){
+},{"../../providers/user-config":10,"./search":5,"angular2-moment":16,"angular2/http":20,"ionic-angular":350,"rxjs/Rx":424}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -842,7 +846,7 @@ var TabsPage = exports.TabsPage = (_dec = (0, _ionicAngular.Page)({
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Data = undefined;
+exports.DataService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -850,73 +854,89 @@ var _dec, _class;
 
 var _core = require('angular2/core');
 
-var _user_config = require('./user_config');
-
 var _http = require('angular2/http');
 
-require('rxjs/Rx');
+require('rxjs/add/operator/map');
+
+var _userConfig = require('./user-config');
+
+var _ionicAngular = require('ionic-angular');
+
+var _tabs = require('../pages/tabs/tabs');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Data = exports.Data = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
-    _createClass(Data, null, [{
+/*
+ Generated class for the DataService provider.
+
+ See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+ for more info on providers and Angular 2 DI.
+ */
+var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
+    _createClass(DataService, null, [{
         key: 'parameters',
         get: function get() {
-            return [[_http.Http], [_user_config.UserConfig]];
+            return [[_http.Http], [_userConfig.UserConfig]];
         }
     }]);
 
-    function Data(http, user) {
-        _classCallCheck(this, Data);
+    function DataService(http, config) {
+        _classCallCheck(this, DataService);
 
-        // inject the Http provider and set to this instance
         this.http = http;
-        this.user = user;
-        this.BASE_URL = "http://www.lhzbxx.top:9900/";
+        this.data = null;
+        this.config = config;
+        this.BASE_URL = "http://115.28.71.169:9900/";
     }
 
-    _createClass(Data, [{
+    _createClass(DataService, [{
         key: 'login',
-        value: function login(email, password) {
+        value: function login(email, password, nav) {
             var _this = this;
 
             var url = this.BASE_URL + 'auth/login';
             var body = JSON.stringify({ 'email': email, 'password': password });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-            alert("OK");
             this.http.post(url, body, { headers: headers }).map(function (res) {
                 return res.json();
             }).subscribe(function (data) {
                 if (data.status == 200) {
-                    _this.addFailed = false;
-                    var t = Toast.create({
-                        message: '添加成功！',
-                        duration: 2000
-                    });
-                    _this.nav.present(t);
-                    _this.result = JSON.parse(data.data);
+                    _this.showAlert('注册成功！', '已向您邮箱发送一封激活邮件，点击激活后即可登录。', nav);
                 } else {
-                    var _t = Toast.create({
-                        message: '添加失败...',
-                        duration: 2000
-                    });
-                    _this.nav.present(_t);
-                    _this.addFailed = true;
-                    _this.result = null;
+                    _this.showToast('注册失败...', 2000, nav);
                 }
             }, function (error) {
-                var t = Toast.create({
-                    message: '无法连接到服务器...',
-                    duration: 3000
-                });
-                _this.nav.present(t);
+                _this.showToast('无法连接到服务器...', 2000, nav);
             });
-            // this.user.setAuth(access_token, refresh_token);
+        }
+    }, {
+        key: 'register',
+        value: function register(email, nickname, password, nav) {
+            var _this2 = this;
+
+            var url = this.BASE_URL + 'auth/login';
+            var body = JSON.stringify({ 'email': email, 'password': password });
+            var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+            this.http.post(url, body, { headers: headers }).map(function (res) {
+                return res.json();
+            }).subscribe(function (data) {
+                if (data.status == 200) {
+                    _this2.showToast('登录成功！', 2000, nav);
+                    nav.setRoot(_tabs.TabsPage);
+                    nav.pop();
+                    nav.present(t);
+                    _this2.config.setAuth(data.data.access_token, data.data.refresh_token);
+                } else {
+                    _this2.showToast('用户名或密码不正确...', 2000, nav);
+                }
+            }, function (error) {
+                _this2.showToast('无法连接到服务器...', 2000, nav);
+            });
         }
     }, {
         key: 'load',
         value: function load() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.data) {
                 // already loaded data
@@ -928,20 +948,41 @@ var Data = exports.Data = (_dec = (0, _core.Injectable)(), _dec(_class = functio
                 // We're using Angular Http provider to request the data,
                 // then on the response it'll map the JSON data to a parsed JS object.
                 // Next we process the data and resolve the promise with the new data.
-                _this2.http.get('data/data.json').subscribe(function (res) {
+                _this3.http.get('path/to/data.json').map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
                     // we've got back the raw data, now generate the core schedule data
                     // and save the data for later reference
-                    _this2.data = _this2.processData(res.json());
-                    resolve(_this2.data);
+                    _this3.data = data;
+                    resolve(_this3.data);
                 });
             });
         }
+    }], [{
+        key: 'showToast',
+        value: function showToast(msg, dur, nav) {
+            var t = _ionicAngular.Toast.create({
+                message: msg,
+                duration: dur
+            });
+            nav.present(t);
+        }
+    }, {
+        key: 'showAlert',
+        value: function showAlert(title, sub, nav) {
+            var t = _ionicAngular.Alert.create({
+                title: title,
+                subTitle: sub,
+                buttons: ['OK']
+            });
+            nav.present(t);
+        }
     }]);
 
-    return Data;
+    return DataService;
 }()) || _class);
 
-},{"./user_config":10,"angular2/core":19,"angular2/http":20,"rxjs/Rx":424}],10:[function(require,module,exports){
+},{"../pages/tabs/tabs":8,"./user-config":10,"angular2/core":19,"angular2/http":20,"ionic-angular":350,"rxjs/add/operator/map":481}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -988,6 +1029,7 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
         value: function setAuth(access_token, refresh_token) {
             this.storage.set(this.ACCESS_TOKEN, access_token);
             this.storage.set(this.REFRESH_TOKEN, refresh_token);
+            this.storage.set(this.LOGIN, true);
         }
     }, {
         key: 'getAuth',
@@ -83080,7 +83122,376 @@ function tryCatch(fn) {
 exports.tryCatch = tryCatch;
 ;
 
-},{"./errorObject":656}]},{},[1])
+},{"./errorObject":656}],671:[function(require,module,exports){
+/*
+
+TypeScript Md5
+==============
+
+Based on work by
+* Joseph Myers: http://www.myersdaily.org/joseph/javascript/md5-text.html
+* André Cruz: https://github.com/satazor/SparkMD5
+* Raymond Hill: https://github.com/gorhill/yamd5.js
+
+Effectively a TypeScrypt re-write of Raymond Hill JS Library
+
+The MIT License (MIT)
+
+Copyright (C) 2014 Raymond Hill
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+                    Version 2, December 2004
+
+ Copyright (C) 2015 André Cruz <amdfcruz@gmail.com>
+
+ Everyone is permitted to copy and distribute verbatim or modified
+ copies of this license document, and changing it is allowed as long
+ as the name is changed.
+
+            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+  0. You just DO WHAT THE FUCK YOU WANT TO.
+  
+
+*/
+var Md5 = (function () {
+    function Md5() {
+        this._state = new Int32Array(4);
+        this._buffer = new ArrayBuffer(68);
+        this._buffer8 = new Uint8Array(this._buffer, 0, 68);
+        this._buffer32 = new Uint32Array(this._buffer, 0, 17);
+        this.start();
+    }
+    // One time hashing functions
+    Md5.hashStr = function (str, raw) {
+        if (raw === void 0) { raw = false; }
+        return this.onePassHasher
+            .start()
+            .appendStr(str)
+            .end(raw);
+    };
+    ;
+    Md5.hashAsciiStr = function (str, raw) {
+        if (raw === void 0) { raw = false; }
+        return this.onePassHasher
+            .start()
+            .appendAsciiStr(str)
+            .end(raw);
+    };
+    ;
+    Md5.prototype.start = function () {
+        this._dataLength = 0;
+        this._bufferLength = 0;
+        this._state.set(Md5.stateIdentity);
+        return this;
+    };
+    // Char to code point to to array conversion:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/charCodeAt
+    // #Example.3A_Fixing_charCodeAt_to_handle_non-Basic-Multilingual-Plane_characters_if_their_presence_earlier_in_the_string_is_unknown
+    Md5.prototype.appendStr = function (str) {
+        var buf8 = this._buffer8, buf32 = this._buffer32, bufLen = this._bufferLength, code, i;
+        for (i = 0; i < str.length; i += 1) {
+            code = str.charCodeAt(i);
+            if (code < 128) {
+                buf8[bufLen++] = code;
+            }
+            else if (code < 0x800) {
+                buf8[bufLen++] = (code >>> 6) + 0xC0;
+                buf8[bufLen++] = code & 0x3F | 0x80;
+            }
+            else if (code < 0xD800 || code > 0xDBFF) {
+                buf8[bufLen++] = (code >>> 12) + 0xE0;
+                buf8[bufLen++] = (code >>> 6 & 0x3F) | 0x80;
+                buf8[bufLen++] = (code & 0x3F) | 0x80;
+            }
+            else {
+                code = ((code - 0xD800) * 0x400) + (str.charCodeAt(++i) - 0xDC00) + 0x10000;
+                if (code > 0x10FFFF) {
+                    throw 'Unicode standard supports code points up to U+10FFFF';
+                }
+                buf8[bufLen++] = (code >>> 18) + 0xF0;
+                buf8[bufLen++] = (code >>> 12 & 0x3F) | 0x80;
+                buf8[bufLen++] = (code >>> 6 & 0x3F) | 0x80;
+                buf8[bufLen++] = (code & 0x3F) | 0x80;
+            }
+            if (bufLen >= 64) {
+                this._dataLength += 64;
+                Md5._md5cycle(this._state, buf32);
+                bufLen -= 64;
+                buf32[0] = buf32[16];
+            }
+        }
+        this._bufferLength = bufLen;
+        return this;
+    };
+    Md5.prototype.appendAsciiStr = function (str) {
+        var buf8 = this._buffer8, buf32 = this._buffer32, bufLen = this._bufferLength, i, j = 0;
+        for (;;) {
+            i = Math.min(str.length - j, 64 - bufLen);
+            while (i--) {
+                buf8[bufLen++] = str.charCodeAt(j++);
+            }
+            if (bufLen < 64) {
+                break;
+            }
+            this._dataLength += 64;
+            Md5._md5cycle(this._state, buf32);
+            bufLen = 0;
+        }
+        this._bufferLength = bufLen;
+        return this;
+    };
+    Md5.prototype.appendByteArray = function (input) {
+        var buf8 = this._buffer8, buf32 = this._buffer32, bufLen = this._bufferLength, i, j = 0;
+        for (;;) {
+            i = Math.min(input.length - j, 64 - bufLen);
+            while (i--) {
+                buf8[bufLen++] = input[j++];
+            }
+            if (bufLen < 64) {
+                break;
+            }
+            this._dataLength += 64;
+            Md5._md5cycle(this._state, buf32);
+            bufLen = 0;
+        }
+        this._bufferLength = bufLen;
+        return this;
+    };
+    Md5.prototype.getState = function () {
+        var self = this, s = self._state;
+        return {
+            buffer: String.fromCharCode.apply(null, self._buffer8),
+            buflen: self._bufferLength,
+            length: self._dataLength,
+            state: [s[0], s[1], s[2], s[3]]
+        };
+    };
+    Md5.prototype.setState = function (state) {
+        var buf = state.buffer, x = state.state, s = this._state, i;
+        this._dataLength = state.length;
+        this._bufferLength = state.buflen;
+        s[0] = x[0];
+        s[1] = x[1];
+        s[2] = x[2];
+        s[3] = x[3];
+        for (i = 0; i < buf.length; i += 1) {
+            this._buffer8[i] = buf.charCodeAt(i);
+        }
+    };
+    Md5.prototype.end = function (raw) {
+        if (raw === void 0) { raw = false; }
+        var bufLen = this._bufferLength, buf8 = this._buffer8, buf32 = this._buffer32, i = (bufLen >> 2) + 1, dataBitsLen;
+        this._dataLength += bufLen;
+        buf8[bufLen] = 0x80;
+        buf8[bufLen + 1] = buf8[bufLen + 2] = buf8[bufLen + 3] = 0;
+        buf32.set(Md5.buffer32Identity.subarray(i), i);
+        if (bufLen > 55) {
+            Md5._md5cycle(this._state, buf32);
+            buf32.set(Md5.buffer32Identity);
+        }
+        // Do the final computation based on the tail and length
+        // Beware that the final length may not fit in 32 bits so we take care of that
+        dataBitsLen = this._dataLength * 8;
+        if (dataBitsLen <= 0xFFFFFFFF) {
+            buf32[14] = dataBitsLen;
+        }
+        else {
+            var matches = dataBitsLen.toString(16).match(/(.*?)(.{0,8})$/), lo = parseInt(matches[2], 16), hi = parseInt(matches[1], 16) || 0;
+            buf32[14] = lo;
+            buf32[15] = hi;
+        }
+        Md5._md5cycle(this._state, buf32);
+        return raw ? this._state : Md5._hex(this._state);
+    };
+    Md5._hex = function (x) {
+        var hc = Md5.hexChars, ho = Md5.hexOut, n, offset, j, i;
+        for (i = 0; i < 4; i += 1) {
+            offset = i * 8;
+            n = x[i];
+            for (j = 0; j < 8; j += 2) {
+                ho[offset + 1 + j] = hc.charAt(n & 0x0F);
+                n >>>= 4;
+                ho[offset + 0 + j] = hc.charAt(n & 0x0F);
+                n >>>= 4;
+            }
+        }
+        return ho.join('');
+    };
+    Md5._md5cycle = function (x, k) {
+        var a = x[0], b = x[1], c = x[2], d = x[3];
+        // ff()
+        a += (b & c | ~b & d) + k[0] - 680876936 | 0;
+        a = (a << 7 | a >>> 25) + b | 0;
+        d += (a & b | ~a & c) + k[1] - 389564586 | 0;
+        d = (d << 12 | d >>> 20) + a | 0;
+        c += (d & a | ~d & b) + k[2] + 606105819 | 0;
+        c = (c << 17 | c >>> 15) + d | 0;
+        b += (c & d | ~c & a) + k[3] - 1044525330 | 0;
+        b = (b << 22 | b >>> 10) + c | 0;
+        a += (b & c | ~b & d) + k[4] - 176418897 | 0;
+        a = (a << 7 | a >>> 25) + b | 0;
+        d += (a & b | ~a & c) + k[5] + 1200080426 | 0;
+        d = (d << 12 | d >>> 20) + a | 0;
+        c += (d & a | ~d & b) + k[6] - 1473231341 | 0;
+        c = (c << 17 | c >>> 15) + d | 0;
+        b += (c & d | ~c & a) + k[7] - 45705983 | 0;
+        b = (b << 22 | b >>> 10) + c | 0;
+        a += (b & c | ~b & d) + k[8] + 1770035416 | 0;
+        a = (a << 7 | a >>> 25) + b | 0;
+        d += (a & b | ~a & c) + k[9] - 1958414417 | 0;
+        d = (d << 12 | d >>> 20) + a | 0;
+        c += (d & a | ~d & b) + k[10] - 42063 | 0;
+        c = (c << 17 | c >>> 15) + d | 0;
+        b += (c & d | ~c & a) + k[11] - 1990404162 | 0;
+        b = (b << 22 | b >>> 10) + c | 0;
+        a += (b & c | ~b & d) + k[12] + 1804603682 | 0;
+        a = (a << 7 | a >>> 25) + b | 0;
+        d += (a & b | ~a & c) + k[13] - 40341101 | 0;
+        d = (d << 12 | d >>> 20) + a | 0;
+        c += (d & a | ~d & b) + k[14] - 1502002290 | 0;
+        c = (c << 17 | c >>> 15) + d | 0;
+        b += (c & d | ~c & a) + k[15] + 1236535329 | 0;
+        b = (b << 22 | b >>> 10) + c | 0;
+        // gg()
+        a += (b & d | c & ~d) + k[1] - 165796510 | 0;
+        a = (a << 5 | a >>> 27) + b | 0;
+        d += (a & c | b & ~c) + k[6] - 1069501632 | 0;
+        d = (d << 9 | d >>> 23) + a | 0;
+        c += (d & b | a & ~b) + k[11] + 643717713 | 0;
+        c = (c << 14 | c >>> 18) + d | 0;
+        b += (c & a | d & ~a) + k[0] - 373897302 | 0;
+        b = (b << 20 | b >>> 12) + c | 0;
+        a += (b & d | c & ~d) + k[5] - 701558691 | 0;
+        a = (a << 5 | a >>> 27) + b | 0;
+        d += (a & c | b & ~c) + k[10] + 38016083 | 0;
+        d = (d << 9 | d >>> 23) + a | 0;
+        c += (d & b | a & ~b) + k[15] - 660478335 | 0;
+        c = (c << 14 | c >>> 18) + d | 0;
+        b += (c & a | d & ~a) + k[4] - 405537848 | 0;
+        b = (b << 20 | b >>> 12) + c | 0;
+        a += (b & d | c & ~d) + k[9] + 568446438 | 0;
+        a = (a << 5 | a >>> 27) + b | 0;
+        d += (a & c | b & ~c) + k[14] - 1019803690 | 0;
+        d = (d << 9 | d >>> 23) + a | 0;
+        c += (d & b | a & ~b) + k[3] - 187363961 | 0;
+        c = (c << 14 | c >>> 18) + d | 0;
+        b += (c & a | d & ~a) + k[8] + 1163531501 | 0;
+        b = (b << 20 | b >>> 12) + c | 0;
+        a += (b & d | c & ~d) + k[13] - 1444681467 | 0;
+        a = (a << 5 | a >>> 27) + b | 0;
+        d += (a & c | b & ~c) + k[2] - 51403784 | 0;
+        d = (d << 9 | d >>> 23) + a | 0;
+        c += (d & b | a & ~b) + k[7] + 1735328473 | 0;
+        c = (c << 14 | c >>> 18) + d | 0;
+        b += (c & a | d & ~a) + k[12] - 1926607734 | 0;
+        b = (b << 20 | b >>> 12) + c | 0;
+        // hh()
+        a += (b ^ c ^ d) + k[5] - 378558 | 0;
+        a = (a << 4 | a >>> 28) + b | 0;
+        d += (a ^ b ^ c) + k[8] - 2022574463 | 0;
+        d = (d << 11 | d >>> 21) + a | 0;
+        c += (d ^ a ^ b) + k[11] + 1839030562 | 0;
+        c = (c << 16 | c >>> 16) + d | 0;
+        b += (c ^ d ^ a) + k[14] - 35309556 | 0;
+        b = (b << 23 | b >>> 9) + c | 0;
+        a += (b ^ c ^ d) + k[1] - 1530992060 | 0;
+        a = (a << 4 | a >>> 28) + b | 0;
+        d += (a ^ b ^ c) + k[4] + 1272893353 | 0;
+        d = (d << 11 | d >>> 21) + a | 0;
+        c += (d ^ a ^ b) + k[7] - 155497632 | 0;
+        c = (c << 16 | c >>> 16) + d | 0;
+        b += (c ^ d ^ a) + k[10] - 1094730640 | 0;
+        b = (b << 23 | b >>> 9) + c | 0;
+        a += (b ^ c ^ d) + k[13] + 681279174 | 0;
+        a = (a << 4 | a >>> 28) + b | 0;
+        d += (a ^ b ^ c) + k[0] - 358537222 | 0;
+        d = (d << 11 | d >>> 21) + a | 0;
+        c += (d ^ a ^ b) + k[3] - 722521979 | 0;
+        c = (c << 16 | c >>> 16) + d | 0;
+        b += (c ^ d ^ a) + k[6] + 76029189 | 0;
+        b = (b << 23 | b >>> 9) + c | 0;
+        a += (b ^ c ^ d) + k[9] - 640364487 | 0;
+        a = (a << 4 | a >>> 28) + b | 0;
+        d += (a ^ b ^ c) + k[12] - 421815835 | 0;
+        d = (d << 11 | d >>> 21) + a | 0;
+        c += (d ^ a ^ b) + k[15] + 530742520 | 0;
+        c = (c << 16 | c >>> 16) + d | 0;
+        b += (c ^ d ^ a) + k[2] - 995338651 | 0;
+        b = (b << 23 | b >>> 9) + c | 0;
+        // ii()
+        a += (c ^ (b | ~d)) + k[0] - 198630844 | 0;
+        a = (a << 6 | a >>> 26) + b | 0;
+        d += (b ^ (a | ~c)) + k[7] + 1126891415 | 0;
+        d = (d << 10 | d >>> 22) + a | 0;
+        c += (a ^ (d | ~b)) + k[14] - 1416354905 | 0;
+        c = (c << 15 | c >>> 17) + d | 0;
+        b += (d ^ (c | ~a)) + k[5] - 57434055 | 0;
+        b = (b << 21 | b >>> 11) + c | 0;
+        a += (c ^ (b | ~d)) + k[12] + 1700485571 | 0;
+        a = (a << 6 | a >>> 26) + b | 0;
+        d += (b ^ (a | ~c)) + k[3] - 1894986606 | 0;
+        d = (d << 10 | d >>> 22) + a | 0;
+        c += (a ^ (d | ~b)) + k[10] - 1051523 | 0;
+        c = (c << 15 | c >>> 17) + d | 0;
+        b += (d ^ (c | ~a)) + k[1] - 2054922799 | 0;
+        b = (b << 21 | b >>> 11) + c | 0;
+        a += (c ^ (b | ~d)) + k[8] + 1873313359 | 0;
+        a = (a << 6 | a >>> 26) + b | 0;
+        d += (b ^ (a | ~c)) + k[15] - 30611744 | 0;
+        d = (d << 10 | d >>> 22) + a | 0;
+        c += (a ^ (d | ~b)) + k[6] - 1560198380 | 0;
+        c = (c << 15 | c >>> 17) + d | 0;
+        b += (d ^ (c | ~a)) + k[13] + 1309151649 | 0;
+        b = (b << 21 | b >>> 11) + c | 0;
+        a += (c ^ (b | ~d)) + k[4] - 145523070 | 0;
+        a = (a << 6 | a >>> 26) + b | 0;
+        d += (b ^ (a | ~c)) + k[11] - 1120210379 | 0;
+        d = (d << 10 | d >>> 22) + a | 0;
+        c += (a ^ (d | ~b)) + k[2] + 718787259 | 0;
+        c = (c << 15 | c >>> 17) + d | 0;
+        b += (d ^ (c | ~a)) + k[9] - 343485551 | 0;
+        b = (b << 21 | b >>> 11) + c | 0;
+        x[0] = a + x[0] | 0;
+        x[1] = b + x[1] | 0;
+        x[2] = c + x[2] | 0;
+        x[3] = d + x[3] | 0;
+    };
+    Md5.stateIdentity = new Int32Array([1732584193, -271733879, -1732584194, 271733878]);
+    Md5.buffer32Identity = new Int32Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    Md5.hexChars = '0123456789abcdef';
+    Md5.hexOut = [];
+    // Permanent instance is to use for one-call hashing
+    Md5.onePassHasher = new Md5();
+    return Md5;
+})();
+exports.Md5 = Md5;
+if (Md5.hashStr('hello') !== '5d41402abc4b2a76b9719d911017c592') {
+    console.error('Md5 self test failed.');
+}
+
+},{}]},{},[1])
 
 
 //# sourceMappingURL=app.bundle.js.map
