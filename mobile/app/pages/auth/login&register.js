@@ -1,20 +1,19 @@
 import {Page, Modal, NavController, ViewController, NavParams} from 'ionic-angular';
-import {Data} from '../../providers/data';
+import {DataService} from '../../providers/data-service';
+
 
 @Page({
-    templateUrl: 'build/pages/auth/login&register.html',
-    providers: [Data]
+    templateUrl: 'build/pages/auth/login&register.html'
 })
-
 export class LoginAndRegister {
     static get parameters() {
-        return [NavController];
+        return [[NavController], [DataService]];
     }
 
     constructor(nav, data) {
         this.auth = 'login';
         this.nav = nav;
-        this.data = Data;
+        this.data = data;
     }
 
     register() {
@@ -34,17 +33,17 @@ export class LoginAndRegister {
 }
 
 @Page({
-    templateUrl: 'build/pages/auth/reset_passwd.html'
+    templateUrl: 'build/pages/auth/reset-passwd.html'
 })
-
 class ResetPasswd {
     static get parameters() {
-        return [ViewController, NavParams];
+        return [ViewController, NavParams, DataService];
     }
 
-    constructor(viewCtrl, param) {
+    constructor(viewCtrl, param, data) {
         this.viewCtrl = viewCtrl;
         this.reset_mail = param.get('mail');
+        this.data = data;
     }
 
     dismiss() {

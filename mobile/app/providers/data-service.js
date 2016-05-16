@@ -1,19 +1,25 @@
 import {Injectable} from 'angular2/core';
-import {UserConfig} from './user_config';
 import {Http, Headers} from 'angular2/http';
-import 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import {UserConfig} from './user-config';
 
-@Injectable
-export class Data {
+/*
+ Generated class for the DataService provider.
 
-    static get parameters(){
-        return [[Http], [UserConfig]];
+ See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+ for more info on providers and Angular 2 DI.
+ */
+@Injectable()
+export class DataService {
+    static get parameters() {
+        return [[Http], [UserConfig]]
     }
 
-    constructor(http, user) {
+    constructor(http, config) {
         this.http = http;
-        this.user = user;
-        this.BASE_URL = "http://www.lhzbxx.top:9900/";
+        this.data = null;
+        this.config = config;
+        this.BASE_URL = "http://115.28.71.169:9900/";
     }
 
     login(email, password) {
@@ -61,15 +67,15 @@ export class Data {
             // We're using Angular Http provider to request the data,
             // then on the response it'll map the JSON data to a parsed JS object.
             // Next we process the data and resolve the promise with the new data.
-            this.http.get('data/data.json').subscribe(res => {
-                // we've got back the raw data, now generate the core schedule data
-                // and save the data for later reference
-                this.data = this.processData(res.json());
-                resolve(this.data);
-            });
+            this.http.get('path/to/data.json')
+                .map(res => res.json())
+                .subscribe(data => {
+                    // we've got back the raw data, now generate the core schedule data
+                    // and save the data for later reference
+                    this.data = data;
+                    resolve(this.data);
+                });
         });
     }
-
-
-
 }
+

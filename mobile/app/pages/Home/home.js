@@ -1,13 +1,12 @@
 import {Page, Toast, ActionSheet, NavController, Platform, Alert} from 'ionic-angular';
 import {Search} from './search';
-import {UserConfig} from '../../providers/user_config'
+import {UserConfig} from '../../providers/user-config'
 import {Http} from 'angular2/http';
 import {TimeAgoPipe} from 'angular2-moment';
 import 'rxjs/Rx';
 
 @Page({
     pipes: [TimeAgoPipe],
-    providers: [UserConfig],
     templateUrl: 'build/pages/home/home.html'
 })
 
