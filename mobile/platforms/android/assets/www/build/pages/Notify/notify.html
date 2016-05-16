@@ -6,6 +6,9 @@
         <button (click)="readAll()">
             <ion-icon name="done-all"></ion-icon>
         </button>
+        <button (click)="refresh()">
+            <ion-icon name="refresh"></ion-icon>
+        </button>
     </ion-buttons>
 </ion-navbar>
 
@@ -14,9 +17,9 @@
         <!--<ion-refresher-content></ion-refresher-content>-->
     <!--</ion-refresher>-->
     <ion-list>
-        <!--<ion-item *ngIf="notifications.length==1">暂无任何通知消息</ion-item>-->
-        <ion-spinner align="center" *ngIf="!notifications"></ion-spinner>
-        <!--<ion-list-header *ngIf="notifications.length>1">开播通知</ion-list-header>-->
+        <ion-spinner *ngIf="!notifications"></ion-spinner>
+        <ion-item *ngIf="notifications&&notifications.length==0">暂无任何通知消息</ion-item>
+        <ion-list-header *ngIf="notifications&&notifications.length>=1">开播通知</ion-list-header>
         <ion-item-sliding *ngFor="#notification of notifications">
             <ion-item>
                 <ion-thumbnail item-left>

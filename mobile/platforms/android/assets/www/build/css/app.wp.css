@@ -8517,3 +8517,7 @@ ion-refresher {
   position: fixed;
   right: 0;
   bottom: 50px; }
+
+.notify ion-spinner {
+  display: block;
+  margin: auto; }

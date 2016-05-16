@@ -1,6 +1,7 @@
 import {App, Platform, Toast, Storage, SqlStorage} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
+import {LoginAndRegister} from './pages/auth/login&register'
 
 
 @App({
@@ -13,7 +14,8 @@ export class MyApp {
     }
 
     constructor(platform) {
-        this.rootPage = TabsPage;
+        this.rootPage = LoginAndRegister;
+        // this.rootPage = TabsPage;
         // this.nav = navController;
         platform.ready().then(() => {
             // Okay, so the platform is ready and our plugins are available.

@@ -1,0 +1,48 @@
+<ion-navbar *navbar primary>
+    <ion-title>Follow3</ion-title>
+</ion-navbar>
+
+<ion-content padding>
+    <div>
+        <ion-segment [(ngModel)]="auth">
+            <ion-segment-button value="login">
+                登录
+            </ion-segment-button>
+            <ion-segment-button value="register">
+                注册
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+    <br>
+    <div [ngSwitch]="auth">
+        <ion-list *ngSwitchWhen="'login'">
+            <ion-item>
+                <ion-label fixed>邮箱</ion-label>
+                <ion-input type="email" [(ngModel)]="login_mail"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label fixed>密码</ion-label>
+                <ion-input type="password" [(ngModel)]="login_passwd"></ion-input>
+            </ion-item>
+            <button danger outline right>忘记密码</button>
+            <br>
+            <button block (click)="login()">登录</button>
+        </ion-list>
+        <ion-list *ngSwitchWhen="'register'">
+            <ion-item>
+                <ion-label fixed>邮箱</ion-label>
+                <ion-input type="text" [(ngModel)]="register_mail"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label fixed>昵称</ion-label>
+                <ion-input type="text" [(ngModel)]="register_nickname"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label fixed>密码</ion-label>
+                <ion-input type="password" [(ngModel)]="register_passwd"></ion-input>
+            </ion-item>
+            <br>
+            <button block (click)="register()">注册</button>
+        </ion-list>
+    </div>
+</ion-content>

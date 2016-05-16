@@ -20,6 +20,7 @@ export class Notify {
     }
 
     refresh() {
+        this.notifications = null;
         this.platform.ready().then(() => {
             this.storage.query('SELECT * FROM notifications ORDER BY id DESC').then((data) => {
                 this.notifications = [];
@@ -64,7 +65,7 @@ export class Notify {
                 {
                     text: '取消',
                     handler: () => {
-                        //
+                        // Cancel
                     }
                 },
                 {
