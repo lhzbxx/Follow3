@@ -5,6 +5,9 @@ import {UserConfig} from './user_config';
 
 @Injectable()
 export class ConferenceData {
+
+    BASE_URL = "http://www.lhzbxx.top:9900/";
+
     static get parameters(){
         return [[Http], [UserConfig]];
     }
@@ -13,7 +16,6 @@ export class ConferenceData {
         // inject the Http provider and set to this instance
         this.http = http;
         this.user = user;
-        this.BASE_URL = "http://www.lhzbxx.top:9900/"
     }
 
     load() {

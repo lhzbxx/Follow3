@@ -113,7 +113,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.LoginAndRegister = undefined;
 
-var _dec, _class;
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _dec, _class, _dec2, _class2;
 
 var _ionicAngular = require('ionic-angular');
 
@@ -121,11 +123,75 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page)({
     templateUrl: 'build/pages/auth/login&register.html'
-}), _dec(_class = function LoginAndRegister() {
-    _classCallCheck(this, LoginAndRegister);
+}), _dec(_class = function () {
+    _createClass(LoginAndRegister, null, [{
+        key: 'parameters',
+        get: function get() {
+            return [_ionicAngular.NavController];
+        }
+    }]);
 
-    this.auth = 'login';
-}) || _class);
+    function LoginAndRegister(nav) {
+        _classCallCheck(this, LoginAndRegister);
+
+        this.auth = 'login';
+        this.nav = nav;
+    }
+
+    _createClass(LoginAndRegister, [{
+        key: 'register',
+        value: function register() {
+            this.login_mail = this.register_mail;
+            this.login_passwd = this.register_passwd;
+            this.auth = 'login';
+        }
+    }, {
+        key: 'login',
+        value: function login() {}
+    }, {
+        key: 'showResetPasswd',
+        value: function showResetPasswd() {
+            // if (this.login_mail) {
+            //     let resetPasswd = Modal.create(ResetPasswd, { mail: this.login_mail });
+            // } else {
+            //     let resetPasswd = Modal.create(ResetPasswd);
+            // }
+            var resetPasswd = _ionicAngular.Modal.create(ResetPasswd, { mail: this.login_mail });
+            this.nav.present(resetPasswd);
+        }
+    }]);
+
+    return LoginAndRegister;
+}()) || _class);
+var ResetPasswd = (_dec2 = (0, _ionicAngular.Page)({
+    templateUrl: 'build/pages/auth/reset_passwd.html'
+}), _dec2(_class2 = function () {
+    _createClass(ResetPasswd, null, [{
+        key: 'parameters',
+        get: function get() {
+            return [_ionicAngular.ViewController, _ionicAngular.NavParams];
+        }
+    }]);
+
+    function ResetPasswd(viewCtrl, param) {
+        _classCallCheck(this, ResetPasswd);
+
+        this.viewCtrl = viewCtrl;
+        this.reset_mail = param.get('mail');
+    }
+
+    _createClass(ResetPasswd, [{
+        key: 'dismiss',
+        value: function dismiss() {
+            this.viewCtrl.dismiss();
+        }
+    }, {
+        key: 'reset',
+        value: function reset() {}
+    }]);
+
+    return ResetPasswd;
+}()) || _class2);
 
 },{"ionic-angular":349}],3:[function(require,module,exports){
 'use strict';

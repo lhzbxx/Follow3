@@ -1,12 +1,15 @@
-import {Page, Modal, NavController} from 'ionic-angular';
-import {ResetPasswd} from './reset_passwd';
+import {Page, Modal, NavController, ViewController, NavParams} from 'ionic-angular';
 
 @Page({
     templateUrl: 'build/pages/auth/login&register.html'
 })
 
 export class LoginAndRegister {
-    constructor(nav: NavController) {
+    static get parameters() {
+        return [NavController];
+    }
+
+    constructor(nav) {
         this.auth = 'login';
         this.nav = nav;
     }
@@ -22,9 +25,35 @@ export class LoginAndRegister {
     }
     
     showResetPasswd() {
-        let resetPasswd = Modal.create(ResetPasswd, { mail: this.login_mail });
+        // if (this.login_mail) {
+        //     let resetPasswd = Modal.create(ResetPasswd, { mail: this.login_mail });
+        // } else {
+        //     let resetPasswd = Modal.create(ResetPasswd);
+        // }
+        let resetPasswd = Modal.create(ResetPasswd, {mail: this.login_mail});
         this.nav.present(resetPasswd);
     }
 }
 
+@Page({
+    templateUrl: 'build/pages/auth/reset_passwd.html'
+})
 
+class ResetPasswd {
+    static get parameters() {
+        return [ViewController, NavParams];
+    }
+
+    constructor(viewCtrl, param) {
+        this.viewCtrl = viewCtrl;
+        this.reset_mail = param.get('mail');
+    }
+
+    dismiss() {
+        this.viewCtrl.dismiss();
+    }
+
+    reset() {
+
+    }
+}

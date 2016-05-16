@@ -1,4 +1,19 @@
-<ion-content>
+<style>
+    .reset_password .ion-md-close {
+        color: white;
+    }
+</style>
+<ion-toolbar primary class="reset_password">
+    <ion-title>
+        重设密码
+    </ion-title>
+    <ion-buttons start>
+        <button (click)="dismiss()">
+            <ion-icon name="close"></ion-icon>
+        </button>
+    </ion-buttons>
+</ion-toolbar>
+<ion-content padding>
     <ion-list>
         <ion-item>
             <ion-label fixed>邮箱</ion-label>
