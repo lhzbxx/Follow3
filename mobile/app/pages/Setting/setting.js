@@ -92,7 +92,28 @@ export class Setting {
     
     resetPassword() {
         let t = Alert.create({
-
+            title: '重设密码',
+            message: "输入新的密码...",
+            inputs: [
+                {
+                    name: 'password',
+                    placeholder: 'Password...'
+                },
+            ],
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: data => {
+                        // Cancel
+                    }
+                },
+                {
+                    text: 'Reset',
+                    handler: data => {
+                        this.data.resetPassword(this.mail, data, this.nav);
+                    }
+                }
+            ]
         });
         this.nav.present(t);
     }
@@ -102,7 +123,26 @@ export class Setting {
         // this.nav.pop();
         this.config.logout();
     }
-    
+
+    autoNotify() {
+        this.settings.isAutoNotify = !this.settings.isAutoNotify;
+        this.config.setIsAutoNotify(this.settings.isAutoNotify);
+    }
+
+    appNotify() {
+        this.settings.isAppNotify = !this.settings.isAppNotify;
+        this.config.setIsAppNotify(this.settings.isAppNotify);
+    }
+
+    noDisturb() {
+        let t = Alert.create({
+            title: '抱歉',
+            subTitle: '该功能还未开放。',
+            buttons: ['OK']
+        });
+        this.nav.present(t);
+    }
+
     rateMe() {
         var customLocale = {};
         customLocale.title = "给Follow3评分";

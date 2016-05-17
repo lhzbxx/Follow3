@@ -1,6 +1,8 @@
 import {Page, Toast, ActionSheet, NavController, Platform, Alert} from 'ionic-angular';
 import {Search} from './search';
-import {UserConfig} from '../../providers/user-config'
+import {UserConfig} from '../../providers/user-config';
+import {DataService} from '../../providers/data-service';
+import {ActionService} from '../../providers/action-service';
 import {Http} from 'angular2/http';
 import {TimeAgoPipe} from 'angular2-moment';
 import 'rxjs/Rx';
@@ -12,16 +14,17 @@ import 'rxjs/Rx';
 
 export class Home {
     static get parameters() {
-        return [Http, NavController, Platform, UserConfig];
+        return [Http, NavController, Platform, UserConfig, DataService, ActionService];
     }
 
-    constructor(http, nav, platform, config) {
+    constructor(http, nav, platform, config, data, action) {
         this.http = http;
-        this.fetch(null);
         this.search = Search;
         this.nav = nav;
         this.platform = platform;
         this.config = config;
+        this.data = data;
+        this.action = action;
         this.setting = {
             showOnlyOnline: false,
             autoOpenApp: false,
@@ -43,23 +46,26 @@ export class Home {
             }
         );
         this.platform.ready();
+        this.fetch(null);
     }
 
     fetch(refresher) {
-        this.http.get('http://www.lhzbxx.top:9900/user/follow?access_token=fKCixnowbvDYIxWJ')
-            .map(res => res.json())
-            .subscribe(data => {
-                this.stars = data.data;
-                if (refresher) {
-                    refresher.complete()
+        this.data.fetchStars(this.setting.showOnlyOnline, this.setting.orderByFollow, this.nav)
+            .then(
+                data => {
+                    this.stars = data;
+                    if (refresher) {
+                        refresher.complete();
+                    }
                 }
-            }, error => {
-                let t = Toast.create({
-                    message: '无法连接到服务器...',
-                    duration: 3000
-                });
-                this.nav.present(t)
-            });
+            )
+            .catch(
+                data => {
+                    if (refresher) {
+                        refresher.complete();
+                    }
+                }
+            );
     }
 
     doRefresh(refresher) {
@@ -75,50 +81,29 @@ export class Home {
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: () => {
                         this.platform.ready().then(() => {
-                            if (star.platform == 'PANDA') {
-                                cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
-                            }
-                            if (star.platform == 'DOUYU') {
-                                if (this.platform.is('ios')) {
-                                    cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
-                                } else if (this.platform.is('android')) {
-                                    cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=0&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
-                                } else {
-                                    cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                                }
-                            }
-                            if (star.platform == 'ZHANQI') {
-                                let info = JSON.parse(star.info);
-                                cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
-                            }
-                            if (star.platform == 'QUANMIN') {
-                                cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                            }
+                            this.action.watch(star, this.setting.autoOpenApp);
                         });
                     }
-                },{
+                }, {
                     text: '分享到...',
                     icon: !this.platform.is('ios') ? 'share' : null,
                     handler: () => {
                         this.platform.ready().then(() => {
-                            if (window.plugins.socialsharing) {
-                                // window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！",
-                                //     null, Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover),
-                                //     "http://www.lhzbxx.top");
-                                window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！",
-                                    null, null,
-                                    "http://www.lhzbxx.top");
-                            }
+                            this.action.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！");
                         });
                     }
-                },{
+                }, {
                     text: '取消关注',
                     icon: !this.platform.is('ios') ? 'remove-circle' : null,
                     role: 'destructive',
                     handler: () => {
-                        this.doRefresh(null);
+                        this.data.unfollowStar(star.id).then(
+                            data => {
+                                this.doRefresh(null);
+                            }
+                        );
                     }
-                },{
+                }, {
                     text: '取消',
                     role: 'cancel',
                     icon: !this.platform.is('ios') ? 'close' : null,
@@ -134,31 +119,39 @@ export class Home {
     showOptions() {
         let alert = Alert.create();
         alert.setTitle('Preference');
+        let context = this;
+        let showOnlyOnline = this.setting.showOnlyOnline;
+        let autoOpenApp = this.setting.autoOpenApp;
+        let orderByFollow = this.setting.orderByFollow;
         alert.addInput({
             type: 'checkbox',
             label: '仅显示在线主播',
             value: 'showOnlyOnline',
-            checked: this.setting.showOnlyOnline
+            checked: showOnlyOnline
         });
         alert.addInput({
             type: 'checkbox',
             label: '自动打开对应APP',
             value: 'autoOpenApp',
-            checked: this.setting.autoOpenApp
+            checked: autoOpenApp
         });
         alert.addInput({
             type: 'checkbox',
             label: '按照关注顺序排列',
             value: 'orderByFollow',
-            checked: this.setting.orderByFollow
+            checked: orderByFollow
         });
         alert.addButton('Cancel');
         alert.addButton({
             text: 'Confirm',
             handler: data => {
-                this.config.setPreference(data.indexOf('showOnlyOnline') > -1,
-                    data.indexOf('autoOpenApp') > -1,
-                    data.indexOf('orderByFollow') > -1);
+                context.config.setShowOnlyOnline(data.indexOf('showOnlyOnline') > -1);
+                context.config.setAutoOpenApp(data.indexOf('autoOpenApp') > -1);
+                context.config.setOrderByFollow(data.indexOf('orderByFollow') > -1);
+                context.setting.showOnlyOnline = data.indexOf('showOnlyOnline') > -1;
+                context.setting.autoOpenApp = data.indexOf('autoOpenApp') > -1;
+                context.setting.orderByFollow = data.indexOf('orderByFollow') > -1;
+                context.fetch(null);
             }
         });
         this.nav.present(alert);

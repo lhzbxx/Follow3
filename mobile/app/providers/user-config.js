@@ -123,6 +123,7 @@ export class UserConfig {
     }
     // todo: 初始化用户的所有数据
     init() {
-
+        this.setIsAppNotify(true);
+        this.setIsNoDisturb(false);
     }
 }

@@ -38,6 +38,7 @@ export class DataService {
                     // nav.pop();
                     this.config.setAuth(data.data.access_token, data.data.refresh_token);
                     this.profile();
+                    this.config.init();
                 } else {
                     this.showToast('用户名或密码不正确...', 2000, nav);
                 }
@@ -100,7 +101,6 @@ export class DataService {
                         if (data.status == 200) {
                             this.config.setAuth(data.data.access_token, data.data.refresh_token);
                         } else {
-                            // todo: 登出。
                             this.config.logout();
                         }
                     }, error => {
@@ -138,7 +138,7 @@ export class DataService {
                             this.config.setUserMail(data.data.email);
                             this.config.setUserId(data.data.id);
                             this.config.setUserNickname(data.data.nickname);
-                            this.config.setIsAutoNotify(data.data.is_auto_notify==1);
+                            this.config.setIsAutoNotify(data.data.is_auto_notify == 1);
                         } else {
                             // never.
                         }
@@ -147,6 +147,29 @@ export class DataService {
                     });
             }
         );
+    }
+
+    fetchStars(showOnlyOnline, orderByFollow, nav) {
+        var url = this.BASE_URL;
+        if (showOnlyOnline) {
+            url = url + 'user/follow/online';
+        } else {
+            url = url + 'user/follow';
+        }
+        return new Promise(resolve => {
+            this.config.getAccessToken().then(
+                token => {
+                    this.http.get(url + '?access_token=' + token)
+                        .map(res => res.json())
+                        .subscribe(data => {
+                            resolve(data.data);
+                        }, error => {
+                            this.showToast('无法连接到服务器...', 2000, nav);
+                            reject();
+                        });
+                }
+            );
+        });
     }
 
     resetPassword(email, password, nav) {
@@ -168,13 +191,45 @@ export class DataService {
                 });
         });
     }
-    
-    followStar() {
-        // todo: 关注
+
+    followStar(star_id) {
+        return new Promise(resolve => {
+            this.config.getAccessToken().then(
+                token => {
+                    let url = this.BASE_URL + 'user/follow/' + star_id;
+                    let body = JSON.stringify({'access_token': token});
+                    let headers = new Headers({'Content-Type': 'application/json'});
+                    this.http.post(url, body, {headers: headers})
+                        .map(res => res.json())
+                        .subscribe(data => {
+                            resolve();
+                        }, error => {
+                            this.showToast('无法连接到服务器...', 2000, nav);
+                            reject();
+                        });
+                }
+            );
+        });
     }
 
-    unfollowStar() {
-        // todo: 取消关注
+    unfollowStar(star_id) {
+        return new Promise(resolve => {
+            this.config.getAccessToken().then(
+                token => {
+                    let url = this.BASE_URL + 'user/follow/' + star_id;
+                    let body = JSON.stringify({'access_token': token});
+                    let headers = new Headers({'Content-Type': 'application/json'});
+                    this.http.delete(url, body, {headers: headers})
+                        .map(res => res.json())
+                        .subscribe(data => {
+                            resolve();
+                        }, error => {
+                            this.showToast('无法连接到服务器...', 2000, nav);
+                            reject();
+                        });
+                }
+            );
+        });
     }
 
     showToast(msg, dur, nav) {
