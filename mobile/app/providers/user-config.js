@@ -25,9 +25,10 @@ export class UserConfig {
         this.storage.set(this.REFRESH_TOKEN, refresh_token);
         this.storage.set(this.LOGIN, true);
     }
-    getAuth() {
-        return {'access_token': this.storage.get(this.ACCESS_TOKEN),
-            'refresh_token': this.storage.get(this.REFRESH_TOKEN)};
+    getAccessToken() {
+        return this.storage.get(this.ACCESS_TOKEN).then((value) => {
+            return value;
+        });
     }
     setPreference(showOnlyOnline, autoOpenApp, orderByFollow) {
         this.storage.set(this.SHOW_ONLY_ONLINE, showOnlyOnline);
@@ -44,45 +45,31 @@ export class UserConfig {
         this.storage.set(this.IS_APP_NOTIFY, isAppNotify);
         this.storage.set(this.IS_NO_DISTURB, isNoDisturb);
     }
-    getSetting() {
-        return {'isAutoNotify': this.storage.get(this.IS_AUTO_NOTIFY),
-            'isAppNotify': this.storage.get(this.IS_APP_NOTIFY),
-            'isNoDisturb': this.storage.get(this.IS_NO_DISTURB)}
-    }
-    hasFavorite(sessionName) {
-        return (this._favorites.indexOf(sessionName) > -1);
-    }
-
-    addFavorite(sessionName) {
-        this._favorites.push(sessionName);
-    }
-
-    removeFavorite(sessionName) {
-        let index = this._favorites.indexOf(sessionName)
-        if (index > -1) {
-            this._favorites.splice(index, 1);
-        }
-    }
-
-    login(username, password) {
-        this.storage.set(this.LOGIN, true);
-        this.events.publish('user:login');
-    }
-
-    signup(username, password) {
-        this.storage.set(this.LOGIN, true);
-        this.events.publish('user:signup');
-    }
-
     logout() {
         this.storage.remove(this.LOGIN);
-        this.events.publish('user:logout');
     }
-
-    // return a promise
     hasLoggedIn() {
         return this.storage.get(this.LOGIN).then((value) => {
             return value;
         });
+    }
+    isAutoNotify() {
+        return this.storage.get(this.IS_AUTO_NOTIFY).then((value) => {
+            return value;
+        });
+    }
+    isAppNotify() {
+        return this.storage.get(this.IS_APP_NOTIFY).then((value) => {
+            return value;
+        });
+    }
+    isNoDisturb() {
+        return this.storage.get(this.IS_NO_DISTURB).then((value) => {
+            return value;
+        });
+    }
+    // todo: 初始化用户的所有数据
+    init() {
+
     }
 }

@@ -1,4 +1,4 @@
-import {App, Platform, Toast, Storage, SqlStorage, LocalStorage} from 'ionic-angular';
+import {App, Platform, Toast, Storage, SqlStorage} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
 import {LoginAndRegister} from './pages/auth/login&register'
@@ -12,21 +12,23 @@ import {UserConfig} from './providers/user-config';
 })
 export class MyApp {
     static get parameters() {
-        return [[Platform]];
+        return [[Platform], [UserConfig]];
     }
 
-    constructor(platform) {
-        this.local = new Storage(LocalStorage);
+    constructor(platform, config) {
+        this.config = config;
         // this.nav = navController;
         platform.ready().then(() => {
             let context = this;
-            this.local.get('LOGIN').then(function (value) {
-                if (value) {
-                    context.rootPage = TabsPage;
-                } else {
-                    context.rootPage = LoginAndRegister;
+            this.config.hasLoggedIn().then(
+                function (value) {
+                    if (value) {
+                        context.rootPage = TabsPage;
+                    } else {
+                        context.rootPage = LoginAndRegister;
+                    }
                 }
-            });
+            );
             StatusBar.styleDefault();
             // if (platform.is('android'))
             //     StatusBar.backgroundColorByHexString("#25312C");

@@ -1,4 +1,6 @@
 import {Page, Alert, NavController} from 'ionic-angular';
+import {DataService} from '../../providers/data-service';
+import {UserConfig} from '../../providers/user-config';
 
 
 @Page({
@@ -6,16 +8,34 @@ import {Page, Alert, NavController} from 'ionic-angular';
 })
 export class Setting {
     static get parameters() {
-        return [NavController];
+        return [NavController, DataService, UserConfig];
     }
-    constructor(NavController) {
+    constructor(nav, data, config) {
+        this.nav = nav;
+        this.data = data;
+        this.config = config;
         this.settings = {
-            isAutoNotify: true,
-            isAppNotify: true,
+            isAutoNotify: false,
+            isAppNotify: false,
             isNoDisturb: false
         };
-        this.nav = NavController;
+        this.config.isAutoNotify().then(
+            (value) => {
+                this.settings.isAutoNotify = value;
+            }
+        );
+        this.config.isAppNotify().then(
+            (value) => {
+                this.settings.isAppNotify = value;
+            }
+        );
+        this.config.isNoDisturb().then(
+            (value) => {
+                this.settings.isNoDisturb = value;
+            }
+        );
     }
+
     differOpinion() {
         let alert = Alert.create({
             title: '意见反馈',
@@ -35,6 +55,7 @@ export class Setting {
                 {
                     text: '确认',
                     handler: data => {
+                        this.data.feedback(data.advice, this.nav);
                     }
                 }
             ]
@@ -53,9 +74,9 @@ export class Setting {
     
     rateMe() {
         AppRate.preferences.storeAppURL.ios = '<my_app_id>';
-        AppRate.preferences.storeAppURL.android = 'market://details?id=<package_name>';
-        AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
-        AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
-        AppRate.promptForRating(true);
+        AppRate.preferences.storeAppURL.android = 'market://details?id=top.lhzbxx.follow3';
+        // AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
+        // AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
+        AppRate.promptForRating(false);
     }
 }

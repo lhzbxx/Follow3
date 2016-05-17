@@ -45,6 +45,29 @@ export class DataService {
             });
     }
 
+    feedback(content, nav) {
+        this.config.getAccessToken().then(
+            (value) => {
+                let url = content.BASE_URL + 'user/feedback';
+                let body = JSON.stringify({'access_token': value, 'content': content});
+                let headers = new Headers(({'Content-Type': 'application/json'}));
+                console.log(value);
+                this.http.post(url, body, {headers: headers})
+                    .map(res => res.json())
+                    .subscribe(data => {
+                        console.log(data.msg);
+                        if (data.status == 200) {
+                            this.showToast('提交成功~', 2000, nav);
+                        } else {
+                            this.showToast('提交失败...', 2000, nav);
+                        }
+                    }, error => {
+                        this.showToast('无法连接到服务器...', 2000, nav);
+                    });
+            }
+        );
+    }
+
     register(email, nickname, password, nav) {
         let url = this.BASE_URL + 'auth/register';
         let body = JSON.stringify({'email': email, 'nickname': nickname, 'password': password});

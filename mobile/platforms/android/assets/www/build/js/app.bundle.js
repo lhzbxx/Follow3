@@ -32,20 +32,20 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
     _createClass(MyApp, null, [{
         key: 'parameters',
         get: function get() {
-            return [[_ionicAngular.Platform]];
+            return [[_ionicAngular.Platform], [_userConfig.UserConfig]];
         }
     }]);
 
-    function MyApp(platform) {
+    function MyApp(platform, config) {
         var _this = this;
 
         _classCallCheck(this, MyApp);
 
-        this.local = new _ionicAngular.Storage(_ionicAngular.LocalStorage);
+        this.config = config;
         // this.nav = navController;
         platform.ready().then(function () {
             var context = _this;
-            _this.local.get('LOGIN').then(function (value) {
+            _this.config.hasLoggedIn().then(function (value) {
                 if (value) {
                     context.rootPage = _tabs.TabsPage;
                 } else {
@@ -759,6 +759,10 @@ var _dec, _class;
 
 var _ionicAngular = require('ionic-angular');
 
+var _dataService = require('../../providers/data-service');
+
+var _userConfig = require('../../providers/user-config');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
@@ -767,24 +771,39 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
     _createClass(Setting, null, [{
         key: 'parameters',
         get: function get() {
-            return [_ionicAngular.NavController];
+            return [_ionicAngular.NavController, _dataService.DataService, _userConfig.UserConfig];
         }
     }]);
 
-    function Setting(NavController) {
+    function Setting(nav, data, config) {
+        var _this = this;
+
         _classCallCheck(this, Setting);
 
+        this.nav = nav;
+        this.data = data;
+        this.config = config;
         this.settings = {
-            isAutoNotify: true,
-            isAppNotify: true,
+            isAutoNotify: false,
+            isAppNotify: false,
             isNoDisturb: false
         };
-        this.nav = NavController;
+        this.config.isAutoNotify().then(function (value) {
+            _this.settings.isAutoNotify = value;
+        });
+        this.config.isAppNotify().then(function (value) {
+            _this.settings.isAppNotify = value;
+        });
+        this.config.isNoDisturb().then(function (value) {
+            _this.settings.isNoDisturb = value;
+        });
     }
 
     _createClass(Setting, [{
         key: 'differOpinion',
         value: function differOpinion() {
+            var _this2 = this;
+
             var alert = _ionicAngular.Alert.create({
                 title: '意见反馈',
                 message: "向lhzbxx提建议~",
@@ -797,7 +816,9 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
                     handler: function handler(data) {}
                 }, {
                     text: '确认',
-                    handler: function handler(data) {}
+                    handler: function handler(data) {
+                        _this2.data.feedback(data.advice, _this2.nav);
+                    }
                 }]
             });
             this.nav.present(alert);
@@ -816,17 +837,17 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
         key: 'rateMe',
         value: function rateMe() {
             AppRate.preferences.storeAppURL.ios = '<my_app_id>';
-            AppRate.preferences.storeAppURL.android = 'market://details?id=<package_name>';
-            AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
-            AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
-            AppRate.promptForRating(true);
+            AppRate.preferences.storeAppURL.android = 'market://details?id=top.lhzbxx.follow3';
+            // AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
+            // AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
+            AppRate.promptForRating(false);
         }
     }]);
 
     return Setting;
 }()) || _class);
 
-},{"ionic-angular":350}],8:[function(require,module,exports){
+},{"../../providers/data-service":9,"../../providers/user-config":10,"ionic-angular":350}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -932,23 +953,23 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             });
         }
     }, {
-        key: 'register',
-        value: function register(email, nickname, password, nav) {
+        key: 'feedback',
+        value: function feedback(content, nav) {
             var _this2 = this;
 
-            var url = this.BASE_URL + 'auth/register';
-            var body = JSON.stringify({ 'email': email, 'nickname': nickname, 'password': password });
-            var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-            return new Promise(function (resolve) {
+            this.config.getAccessToken().then(function (value) {
+                var url = content.BASE_URL + 'user/feedback';
+                var body = JSON.stringify({ 'access_token': value, 'content': content });
+                var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+                console.log(value);
                 _this2.http.post(url, body, { headers: headers }).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     console.log(data.msg);
                     if (data.status == 200) {
-                        _this2.showAlert('注册成功！', '已向您邮箱发送一封激活邮件，点击激活后即可登录。', nav);
-                        resolve();
+                        _this2.showToast('提交成功~', 2000, nav);
                     } else {
-                        _this2.showToast('注册失败...', 2000, nav);
+                        _this2.showToast('提交失败...', 2000, nav);
                     }
                 }, function (error) {
                     _this2.showToast('无法连接到服务器...', 2000, nav);
@@ -956,25 +977,49 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             });
         }
     }, {
+        key: 'register',
+        value: function register(email, nickname, password, nav) {
+            var _this3 = this;
+
+            var url = this.BASE_URL + 'auth/register';
+            var body = JSON.stringify({ 'email': email, 'nickname': nickname, 'password': password });
+            var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+            return new Promise(function (resolve) {
+                _this3.http.post(url, body, { headers: headers }).map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    console.log(data.msg);
+                    if (data.status == 200) {
+                        _this3.showAlert('注册成功！', '已向您邮箱发送一封激活邮件，点击激活后即可登录。', nav);
+                        resolve();
+                    } else {
+                        _this3.showToast('注册失败...', 2000, nav);
+                    }
+                }, function (error) {
+                    _this3.showToast('无法连接到服务器...', 2000, nav);
+                });
+            });
+        }
+    }, {
         key: 'resetPassword',
         value: function resetPassword(email, password, nav) {
-            var _this3 = this;
+            var _this4 = this;
 
             var url = this.BASE_URL + 'auth/reset';
             var body = JSON.stringify({ 'email': email, 'password': password });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
             return new Promise(function (resolve) {
-                _this3.http.patch(url, body, { headers: headers }).map(function (res) {
+                _this4.http.patch(url, body, { headers: headers }).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     console.log(data.msg);
                     if (data.status == 200) {
                         resolve();
                     } else {
-                        _this3.showToast('修改失败...', 2000, nav);
+                        _this4.showToast('修改失败...', 2000, nav);
                     }
                 }, function (error) {
-                    _this3.showToast('无法连接到服务器...', 2000, nav);
+                    _this4.showToast('无法连接到服务器...', 2000, nav);
                 });
             });
         }
@@ -1000,7 +1045,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
     }, {
         key: 'load',
         value: function load() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.data) {
                 // already loaded data
@@ -1012,13 +1057,13 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                 // We're using Angular Http provider to request the data,
                 // then on the response it'll map the JSON data to a parsed JS object.
                 // Next we process the data and resolve the promise with the new data.
-                _this4.http.get('path/to/data.json').map(function (res) {
+                _this5.http.get('path/to/data.json').map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     // we've got back the raw data, now generate the core schedule data
                     // and save the data for later reference
-                    _this4.data = data;
-                    resolve(_this4.data);
+                    _this5.data = data;
+                    resolve(_this5.data);
                 });
             });
         }
@@ -1077,10 +1122,11 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
             this.storage.set(this.LOGIN, true);
         }
     }, {
-        key: 'getAuth',
-        value: function getAuth() {
-            return { 'access_token': this.storage.get(this.ACCESS_TOKEN),
-                'refresh_token': this.storage.get(this.REFRESH_TOKEN) };
+        key: 'getAccessToken',
+        value: function getAccessToken() {
+            return this.storage.get(this.ACCESS_TOKEN).then(function (value) {
+                return value;
+            });
         }
     }, {
         key: 'setPreference',
@@ -1104,51 +1150,10 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
             this.storage.set(this.IS_NO_DISTURB, isNoDisturb);
         }
     }, {
-        key: 'getSetting',
-        value: function getSetting() {
-            return { 'isAutoNotify': this.storage.get(this.IS_AUTO_NOTIFY),
-                'isAppNotify': this.storage.get(this.IS_APP_NOTIFY),
-                'isNoDisturb': this.storage.get(this.IS_NO_DISTURB) };
-        }
-    }, {
-        key: 'hasFavorite',
-        value: function hasFavorite(sessionName) {
-            return this._favorites.indexOf(sessionName) > -1;
-        }
-    }, {
-        key: 'addFavorite',
-        value: function addFavorite(sessionName) {
-            this._favorites.push(sessionName);
-        }
-    }, {
-        key: 'removeFavorite',
-        value: function removeFavorite(sessionName) {
-            var index = this._favorites.indexOf(sessionName);
-            if (index > -1) {
-                this._favorites.splice(index, 1);
-            }
-        }
-    }, {
-        key: 'login',
-        value: function login(username, password) {
-            this.storage.set(this.LOGIN, true);
-            this.events.publish('user:login');
-        }
-    }, {
-        key: 'signup',
-        value: function signup(username, password) {
-            this.storage.set(this.LOGIN, true);
-            this.events.publish('user:signup');
-        }
-    }, {
         key: 'logout',
         value: function logout() {
             this.storage.remove(this.LOGIN);
-            this.events.publish('user:logout');
         }
-
-        // return a promise
-
     }, {
         key: 'hasLoggedIn',
         value: function hasLoggedIn() {
@@ -1156,6 +1161,32 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
                 return value;
             });
         }
+    }, {
+        key: 'isAutoNotify',
+        value: function isAutoNotify() {
+            return this.storage.get(this.IS_AUTO_NOTIFY).then(function (value) {
+                return value;
+            });
+        }
+    }, {
+        key: 'isAppNotify',
+        value: function isAppNotify() {
+            return this.storage.get(this.IS_APP_NOTIFY).then(function (value) {
+                return value;
+            });
+        }
+    }, {
+        key: 'isNoDisturb',
+        value: function isNoDisturb() {
+            return this.storage.get(this.IS_NO_DISTURB).then(function (value) {
+                return value;
+            });
+        }
+        // todo: 初始化用户的所有数据
+
+    }, {
+        key: 'init',
+        value: function init() {}
     }]);
 
     return UserConfig;

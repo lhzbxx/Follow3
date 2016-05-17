@@ -8498,22 +8498,22 @@ body {
 .home ion-refresher {
   z-index: 2; }
 
-.home .ion-md-remove-circle {
+.ion-md-remove-circle {
   color: #ED4248; }
 
-.home .ion-md-add-circle {
+.ion-md-add-circle {
   color: #69BB7B; }
 
-.home .ion-md-play {
+.ion-md-play {
   color: #508AE4; }
 
-.home .ion-md-share {
+.ion-md-share {
   color: #31D55F; }
 
-.home .ion-md-close {
+.ion-md-close {
   color: #757575; }
 
-.home #add_star_btn {
+#add_star_btn {
   position: fixed;
   right: 0;
   bottom: 50px; }
