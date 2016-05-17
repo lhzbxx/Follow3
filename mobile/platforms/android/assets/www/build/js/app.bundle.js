@@ -166,7 +166,11 @@ var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page
     }, {
         key: 'login',
         value: function login() {
-            this.data.login(this.login_mail, _md.Md5.hashStr(this.login_passwd), this.nav);
+            var _this = this;
+
+            this.data.login(this.login_mail, _md.Md5.hashStr(this.login_passwd), this.nav).then(function (value) {
+                _this.data.profile();
+            });
         }
     }, {
         key: 'showResetPasswd',
@@ -975,20 +979,23 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             var url = this.BASE_URL + 'auth/login';
             var body = JSON.stringify({ 'email': email, 'password': password });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-            this.http.post(url, body, { headers: headers }).map(function (res) {
-                return res.json();
-            }).subscribe(function (data) {
-                console.log(data.msg);
-                if (data.status == 200) {
-                    _this.showToast('登录成功！', 2000, nav);
-                    nav.setRoot(_tabs.TabsPage);
-                    nav.pop();
-                    _this.config.setAuth(data.data.access_token, data.data.refresh_token);
-                } else {
-                    _this.showToast('用户名或密码不正确...', 2000, nav);
-                }
-            }, function (error) {
-                _this.showToast('无法连接到服务器...', 2000, nav);
+            return new Promise(function (resolve) {
+                _this.http.post(url, body, { headers: headers }).map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    console.log(data.msg);
+                    if (data.status == 200) {
+                        nav.rootNav.setRoot(_tabs.TabsPage);
+                        _this.showToast('登录成功！', 2000, nav);
+                        // nav.pop();
+                        _this.config.setAuth(data.data.access_token, data.data.refresh_token);
+                        resolve();
+                    } else {
+                        _this.showToast('用户名或密码不正确...', 2000, nav);
+                    }
+                }, function (error) {
+                    _this.showToast('无法连接到服务器...', 2000, nav);
+                });
             });
         }
     }, {
@@ -997,7 +1004,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             var _this2 = this;
 
             this.config.getAccessToken().then(function (value) {
-                var url = content.BASE_URL + 'user/feedback';
+                var url = _this2.BASE_URL + 'user/feedback';
                 var body = JSON.stringify({ 'access_token': value, 'content': content });
                 var headers = new _http.Headers({ 'Content-Type': 'application/json' });
                 _this2.http.post(url, body, { headers: headers }).map(function (res) {
@@ -1084,10 +1091,8 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             var _this6 = this;
 
             this.config.getAccessToken().then(function (value) {
-                var url = content.BASE_URL + 'user/profile';
-                var body = JSON.stringify({ 'access_token': value });
-                var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-                _this6.http.get(url, body, { headers: headers }).map(function (res) {
+                var url = _this6.BASE_URL + 'user/profile?access_token=' + value;
+                _this6.http.get(url).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     console.log(data.msg);

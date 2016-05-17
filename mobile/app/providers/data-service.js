@@ -33,8 +33,8 @@ export class DataService {
             .subscribe(data => {
                 console.log(data.msg);
                 if (data.status == 200) {
-                    this.showToast('登录成功！', 2000, nav);
                     nav.rootNav.setRoot(TabsPage);
+                    this.showToast('登录成功！', 2000, nav);
                     // nav.pop();
                     this.config.setAuth(data.data.access_token, data.data.refresh_token);
                     this.profile();
@@ -129,10 +129,8 @@ export class DataService {
     profile() {
         this.config.getAccessToken().then(
             (value) => {
-                let url = this.BASE_URL + 'user/profile';
-                let body = JSON.stringify({'access_token': value});
-                let headers = new Headers({'Content-Type': 'application/json'});
-                this.http.get(url, body, {headers: headers})
+                let url = this.BASE_URL + 'user/profile?access_token=' + value;
+                this.http.get(url)
                     .map(res => res.json())
                     .subscribe(data => {
                         console.log(data.msg);
@@ -140,7 +138,7 @@ export class DataService {
                             this.config.setUserMail(data.data.email);
                             this.config.setUserId(data.data.id);
                             this.config.setUserNickname(data.data.nickname);
-                            this.config.setIsAutoNotify(data.data.is_auto_notify);
+                            this.config.setIsAutoNotify(data.data.is_auto_notify==1);
                         } else {
                             // never.
                         }
@@ -169,6 +167,14 @@ export class DataService {
                     this.showToast('无法连接到服务器...', 2000, nav);
                 });
         });
+    }
+    
+    followStar() {
+        // todo: 关注
+    }
+
+    unfollowStar() {
+        // todo: 取消关注
     }
 
     showToast(msg, dur, nav) {

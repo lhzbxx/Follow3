@@ -89,7 +89,7 @@ export class Setting {
                 }
             )
     }
-
+    
     resetPassword() {
         let t = Alert.create({
 
