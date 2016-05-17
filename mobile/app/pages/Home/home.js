@@ -81,7 +81,7 @@ export class Home {
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: () => {
                         this.platform.ready().then(() => {
-                            this.action.watch(star, this.setting.autoOpenApp);
+                            this.action.watch(star);
                         });
                     }
                 }, {

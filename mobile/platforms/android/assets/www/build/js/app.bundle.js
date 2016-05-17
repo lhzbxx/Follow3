@@ -418,7 +418,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: function handler() {
                         _this3.platform.ready().then(function () {
-                            _this3.action.watch(star, _this3.setting.autoOpenApp);
+                            _this3.action.watch(star);
                         });
                     }
                 }, {
@@ -517,6 +517,10 @@ var _http = require('angular2/http');
 
 var _add = require('./add');
 
+var _actionService = require('../../providers/action-service');
+
+var _dataService = require('../../providers/data-service');
+
 require('rxjs/Rx');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -527,17 +531,19 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
     _createClass(Search, null, [{
         key: 'parameters',
         get: function get() {
-            return [_http.Http, _ionicAngular.NavController, _ionicAngular.Platform];
+            return [_http.Http, _ionicAngular.NavController, _ionicAngular.Platform, _actionService.ActionService, _dataService.DataService];
         }
     }]);
 
-    function Search(http, navController, platform) {
+    function Search(http, navController, platform, action, data) {
         _classCallCheck(this, Search);
 
         this.http = http;
         this.addStar = _add.Add;
         this.nav = navController;
         this.platform = platform;
+        this.action = action;
+        this.data = data;
         this.searchFailed = false;
     }
 
@@ -551,26 +557,14 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
                 this.stars = null;
                 return;
             }
-            this.http.get('http://www.lhzbxx.top:9900/user/search?query=' + encodeURI(q) + "&access_token=fKCixnowbvDYIxWJ")
-            // JSON.stringify({"query": q}))
-            .map(function (res) {
-                return res.json();
-            }).subscribe(function (data) {
-                console.log(data.status);
+            this.data.searchStar(encodeURI(q), this.nav).then(function (data) {
                 if (data.status == 200) {
                     _this.searchFailed = false;
                     _this.stars = data.data;
-                    console.log(data.data);
                 } else {
                     _this.stars = null;
                     _this.searchFailed = true;
                 }
-            }, function (error) {
-                var t = _ionicAngular.Toast.create({
-                    message: '无法连接到服务器...',
-                    duration: 3000
-                });
-                _this.nav.present(t);
             });
         }
     }, {
@@ -585,34 +579,16 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: function handler() {
                         _this2.platform.ready().then(function () {
-                            if (star.platform == 'PANDA') {
-                                cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
-                            }
-                            if (star.platform == 'DOUYU') {
-                                if (_this2.platform.is('ios')) {
-                                    cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
-                                } else if (_this2.platform.is('android')) {
-                                    cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=0&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
-                                } else {
-                                    cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                                }
-                            }
-                            if (star.platform == 'ZHANQI') {
-                                var info = JSON.parse(star.info);
-                                cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
-                            }
-                            if (star.platform == 'QUANMIN') {
-                                cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                            }
+                            _this2.action.watch(star);
                         });
                     }
                 }, {
                     text: '分享到...',
                     icon: !this.platform.is('ios') ? 'share' : null,
                     handler: function handler() {
-                        if (window.plugins.socialsharing) {
-                            window.plugins.socialsharing.share("我在Follow3上搜到了想要关注的" + star.nickname + "，实时获得他的开播信息。真的太棒了！", null, null, "http://www.lhzbxx.top");
-                        }
+                        _this2.platform.ready().then(function () {
+                            _this2.action.share("我在Follow3上搜到了想要关注的" + star.nickname + "，实时获得他的开播信息。真的太棒了！");
+                        });
                     }
                 }, {
                     text: star.user_id ? '取消关注' : '关注',
@@ -621,17 +597,20 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
                     handler: function handler() {
                         if (star.user_id) {
                             // 取消关注
+                            _this2.data.unfollowStar(star.id, _this2.nav);
+                            _this2.user_id = null;
                         } else {
-                                // 关注
-                                star.user_id = 1;
-                            }
+                            // 关注
+                            _this2.data.followStar(star.id, _this2.nav);
+                            _this2.user_id = 1;
+                        }
                     }
                 }, {
                     text: '取消',
                     role: 'cancel',
                     icon: !this.platform.is('ios') ? 'close' : null,
                     handler: function handler() {
-                        console.log('Cancel clicked');
+                        // Cancel
                     }
                 }]
             });
@@ -642,7 +621,7 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
     return Search;
 }()) || _class);
 
-},{"./add":3,"angular2/http":21,"ionic-angular":351,"rxjs/Rx":425}],6:[function(require,module,exports){
+},{"../../providers/action-service":9,"../../providers/data-service":10,"./add":3,"angular2/http":21,"ionic-angular":351,"rxjs/Rx":425}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -991,36 +970,40 @@ var ActionService = exports.ActionService = (_dec = (0, _core.Injectable)(), _de
         }
     }]);
 
-    function ActionService(user, platform) {
+    function ActionService(config, platform) {
         _classCallCheck(this, ActionService);
 
-        this.user = user;
+        this.config = config;
         this.platform = platform;
     }
 
     _createClass(ActionService, [{
         key: 'watch',
-        value: function watch(star, autoOpenApp) {
-            if (autoOpenApp) {
-                if (star.platform == 'PANDA') {
-                    cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
-                } else if (star.platform == 'DOUYU') {
-                    if (this.platform.is('ios')) {
-                        cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
-                    } else if (this.platform.is('android')) {
-                        cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=0&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
+        value: function watch(star) {
+            var _this = this;
+
+            this.config.getAutoOpenApp().then(function (value) {
+                if (value) {
+                    if (star.platform == 'PANDA') {
+                        cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
+                    } else if (star.platform == 'DOUYU') {
+                        if (_this.platform.is('ios')) {
+                            cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
+                        } else if (_this.platform.is('android')) {
+                            cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=0&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
+                        } else {
+                            cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                        }
+                    } else if (star.platform == 'ZHANQI') {
+                        var info = JSON.parse(star.info);
+                        cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
                     } else {
                         cordova.InAppBrowser.open(star.link, "_system", "location=true");
                     }
-                } else if (star.platform == 'ZHANQI') {
-                    var info = JSON.parse(star.info);
-                    cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
                 } else {
                     cordova.InAppBrowser.open(star.link, "_system", "location=true");
                 }
-            } else {
-                cordova.InAppBrowser.open(star.link, "_system", "location=true");
-            }
+            });
         }
     }, {
         key: 'share',
@@ -1268,7 +1251,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
         }
     }, {
         key: 'followStar',
-        value: function followStar(star_id) {
+        value: function followStar(star_id, nav) {
             var _this9 = this;
 
             return new Promise(function (resolve) {
@@ -1303,6 +1286,30 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                         resolve();
                     }, function (error) {
                         _this10.showToast('无法连接到服务器...', 2000, nav);
+                        reject();
+                    });
+                });
+            });
+        }
+    }, {
+        key: 'addStar',
+        value: function addStar(nav) {
+            // todo: 添加Star
+        }
+    }, {
+        key: 'searchStar',
+        value: function searchStar(q, nav) {
+            var _this11 = this;
+
+            return new Promise(function (resolve) {
+                _this11.config.getAccessToken().then(function (token) {
+                    var url = _this11.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;
+                    _this11.http.get(url).map(function (res) {
+                        return res.json();
+                    }).subscribe(function (data) {
+                        resolve(data);
+                    }, function (error) {
+                        _this11.showToast('无法连接到服务器...', 2000, nav);
                         reject();
                     });
                 });

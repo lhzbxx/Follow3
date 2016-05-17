@@ -192,7 +192,7 @@ export class DataService {
         });
     }
 
-    followStar(star_id) {
+    followStar(star_id, nav) {
         return new Promise(resolve => {
             this.config.getAccessToken().then(
                 token => {
@@ -232,6 +232,28 @@ export class DataService {
         });
     }
 
+    addStar(nav) {
+        // todo: 添加Star
+    }
+    
+    searchStar(q, nav) {
+        return new Promise(resolve => {
+            this.config.getAccessToken().then(
+                token => {
+                    let url = this.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;
+                    this.http.get(url)
+                        .map(res => res.json())
+                        .subscribe(data => {
+                            resolve(data);
+                        }, error => {
+                            this.showToast('无法连接到服务器...', 2000, nav);
+                            reject();
+                        });
+                }
+            );
+        });
+    }
+    
     showToast(msg, dur, nav) {
         let t = Toast.create({
             message: msg,

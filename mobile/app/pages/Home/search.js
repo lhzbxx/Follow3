@@ -1,6 +1,8 @@
 import {Page, ActionSheet, NavController, Platform, Toast} from 'ionic-angular';
 import {Http} from 'angular2/http';
-import {Add} from './add'
+import {Add} from './add';
+import {ActionService} from '../../providers/action-service';
+import {DataService} from '../../providers/data-service';
 import 'rxjs/Rx';
 
 
@@ -8,43 +10,41 @@ import 'rxjs/Rx';
     templateUrl: 'build/pages/home/search.html'
 })
 export class Search {
+    
     static get parameters() {
-        return [Http, NavController, Platform];
+        return [Http, NavController, Platform, ActionService, DataService];
     }
-    constructor(http, navController, platform){
+    
+    constructor(http, navController, platform, action, data){
         this.http = http;
         this.addStar = Add;
         this.nav = navController;
         this.platform = platform;
+        this.action = action;
+        this.data = data;
         this.searchFailed = false;
     }
+    
     getItems(searchbar) {
         var q = searchbar.value;
         if (q == '') {
             this.stars = null;
             return;
         }
-        this.http.get('http://www.lhzbxx.top:9900/user/search?query=' + encodeURI(q) + "&access_token=fKCixnowbvDYIxWJ")
-            // JSON.stringify({"query": q}))
-            .map(res => res.json())
-            .subscribe(data => {
-                console.log(data.status);
-                if (data.status == 200) {
-                    this.searchFailed = false;
-                    this.stars = data.data;
-                    console.log(data.data);
-                } else {
-                    this.stars = null;
-                    this.searchFailed = true;
+        this.data.searchStar(encodeURI(q), this.nav)
+            .then(
+                data => {
+                    if (data.status == 200) {
+                        this.searchFailed = false;
+                        this.stars = data.data;
+                    } else {
+                        this.stars = null;
+                        this.searchFailed = true;
+                    }
                 }
-            }, error => {
-                let t = Toast.create({
-                    message: '无法连接到服务器...',
-                    duration: 3000
-                });
-                this.nav.present(t)
-            });
+            );
     }
+    
     showAction(star) {
         let actionSheet = ActionSheet.create({
             title: star.nickname,
@@ -54,36 +54,16 @@ export class Search {
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: () => {
                         this.platform.ready().then(() => {
-                            if (star.platform == 'PANDA') {
-                                cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
-                            }
-                            if (star.platform == 'DOUYU') {
-                                if (this.platform.is('ios')) {
-                                    cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
-                                } else if (this.platform.is('android')) {
-                                    cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=0&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
-                                } else {
-                                    cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                                }
-                            }
-                            if (star.platform == 'ZHANQI') {
-                                let info = JSON.parse(star.info);
-                                cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
-                            }
-                            if (star.platform == 'QUANMIN') {
-                                cordova.InAppBrowser.open(star.link, "_system", "location=true");
-                            }
+                            this.action.watch(star);
                         });
                     }
                 },{
                     text: '分享到...',
                     icon: !this.platform.is('ios') ? 'share' : null,
                     handler: () => {
-                        if (window.plugins.socialsharing) {
-                            window.plugins.socialsharing.share("我在Follow3上搜到了想要关注的" + star.nickname + "，实时获得他的开播信息。真的太棒了！",
-                                null, null,
-                                "http://www.lhzbxx.top");
-                        }
+                        this.platform.ready().then(() => {
+                            this.action.share("我在Follow3上搜到了想要关注的" + star.nickname + "，实时获得他的开播信息。真的太棒了！");
+                        });
                     }
                 },{
                     text: star.user_id ? '取消关注' : '关注',
@@ -92,9 +72,12 @@ export class Search {
                     handler: () => {
                         if (star.user_id) {
                             // 取消关注
+                            this.data.unfollowStar(star.id, this.nav);
+                            this.user_id = null;
                         } else {
                             // 关注
-                            star.user_id = 1;
+                            this.data.followStar(star.id, this.nav);
+                            this.user_id = 1;
                         }
                     }
                 },{
@@ -102,7 +85,7 @@ export class Search {
                     role: 'cancel',
                     icon: !this.platform.is('ios') ? 'close' : null,
                     handler: () => {
-                        console.log('Cancel clicked');
+                        // Cancel
                     }
                 }
             ]

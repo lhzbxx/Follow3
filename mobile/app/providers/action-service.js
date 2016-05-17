@@ -9,32 +9,37 @@ export class ActionService {
         return [[UserConfig], [Platform]];
     }
 
-    constructor(user, platform) {
-        this.user = user;
+    constructor(config, platform) {
+        this.config = config;
         this.platform = platform;
     }
 
-    watch(star, autoOpenApp) {
-        if (autoOpenApp) {
-            if (star.platform == 'PANDA') {
-                cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
-            } else if (star.platform == 'DOUYU') {
-                if (this.platform.is('ios')) {
-                    cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
-                } else if (this.platform.is('android')) {
-                    cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=0&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
-                } else {
-                    cordova.InAppBrowser.open(star.link, "_system", "location=true");
+    watch(star) {
+        this.config.getAutoOpenApp()
+            .then(
+                value => {
+                    if (value) {
+                        if (star.platform == 'PANDA') {
+                            cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
+                        } else if (star.platform == 'DOUYU') {
+                            if (this.platform.is('ios')) {
+                                cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
+                            } else if (this.platform.is('android')) {
+                                cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=0&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
+                            } else {
+                                cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                            }
+                        } else if (star.platform == 'ZHANQI') {
+                            let info = JSON.parse(star.info);
+                            cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
+                        } else {
+                            cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                        }
+                    } else {
+                        cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                    }
                 }
-            } else if (star.platform == 'ZHANQI') {
-                let info = JSON.parse(star.info);
-                cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
-            } else {
-                cordova.InAppBrowser.open(star.link, "_system", "location=true");
-            }
-        } else {
-            cordova.InAppBrowser.open(star.link, "_system", "location=true");
-        }
+            );
     }
     
     share(msg) {

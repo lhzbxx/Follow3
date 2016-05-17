@@ -8,9 +8,11 @@ import {LoginAndRegister} from '../auth/login&register';
     templateUrl: 'build/pages/setting/setting.html'
 })
 export class Setting {
+    
     static get parameters() {
         return [NavController, DataService, UserConfig];
     }
+
     constructor(nav, data, config) {
         this.nav = nav;
         this.data = data;
