@@ -89,6 +89,27 @@ export class DataService {
         });
     }
 
+    refresh() {
+        this.config.getRefreshToken().then(
+            (value) => {
+                let url = this.BASE_URL + 'auth/refresh/' + value;
+                this.http.get(url)
+                    .map(res => res.json())
+                    .subscribe(data => {
+                        console.log(data.msg);
+                        if (data.status == 200) {
+                            this.config.setAuth(data.data.access_token, data.data.refresh_token);
+                        } else {
+                            // todo: 登出。
+                            this.config.logout();
+                        }
+                    }, error => {
+                        // pass
+                    });
+            }
+        );
+    }
+
     profile() {
         this.config.getAccessToken().then(
             (value) => {
