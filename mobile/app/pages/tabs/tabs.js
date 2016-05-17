@@ -9,8 +9,6 @@ import {Setting} from '../setting/setting';
 })
 export class TabsPage {
     constructor() {
-        // this tells the tabs component which Pages
-        // should be each tab's root Page
         this.tab1Root = Home;
         this.tab2Root = Notify;
         this.tab3Root = Setting;

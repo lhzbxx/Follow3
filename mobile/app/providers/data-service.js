@@ -34,9 +34,10 @@ export class DataService {
                 console.log(data.msg);
                 if (data.status == 200) {
                     this.showToast('登录成功！', 2000, nav);
-                    nav.setRoot(TabsPage);
-                    nav.pop();
+                    nav.rootNav.setRoot(TabsPage);
+                    // nav.pop();
                     this.config.setAuth(data.data.access_token, data.data.refresh_token);
+                    this.profile();
                 } else {
                     this.showToast('用户名或密码不正确...', 2000, nav);
                 }
@@ -48,10 +49,9 @@ export class DataService {
     feedback(content, nav) {
         this.config.getAccessToken().then(
             (value) => {
-                let url = content.BASE_URL + 'user/feedback';
+                let url = this.BASE_URL + 'user/feedback';
                 let body = JSON.stringify({'access_token': value, 'content': content});
-                let headers = new Headers(({'Content-Type': 'application/json'}));
-                console.log(value);
+                let headers = new Headers({'Content-Type': 'application/json'});
                 this.http.post(url, body, {headers: headers})
                     .map(res => res.json())
                     .subscribe(data => {
@@ -110,17 +110,36 @@ export class DataService {
         );
     }
 
+    version(nav) {
+        let url = this.BASE_URL + 'version';
+        return new Promise((resolve, reject) => {
+            this.http.get(url)
+                .subscribe(data => {
+                    if (data._body == this.config.getVersion()) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                }, error => {
+                    this.showToast('无法连接到服务器...', 2000, nav);
+                });
+        });
+    }
+
     profile() {
         this.config.getAccessToken().then(
             (value) => {
-                let url = content.BASE_URL + 'user/profile';
+                let url = this.BASE_URL + 'user/profile';
                 let body = JSON.stringify({'access_token': value});
-                let headers = new Headers(({'Content-Type': 'application/json'}));
-                this.http.post(url, body, {headers: headers})
+                let headers = new Headers({'Content-Type': 'application/json'});
+                this.http.get(url, body, {headers: headers})
                     .map(res => res.json())
                     .subscribe(data => {
                         console.log(data.msg);
                         if (data.status == 200) {
+                            this.config.setUserMail(data.data.email);
+                            this.config.setUserId(data.data.id);
+                            this.config.setUserNickname(data.data.nickname);
                             this.config.setIsAutoNotify(data.data.is_auto_notify);
                         } else {
                             // never.

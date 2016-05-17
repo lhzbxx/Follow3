@@ -32,7 +32,7 @@
         <ion-item>
             邮箱
             <ion-icon name="mail" item-left></ion-icon>
-            <ion-note item-right>416******@qq.com</ion-note>
+            <ion-note item-right>{{mail}}</ion-note>
         </ion-item>
         <ion-item>
             修改密码
@@ -64,7 +64,7 @@
         <ion-list-header>
             其它
         </ion-list-header>
-        <ion-item>
+        <ion-item (click)="logout()">
             注销
             <ion-icon name="log-out" item-left></ion-icon>
         </ion-item>

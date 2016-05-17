@@ -1,16 +1,14 @@
 import {Injectable} from 'angular2/core';
 import {Storage, LocalStorage} from 'ionic-angular';
-import {DataService} from './data-service';
 
 
 @Injectable()
 export class UserConfig {
     static get parameters(){
-        return [DataService];
+        return [];
     }
     constructor(data) {
         this.storage = new Storage(LocalStorage);
-        this.data = data;
         this.ACCESS_TOKEN = "ACCESS_TOKEN";
         this.REFRESH_TOKEN = "REFRESH_TOKEN";
         this.SHOW_ONLY_ONLINE = "SHOW_ONLY_ONLINE";
@@ -19,7 +17,14 @@ export class UserConfig {
         this.IS_AUTO_NOTIFY = "IS_AUTO_NOTIFY";
         this.IS_APP_NOTIFY = "IS_APP_NOTIFY";
         this.IS_NO_DISTURB = "IS_NO_DISTURB";
-        this.LOGIN = "LOGIN"
+        this.LOGIN = "LOGIN";
+        this.USER_MAIL = "USER_MAIL";
+        this.USER_ID = "USER_ID";
+        this.USER_NICKNAME = "USER_NICKNAME";
+        this.VERSION = "0.3.1";
+    }
+    getVersion() {
+        return this.VERSION;
     }
     setAuth(access_token, refresh_token) {
         this.storage.set(this.ACCESS_TOKEN, access_token);
@@ -89,6 +94,30 @@ export class UserConfig {
     }
     getIsNoDisturb() {
         return this.storage.get(this.IS_NO_DISTURB).then((value) => {
+            return value;
+        });
+    }
+    setUserId(value) {
+        this.storage.set(this.USER_ID, value);
+    }
+    getUserId() {
+        return this.storage.get(this.USER_ID).then((value) => {
+            return value;
+        });
+    }
+    setUserNickname(value) {
+        this.storage.set(this.USER_NICKNAME, value);
+    }
+    getUserNickname() {
+        return this.storage.get(this.USER_NICKNAME).then((value) => {
+            return value;
+        });
+    }
+    setUserMail(value) {
+        this.storage.set(this.USER_MAIL, value);
+    }
+    getUserMail() {
+        return this.storage.get(this.USER_MAIL).then((value) => {
             return value;
         });
     }

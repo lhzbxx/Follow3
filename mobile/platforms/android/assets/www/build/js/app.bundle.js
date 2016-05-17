@@ -350,6 +350,8 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     }]);
 
     function Home(http, nav, platform, config) {
+        var _this = this;
+
         _classCallCheck(this, Home);
 
         this.http = http;
@@ -358,19 +360,32 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
         this.nav = nav;
         this.platform = platform;
         this.config = config;
-        this.setting = config.getPreference();
+        this.setting = {
+            showOnlyOnline: false,
+            autoOpenApp: false,
+            orderByFollow: false
+        };
+        this.config.getShowOnlyOnline().then(function (value) {
+            _this.setting.showOnlyOnline = value;
+        });
+        this.config.getAutoOpenApp().then(function (value) {
+            _this.setting.autoOpenApp = value;
+        });
+        this.config.getOrderByFollow().then(function (value) {
+            _this.setting.orderByFollow = value;
+        });
         this.platform.ready();
     }
 
     _createClass(Home, [{
         key: 'fetch',
         value: function fetch(refresher) {
-            var _this = this;
+            var _this2 = this;
 
             this.http.get('http://www.lhzbxx.top:9900/user/follow?access_token=fKCixnowbvDYIxWJ').map(function (res) {
                 return res.json();
             }).subscribe(function (data) {
-                _this.stars = data.data;
+                _this2.stars = data.data;
                 if (refresher) {
                     refresher.complete();
                 }
@@ -379,7 +394,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     message: '无法连接到服务器...',
                     duration: 3000
                 });
-                _this.nav.present(t);
+                _this2.nav.present(t);
             });
         }
     }, {
@@ -390,7 +405,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'showAction',
         value: function showAction(star) {
-            var _this2 = this;
+            var _this3 = this;
 
             var actionSheet = _ionicAngular.ActionSheet.create({
                 title: star.nickname,
@@ -398,14 +413,14 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     text: '跳转观看',
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: function handler() {
-                        _this2.platform.ready().then(function () {
+                        _this3.platform.ready().then(function () {
                             if (star.platform == 'PANDA') {
                                 cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
                             }
                             if (star.platform == 'DOUYU') {
-                                if (_this2.platform.is('ios')) {
+                                if (_this3.platform.is('ios')) {
                                     cordova.InAppBrowser.open("douyutv://" + star.serial, "_system", "location=true");
-                                } else if (_this2.platform.is('android')) {
+                                } else if (_this3.platform.is('android')) {
                                     cordova.InAppBrowser.open("douyutvtest://?room_id=" + star.serial + "&isVertical=0&room_src=" + encodeURIComponent(star.cover), "_system", "location=true");
                                 } else {
                                     cordova.InAppBrowser.open(star.link, "_system", "location=true");
@@ -424,7 +439,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     text: '分享到...',
                     icon: !this.platform.is('ios') ? 'share' : null,
                     handler: function handler() {
-                        _this2.platform.ready().then(function () {
+                        _this3.platform.ready().then(function () {
                             if (window.plugins.socialsharing) {
                                 // window.plugins.socialsharing.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！",
                                 //     null, Array("http://7xsz4e.com2.z0.glb.clouddn.com/favicon.png", star.avatar, star.cover),
@@ -438,7 +453,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     icon: !this.platform.is('ios') ? 'remove-circle' : null,
                     role: 'destructive',
                     handler: function handler() {
-                        _this2.doRefresh(null);
+                        _this3.doRefresh(null);
                     }
                 }, {
                     text: '取消',
@@ -454,7 +469,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'showOptions',
         value: function showOptions() {
-            var _this3 = this;
+            var _this4 = this;
 
             var alert = _ionicAngular.Alert.create();
             alert.setTitle('Preference');
@@ -480,7 +495,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
             alert.addButton({
                 text: 'Confirm',
                 handler: function handler(data) {
-                    _this3.config.setPreference(data.indexOf('showOnlyOnline') > -1, data.indexOf('autoOpenApp') > -1, data.indexOf('orderByFollow') > -1);
+                    _this4.config.setPreference(data.indexOf('showOnlyOnline') > -1, data.indexOf('autoOpenApp') > -1, data.indexOf('orderByFollow') > -1);
                 }
             });
             this.nav.present(alert);
@@ -763,6 +778,8 @@ var _dataService = require('../../providers/data-service');
 
 var _userConfig = require('../../providers/user-config');
 
+var _loginRegister = require('../auth/login&register');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
@@ -788,14 +805,18 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
             isAppNotify: false,
             isNoDisturb: false
         };
-        this.config.isAutoNotify().then(function (value) {
+        this.mail = '';
+        this.config.getIsAutoNotify().then(function (value) {
             _this.settings.isAutoNotify = value;
         });
-        this.config.isAppNotify().then(function (value) {
+        this.config.getIsAppNotify().then(function (value) {
             _this.settings.isAppNotify = value;
         });
-        this.config.isNoDisturb().then(function (value) {
+        this.config.getIsNoDisturb().then(function (value) {
             _this.settings.isNoDisturb = value;
+        });
+        this.config.getUserMail().then(function (value) {
+            _this.mail = value;
         });
     }
 
@@ -826,12 +847,32 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'checkUpdate',
         value: function checkUpdate() {
+            var _this3 = this;
+
             var alert = _ionicAngular.Alert.create({
                 title: '',
-                subTitle: '已是最新版本！',
                 buttons: ['OK']
             });
-            this.nav.present(alert);
+            this.data.version(this.nav).then(function (data) {
+                alert.setSubTitle('已是最新版本~');
+                _this3.nav.present(alert);
+            }).catch(function (data) {
+                alert.setSubTitle('需要更新！');
+                _this3.nav.present(alert);
+            });
+        }
+    }, {
+        key: 'resetPassword',
+        value: function resetPassword() {
+            var t = _ionicAngular.Alert.create({});
+            this.nav.present(t);
+        }
+    }, {
+        key: 'logout',
+        value: function logout() {
+            this.nav.rootNav.setRoot(_loginRegister.LoginAndRegister);
+            // this.nav.pop();
+            this.config.logout();
         }
     }, {
         key: 'rateMe',
@@ -847,7 +888,7 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
     return Setting;
 }()) || _class);
 
-},{"../../providers/data-service":9,"../../providers/user-config":10,"ionic-angular":350}],8:[function(require,module,exports){
+},{"../../providers/data-service":9,"../../providers/user-config":10,"../auth/login&register":2,"ionic-angular":350}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -872,8 +913,6 @@ var TabsPage = exports.TabsPage = (_dec = (0, _ionicAngular.Page)({
 }), _dec(_class = function TabsPage() {
     _classCallCheck(this, TabsPage);
 
-    // this tells the tabs component which Pages
-    // should be each tab's root Page
     this.tab1Root = _home.Home;
     this.tab2Root = _notify.Notify;
     this.tab3Root = _setting.Setting;
@@ -961,7 +1000,6 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                 var url = content.BASE_URL + 'user/feedback';
                 var body = JSON.stringify({ 'access_token': value, 'content': content });
                 var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-                console.log(value);
                 _this2.http.post(url, body, { headers: headers }).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
@@ -1001,25 +1039,91 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             });
         }
     }, {
+        key: 'refresh',
+        value: function refresh() {
+            var _this4 = this;
+
+            this.config.getRefreshToken().then(function (value) {
+                var url = _this4.BASE_URL + 'auth/refresh/' + value;
+                _this4.http.get(url).map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    console.log(data.msg);
+                    if (data.status == 200) {
+                        _this4.config.setAuth(data.data.access_token, data.data.refresh_token);
+                    } else {
+                        // todo: 登出。
+                        _this4.config.logout();
+                    }
+                }, function (error) {
+                    // pass
+                });
+            });
+        }
+    }, {
+        key: 'version',
+        value: function version(nav) {
+            var _this5 = this;
+
+            var url = this.BASE_URL + 'version';
+            return new Promise(function (resolve, reject) {
+                _this5.http.get(url).subscribe(function (data) {
+                    if (data._body == _this5.config.getVersion()) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                }, function (error) {
+                    _this5.showToast('无法连接到服务器...', 2000, nav);
+                });
+            });
+        }
+    }, {
+        key: 'profile',
+        value: function profile() {
+            var _this6 = this;
+
+            this.config.getAccessToken().then(function (value) {
+                var url = content.BASE_URL + 'user/profile';
+                var body = JSON.stringify({ 'access_token': value });
+                var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+                _this6.http.get(url, body, { headers: headers }).map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    console.log(data.msg);
+                    if (data.status == 200) {
+                        _this6.config.setUserMail(data.data.email);
+                        _this6.config.setUserId(data.data.id);
+                        _this6.config.setUserNickname(data.data.nickname);
+                        _this6.config.setIsAutoNotify(data.data.is_auto_notify);
+                    } else {
+                        // never.
+                    }
+                }, function (error) {
+                    // pass.
+                });
+            });
+        }
+    }, {
         key: 'resetPassword',
         value: function resetPassword(email, password, nav) {
-            var _this4 = this;
+            var _this7 = this;
 
             var url = this.BASE_URL + 'auth/reset';
             var body = JSON.stringify({ 'email': email, 'password': password });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
             return new Promise(function (resolve) {
-                _this4.http.patch(url, body, { headers: headers }).map(function (res) {
+                _this7.http.patch(url, body, { headers: headers }).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     console.log(data.msg);
                     if (data.status == 200) {
                         resolve();
                     } else {
-                        _this4.showToast('修改失败...', 2000, nav);
+                        _this7.showToast('修改失败...', 2000, nav);
                     }
                 }, function (error) {
-                    _this4.showToast('无法连接到服务器...', 2000, nav);
+                    _this7.showToast('无法连接到服务器...', 2000, nav);
                 });
             });
         }
@@ -1041,31 +1145,6 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                 buttons: ['OK']
             });
             nav.present(t);
-        }
-    }, {
-        key: 'load',
-        value: function load() {
-            var _this5 = this;
-
-            if (this.data) {
-                // already loaded data
-                return Promise.resolve(this.data);
-            }
-
-            // don't have the data yet
-            return new Promise(function (resolve) {
-                // We're using Angular Http provider to request the data,
-                // then on the response it'll map the JSON data to a parsed JS object.
-                // Next we process the data and resolve the promise with the new data.
-                _this5.http.get('path/to/data.json').map(function (res) {
-                    return res.json();
-                }).subscribe(function (data) {
-                    // we've got back the raw data, now generate the core schedule data
-                    // and save the data for later reference
-                    _this5.data = data;
-                    resolve(_this5.data);
-                });
-            });
         }
     }]);
 
@@ -1094,15 +1173,14 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
     _createClass(UserConfig, null, [{
         key: 'parameters',
         get: function get() {
-            return [[_ionicAngular.Events]];
+            return [];
         }
     }]);
 
-    function UserConfig(events) {
+    function UserConfig(data) {
         _classCallCheck(this, UserConfig);
 
         this.storage = new _ionicAngular.Storage(_ionicAngular.LocalStorage);
-        this.events = events;
         this.ACCESS_TOKEN = "ACCESS_TOKEN";
         this.REFRESH_TOKEN = "REFRESH_TOKEN";
         this.SHOW_ONLY_ONLINE = "SHOW_ONLY_ONLINE";
@@ -1112,9 +1190,18 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
         this.IS_APP_NOTIFY = "IS_APP_NOTIFY";
         this.IS_NO_DISTURB = "IS_NO_DISTURB";
         this.LOGIN = "LOGIN";
+        this.USER_MAIL = "USER_MAIL";
+        this.USER_ID = "USER_ID";
+        this.USER_NICKNAME = "USER_NICKNAME";
+        this.VERSION = "0.3.1";
     }
 
     _createClass(UserConfig, [{
+        key: 'getVersion',
+        value: function getVersion() {
+            return this.VERSION;
+        }
+    }, {
         key: 'setAuth',
         value: function setAuth(access_token, refresh_token) {
             this.storage.set(this.ACCESS_TOKEN, access_token);
@@ -1129,30 +1216,52 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
             });
         }
     }, {
-        key: 'setPreference',
-        value: function setPreference(showOnlyOnline, autoOpenApp, orderByFollow) {
-            this.storage.set(this.SHOW_ONLY_ONLINE, showOnlyOnline);
-            this.storage.set(this.AUTO_OPEN_APP, autoOpenApp);
-            this.storage.set(this.ORDER_BY_FOLLOW, orderByFollow);
-        }
-    }, {
-        key: 'getPreference',
-        value: function getPreference() {
-            return { 'showOnlyOnline': this.storage.get(this.SHOW_ONLY_ONLINE),
-                'autoOpenApp': this.storage.get(this.AUTO_OPEN_APP),
-                'orderByFollow': this.storage.get(this.ORDER_BY_FOLLOW) };
-        }
-    }, {
-        key: 'setSetting',
-        value: function setSetting(isAutoNotify, isAppNotify, isNoDisturb) {
-            this.storage.set(this.IS_AUTO_NOTIFY, isAutoNotify);
-            this.storage.set(this.IS_APP_NOTIFY, isAppNotify);
-            this.storage.set(this.IS_NO_DISTURB, isNoDisturb);
+        key: 'getRefreshToken',
+        value: function getRefreshToken() {
+            return this.storage.get(this.REFRESH_TOKEN).then(function (value) {
+                return value;
+            });
         }
     }, {
         key: 'logout',
         value: function logout() {
             this.storage.remove(this.LOGIN);
+        }
+    }, {
+        key: 'setShowOnlyOnline',
+        value: function setShowOnlyOnline(value) {
+            this.storage.set(this.SHOW_ONLY_ONLINE, value);
+        }
+    }, {
+        key: 'getShowOnlyOnline',
+        value: function getShowOnlyOnline() {
+            return this.storage.get(this.SHOW_ONLY_ONLINE).then(function (value) {
+                return value;
+            });
+        }
+    }, {
+        key: 'setAutoOpenApp',
+        value: function setAutoOpenApp(value) {
+            this.storage.set(this.AUTO_OPEN_APP, value);
+        }
+    }, {
+        key: 'getAutoOpenApp',
+        value: function getAutoOpenApp() {
+            return this.storage.get(this.AUTO_OPEN_APP).then(function (value) {
+                return value;
+            });
+        }
+    }, {
+        key: 'setOrderByFollow',
+        value: function setOrderByFollow(value) {
+            this.storage.set(this.ORDER_BY_FOLLOW, value);
+        }
+    }, {
+        key: 'getOrderByFollow',
+        value: function getOrderByFollow() {
+            return this.storage.get(this.ORDER_BY_FOLLOW).then(function (value) {
+                return value;
+            });
         }
     }, {
         key: 'hasLoggedIn',
@@ -1162,23 +1271,74 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
             });
         }
     }, {
-        key: 'isAutoNotify',
-        value: function isAutoNotify() {
+        key: 'setIsAutoNotify',
+        value: function setIsAutoNotify(value) {
+            this.storage.set(this.IS_AUTO_NOTIFY, value);
+        }
+    }, {
+        key: 'getIsAutoNotify',
+        value: function getIsAutoNotify() {
             return this.storage.get(this.IS_AUTO_NOTIFY).then(function (value) {
                 return value;
             });
         }
     }, {
-        key: 'isAppNotify',
-        value: function isAppNotify() {
+        key: 'setIsAppNotify',
+        value: function setIsAppNotify(value) {
+            this.storage.set(this.IS_APP_NOTIFY, value);
+        }
+    }, {
+        key: 'getIsAppNotify',
+        value: function getIsAppNotify() {
             return this.storage.get(this.IS_APP_NOTIFY).then(function (value) {
                 return value;
             });
         }
     }, {
-        key: 'isNoDisturb',
-        value: function isNoDisturb() {
+        key: 'setIsNoDisturb',
+        value: function setIsNoDisturb(value) {
+            this.storage.set(this.IS_NO_DISTURB, value);
+        }
+    }, {
+        key: 'getIsNoDisturb',
+        value: function getIsNoDisturb() {
             return this.storage.get(this.IS_NO_DISTURB).then(function (value) {
+                return value;
+            });
+        }
+    }, {
+        key: 'setUserId',
+        value: function setUserId(value) {
+            this.storage.set(this.USER_ID, value);
+        }
+    }, {
+        key: 'getUserId',
+        value: function getUserId() {
+            return this.storage.get(this.USER_ID).then(function (value) {
+                return value;
+            });
+        }
+    }, {
+        key: 'setUserNickname',
+        value: function setUserNickname(value) {
+            this.storage.set(this.USER_NICKNAME, value);
+        }
+    }, {
+        key: 'getUserNickname',
+        value: function getUserNickname() {
+            return this.storage.get(this.USER_NICKNAME).then(function (value) {
+                return value;
+            });
+        }
+    }, {
+        key: 'setUserMail',
+        value: function setUserMail(value) {
+            this.storage.set(this.USER_MAIL, value);
+        }
+    }, {
+        key: 'getUserMail',
+        value: function getUserMail() {
+            return this.storage.get(this.USER_MAIL).then(function (value) {
                 return value;
             });
         }

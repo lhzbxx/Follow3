@@ -347,7 +347,7 @@
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z123"></relationship>
     </object>
     <object type="LMENVIRONMENTVARIABLEVALUE" id="z180">
-        <attribute name="value" type="string">http://follow3.lhzbxx.top:9900</attribute>
+        <attribute name="value" type="string">http://115.28.71.169:9900</attribute>
         <relationship name="environment" type="1/1" destination="LMENVIRONMENT" idrefs="z178"></relationship>
         <relationship name="variable" type="1/1" destination="LMENVIRONMENTVARIABLE" idrefs="z123"></relationship>
     </object>

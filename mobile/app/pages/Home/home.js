@@ -22,7 +22,26 @@ export class Home {
         this.nav = nav;
         this.platform = platform;
         this.config = config;
-        this.setting = config.getPreference();
+        this.setting = {
+            showOnlyOnline: false,
+            autoOpenApp: false,
+            orderByFollow: false
+        };
+        this.config.getShowOnlyOnline().then(
+            (value) => {
+                this.setting.showOnlyOnline = value;
+            }
+        );
+        this.config.getAutoOpenApp().then(
+            (value) => {
+                this.setting.autoOpenApp = value;
+            }
+        );
+        this.config.getOrderByFollow().then(
+            (value) => {
+                this.setting.orderByFollow = value;
+            }
+        );
         this.platform.ready();
     }
 

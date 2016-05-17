@@ -1,6 +1,7 @@
-import {Page, Alert, NavController} from 'ionic-angular';
+import {Page, Alert, Loading, NavController} from 'ionic-angular';
 import {DataService} from '../../providers/data-service';
 import {UserConfig} from '../../providers/user-config';
+import {LoginAndRegister} from '../auth/login&register';
 
 
 @Page({
@@ -19,6 +20,7 @@ export class Setting {
             isAppNotify: false,
             isNoDisturb: false
         };
+        this.mail = '';
         this.config.getIsAutoNotify().then(
             (value) => {
                 this.settings.isAutoNotify = value;
@@ -34,6 +36,11 @@ export class Setting {
                 this.settings.isNoDisturb = value;
             }
         );
+        this.config.getUserMail().then(
+            (value) => {
+                this.mail = value;
+            }
+        )
     }
 
     differOpinion() {
@@ -66,10 +73,34 @@ export class Setting {
     checkUpdate() {
         let alert = Alert.create({
             title: '',
-            subTitle: '已是最新版本！',
             buttons: ['OK']
         });
-        this.nav.present(alert);
+        this.data.version(this.nav)
+            .then(
+                data => {
+                    alert.setSubTitle('已是最新版本~');
+                    this.nav.present(alert);
+                }
+            )
+            .catch(
+                data => {
+                    alert.setSubTitle('需要更新！');
+                    this.nav.present(alert);
+                }
+            )
+    }
+
+    resetPassword() {
+        let t = Alert.create({
+
+        });
+        this.nav.present(t);
+    }
+
+    logout() {
+        this.nav.rootNav.setRoot(LoginAndRegister);
+        // this.nav.pop();
+        this.config.logout();
     }
     
     rateMe() {
