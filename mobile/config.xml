@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="top.lhzbxx.follow3" version="0.3.1" xmlns="http://www.w3.org/ns/widgets"
+<widget id="top.lhzbxx.follow3" version="0.3.2" xmlns="http://www.w3.org/ns/widgets"
         xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Follow3</name>
     <description>麻麻再也不用担心我错过直播了-计划3.0·Alpha</description>
