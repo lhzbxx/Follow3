@@ -49,40 +49,41 @@ export class DataService {
         let url = this.BASE_URL + 'auth/register';
         let body = JSON.stringify({'email': email, 'nickname': nickname, 'password': password});
         let headers = new Headers({'Content-Type': 'application/json'});
-        this.http.post(url, body, {headers: headers})
-            .map(res => res.json())
-            .subscribe(data => {
-                console.log(data.msg);
-                if (data.status == 200) {
-                    this.showAlert('注册成功！', '已向您邮箱发送一封激活邮件，点击激活后即可登录。', nav);
-                    return true;
-                } else {
-                    this.showToast('注册失败...', 2000, nav);
-                }
-            }, error => {
-                this.showToast('无法连接到服务器...', 2000, nav);
-            });
-        return false;
+        return new Promise(resolve => {
+            this.http.post(url, body, {headers: headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    console.log(data.msg);
+                    if (data.status == 200) {
+                        this.showAlert('注册成功！', '已向您邮箱发送一封激活邮件，点击激活后即可登录。', nav);
+                        resolve();
+                    } else {
+                        this.showToast('注册失败...', 2000, nav);
+                    }
+                }, error => {
+                    this.showToast('无法连接到服务器...', 2000, nav);
+                });
+        });
     }
 
     resetPassword(email, password, nav) {
         let url = this.BASE_URL + 'auth/reset';
         let body = JSON.stringify({'email': email, 'password': password});
         let headers = new Headers({'Content-Type': 'application/json'});
-        this.http.patch(url, body, {headers: headers})
-            .map(res => res.json())
-            .subscribe(data => {
-                console.log(data.msg);
-                if (data.status == 200) {
-                    this.showAlert('修改成功！', '已向您邮箱发送一封确认邮件，确认后即修改成功。', nav);
-                    return true;
-                } else {
-                    this.showToast('修改失败...', 2000, nav);
-                }
-            }, error => {
-                this.showToast('无法连接到服务器...', 2000, nav);
-            });
-        return false;
+        return new Promise(resolve => {
+            this.http.patch(url, body, {headers: headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    console.log(data.msg);
+                    if (data.status == 200) {
+                        resolve();
+                    } else {
+                        this.showToast('修改失败...', 2000, nav);
+                    }
+                }, error => {
+                    this.showToast('无法连接到服务器...', 2000, nav);
+                });
+        });
     }
 
     showToast(msg, dur, nav) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Feedback;
 use App\Models\Star;
 use App\Models\User;
 use App\Models\Follow;
@@ -142,6 +143,30 @@ class UserController extends Controller
             return $this->result($star);
         }
         abort(1000, 'No star found!');
+    }
+
+    /**
+     *
+     * 提交反馈
+     *
+     * @param Request $request
+     * @return mixed
+     * @author: LuHao
+     */
+    public function feedback(Request $request)
+    {
+        $v = Validator::make($request->all(), [
+            'content' => 'required'
+        ]);
+        if ($v->fails()) {
+            abort(999, $v->errors());
+        }
+        $content = $request->input('content');
+        $feedback = new Feedback;
+        $feedback->user_id = $this->user_id;
+        $feedback->content = $content;
+        $feedback->save();
+        return $this->result();
     }
 
 }

@@ -156,10 +156,12 @@ var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page
     _createClass(LoginAndRegister, [{
         key: 'register',
         value: function register() {
-            this.data.register(this.register_mail, this.register_nickname, this.register_passwd, this.nav);
-            this.login_mail = this.register_mail;
-            this.login_passwd = this.register_passwd;
-            this.auth = 'login';
+            var context = this;
+            this.data.register(this.register_mail, this.register_nickname, _md.Md5.hashStr(this.register_passwd), this.nav).then(function () {
+                context.login_mail = context.register_mail;
+                context.login_passwd = context.register_passwd;
+                context.auth = 'login';
+            });
         }
     }, {
         key: 'login',
@@ -182,26 +184,42 @@ var ResetPasswd = (_dec2 = (0, _ionicAngular.Page)({
     _createClass(ResetPasswd, null, [{
         key: 'parameters',
         get: function get() {
-            return [_ionicAngular.ViewController, _ionicAngular.NavParams, _dataService.DataService];
+            return [_ionicAngular.ViewController, _ionicAngular.NavParams, _dataService.DataService, _ionicAngular.NavController];
         }
     }]);
 
-    function ResetPasswd(viewCtrl, param, data) {
+    function ResetPasswd(viewCtrl, param, data, nav) {
         _classCallCheck(this, ResetPasswd);
 
         this.viewCtrl = viewCtrl;
         this.reset_mail = param.get('mail');
         this.data = data;
+        this.nav = nav;
     }
 
     _createClass(ResetPasswd, [{
-        key: 'dismiss',
-        value: function dismiss() {
+        key: 'close',
+        value: function close() {
             this.viewCtrl.dismiss();
         }
     }, {
         key: 'reset',
-        value: function reset() {}
+        value: function reset() {
+            var context = this;
+            this.data.resetPassword(this.reset_mail, _md.Md5.hashStr(this.reset_passwd), this.nav).then(function () {
+                var t = _ionicAngular.Alert.create({
+                    title: '修改成功！',
+                    subTitle: '已向您邮箱发送一封确认邮件，确认后即修改成功。',
+                    buttons: [{
+                        text: 'OK',
+                        handler: function handler() {
+                            context.close();
+                        }
+                    }]
+                });
+                context.nav.present(t);
+            });
+        }
     }]);
 
     return ResetPasswd;
@@ -900,10 +918,14 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             this.http.post(url, body, { headers: headers }).map(function (res) {
                 return res.json();
             }).subscribe(function (data) {
+                console.log(data.msg);
                 if (data.status == 200) {
-                    _this.showAlert('注册成功！', '已向您邮箱发送一封激活邮件，点击激活后即可登录。', nav);
+                    _this.showToast('登录成功！', 2000, nav);
+                    nav.setRoot(_tabs.TabsPage);
+                    nav.pop();
+                    _this.config.setAuth(data.data.access_token, data.data.refresh_token);
                 } else {
-                    _this.showToast('注册失败...', 2000, nav);
+                    _this.showToast('用户名或密码不正确...', 2000, nav);
                 }
             }, function (error) {
                 _this.showToast('无法连接到服务器...', 2000, nav);
@@ -914,51 +936,49 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
         value: function register(email, nickname, password, nav) {
             var _this2 = this;
 
-            var url = this.BASE_URL + 'auth/login';
-            var body = JSON.stringify({ 'email': email, 'password': password });
+            var url = this.BASE_URL + 'auth/register';
+            var body = JSON.stringify({ 'email': email, 'nickname': nickname, 'password': password });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-            this.http.post(url, body, { headers: headers }).map(function (res) {
-                return res.json();
-            }).subscribe(function (data) {
-                if (data.status == 200) {
-                    _this2.showToast('登录成功！', 2000, nav);
-                    nav.setRoot(_tabs.TabsPage);
-                    nav.pop();
-                    nav.present(t);
-                    _this2.config.setAuth(data.data.access_token, data.data.refresh_token);
-                } else {
-                    _this2.showToast('用户名或密码不正确...', 2000, nav);
-                }
-            }, function (error) {
-                _this2.showToast('无法连接到服务器...', 2000, nav);
-            });
-        }
-    }, {
-        key: 'load',
-        value: function load() {
-            var _this3 = this;
-
-            if (this.data) {
-                // already loaded data
-                return Promise.resolve(this.data);
-            }
-
-            // don't have the data yet
             return new Promise(function (resolve) {
-                // We're using Angular Http provider to request the data,
-                // then on the response it'll map the JSON data to a parsed JS object.
-                // Next we process the data and resolve the promise with the new data.
-                _this3.http.get('path/to/data.json').map(function (res) {
+                _this2.http.post(url, body, { headers: headers }).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
-                    // we've got back the raw data, now generate the core schedule data
-                    // and save the data for later reference
-                    _this3.data = data;
-                    resolve(_this3.data);
+                    console.log(data.msg);
+                    if (data.status == 200) {
+                        _this2.showAlert('注册成功！', '已向您邮箱发送一封激活邮件，点击激活后即可登录。', nav);
+                        resolve();
+                    } else {
+                        _this2.showToast('注册失败...', 2000, nav);
+                    }
+                }, function (error) {
+                    _this2.showToast('无法连接到服务器...', 2000, nav);
                 });
             });
         }
-    }], [{
+    }, {
+        key: 'resetPassword',
+        value: function resetPassword(email, password, nav) {
+            var _this3 = this;
+
+            var url = this.BASE_URL + 'auth/reset';
+            var body = JSON.stringify({ 'email': email, 'password': password });
+            var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+            return new Promise(function (resolve) {
+                _this3.http.patch(url, body, { headers: headers }).map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    console.log(data.msg);
+                    if (data.status == 200) {
+                        resolve();
+                    } else {
+                        _this3.showToast('修改失败...', 2000, nav);
+                    }
+                }, function (error) {
+                    _this3.showToast('无法连接到服务器...', 2000, nav);
+                });
+            });
+        }
+    }, {
         key: 'showToast',
         value: function showToast(msg, dur, nav) {
             var t = _ionicAngular.Toast.create({
@@ -976,6 +996,31 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                 buttons: ['OK']
             });
             nav.present(t);
+        }
+    }, {
+        key: 'load',
+        value: function load() {
+            var _this4 = this;
+
+            if (this.data) {
+                // already loaded data
+                return Promise.resolve(this.data);
+            }
+
+            // don't have the data yet
+            return new Promise(function (resolve) {
+                // We're using Angular Http provider to request the data,
+                // then on the response it'll map the JSON data to a parsed JS object.
+                // Next we process the data and resolve the promise with the new data.
+                _this4.http.get('path/to/data.json').map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    // we've got back the raw data, now generate the core schedule data
+                    // and save the data for later reference
+                    _this4.data = data;
+                    resolve(_this4.data);
+                });
+            });
         }
     }]);
 
