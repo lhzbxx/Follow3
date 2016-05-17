@@ -20,6 +20,8 @@ var _loginRegister = require('./pages/auth/login&register');
 
 var _dataService = require('./providers/data-service');
 
+var _actionService = require('./providers/action-service');
+
 var _userConfig = require('./providers/user-config');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27,7 +29,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // http://ionicframework.com/docs/v2/api/config/Config/
 var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
     template: '<ion-nav [root]="rootPage"></ion-nav>',
-    providers: [_dataService.DataService, _userConfig.UserConfig],
+    providers: [_dataService.DataService, _userConfig.UserConfig, _actionService.ActionService],
     config: {} }), _dec(_class = function () {
     _createClass(MyApp, null, [{
         key: 'parameters',
@@ -115,7 +117,7 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
     return MyApp;
 }()) || _class);
 
-},{"./pages/auth/login&register":2,"./pages/tabs/tabs":8,"./providers/data-service":10,"./providers/user-config":11,"ionic-angular":351,"ionic-native":373}],2:[function(require,module,exports){
+},{"./pages/auth/login&register":2,"./pages/tabs/tabs":8,"./providers/action-service":9,"./providers/data-service":10,"./providers/user-config":11,"ionic-angular":351,"ionic-native":373}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -432,7 +434,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     icon: !this.platform.is('ios') ? 'remove-circle' : null,
                     role: 'destructive',
                     handler: function handler() {
-                        _this3.data.unfollowStar(star.id).then(function (data) {
+                        _this3.data.unfollowStar(star.id, _this3.nav).then(function (data) {
                             _this3.doRefresh(null);
                         });
                     }
@@ -456,6 +458,9 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
             var showOnlyOnline = this.setting.showOnlyOnline;
             var autoOpenApp = this.setting.autoOpenApp;
             var orderByFollow = this.setting.orderByFollow;
+            console.log(showOnlyOnline);
+            console.log(autoOpenApp);
+            console.log(orderByFollow);
             alert.addInput({
                 type: 'checkbox',
                 label: '仅显示在线主播',
@@ -853,7 +858,27 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'resetPassword',
         value: function resetPassword() {
-            var t = _ionicAngular.Alert.create({});
+            var _this4 = this;
+
+            var t = _ionicAngular.Alert.create({
+                title: '重设密码',
+                message: "输入新的密码...",
+                inputs: [{
+                    name: 'password',
+                    placeholder: 'Password...'
+                }],
+                buttons: [{
+                    text: 'Cancel',
+                    handler: function handler(data) {
+                        // Cancel
+                    }
+                }, {
+                    text: 'Reset',
+                    handler: function handler(data) {
+                        _this4.data.resetPassword(_this4.mail, data, _this4.nav);
+                    }
+                }]
+            });
             this.nav.present(t);
         }
     }, {
@@ -944,7 +969,7 @@ var TabsPage = exports.TabsPage = (_dec = (0, _ionicAngular.Page)({
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Action = undefined;
+exports.ActionService = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -954,23 +979,26 @@ var _core = require('angular2/core');
 
 var _userConfig = require('./user-config');
 
+var _ionicAngular = require('ionic-angular');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Action = exports.Action = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
-    _createClass(Action, null, [{
+var ActionService = exports.ActionService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
+    _createClass(ActionService, null, [{
         key: 'parameters',
         get: function get() {
-            return [[_userConfig.UserConfig]];
+            return [[_userConfig.UserConfig], [_ionicAngular.Platform]];
         }
     }]);
 
-    function Action(http, user) {
-        _classCallCheck(this, Action);
+    function ActionService(user, platform) {
+        _classCallCheck(this, ActionService);
 
         this.user = user;
+        this.platform = platform;
     }
 
-    _createClass(Action, [{
+    _createClass(ActionService, [{
         key: 'watch',
         value: function watch(star, autoOpenApp) {
             if (autoOpenApp) {
@@ -1003,10 +1031,10 @@ var Action = exports.Action = (_dec = (0, _core.Injectable)(), _dec(_class = fun
         }
     }]);
 
-    return Action;
+    return ActionService;
 }()) || _class);
 
-},{"./user-config":11,"angular2/core":20}],10:[function(require,module,exports){
+},{"./user-config":11,"angular2/core":20,"ionic-angular":351}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1251,6 +1279,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                     _this9.http.post(url, body, { headers: headers }).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
+                        _this9.showToast('关注成功！', 2000, nav);
                         resolve();
                     }, function (error) {
                         _this9.showToast('无法连接到服务器...', 2000, nav);
@@ -1261,17 +1290,16 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
         }
     }, {
         key: 'unfollowStar',
-        value: function unfollowStar(star_id) {
+        value: function unfollowStar(star_id, nav) {
             var _this10 = this;
 
             return new Promise(function (resolve) {
                 _this10.config.getAccessToken().then(function (token) {
-                    var url = _this10.BASE_URL + 'user/follow/' + star_id;
-                    var body = JSON.stringify({ 'access_token': token });
-                    var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-                    _this10.http.delete(url, body, { headers: headers }).map(function (res) {
+                    var url = _this10.BASE_URL + 'user/follow/' + star_id + "?access_token=" + token;
+                    _this10.http.delete(url).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
+                        _this10.showToast('取关成功', 2000, nav);
                         resolve();
                     }, function (error) {
                         _this10.showToast('无法连接到服务器...', 2000, nav);

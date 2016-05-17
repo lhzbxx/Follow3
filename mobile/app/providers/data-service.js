@@ -202,6 +202,7 @@ export class DataService {
                     this.http.post(url, body, {headers: headers})
                         .map(res => res.json())
                         .subscribe(data => {
+                            this.showToast('关注成功！', 2000, nav);
                             resolve();
                         }, error => {
                             this.showToast('无法连接到服务器...', 2000, nav);
@@ -212,16 +213,15 @@ export class DataService {
         });
     }
 
-    unfollowStar(star_id) {
+    unfollowStar(star_id, nav) {
         return new Promise(resolve => {
             this.config.getAccessToken().then(
                 token => {
-                    let url = this.BASE_URL + 'user/follow/' + star_id;
-                    let body = JSON.stringify({'access_token': token});
-                    let headers = new Headers({'Content-Type': 'application/json'});
-                    this.http.delete(url, body, {headers: headers})
+                    let url = this.BASE_URL + 'user/follow/' + star_id + "?access_token=" + token;
+                    this.http.delete(url)
                         .map(res => res.json())
                         .subscribe(data => {
+                            this.showToast('取关成功', 2000, nav);
                             resolve();
                         }, error => {
                             this.showToast('无法连接到服务器...', 2000, nav);

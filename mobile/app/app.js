@@ -3,11 +3,12 @@ import {StatusBar, Splashscreen} from 'ionic-native';
 import {TabsPage} from './pages/tabs/tabs';
 import {LoginAndRegister} from './pages/auth/login&register'
 import {DataService} from './providers/data-service';
+import {ActionService} from './providers/action-service';
 import {UserConfig} from './providers/user-config';
 
 @App({
     template: '<ion-nav [root]="rootPage"></ion-nav>',
-    providers: [DataService, UserConfig],
+    providers: [DataService, UserConfig, ActionService],
     config: {} // http://ionicframework.com/docs/v2/api/config/Config/
 })
 export class MyApp {

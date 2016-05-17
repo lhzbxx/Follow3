@@ -67,15 +67,16 @@
 1. <del>iOS下的SearchBar存在bug.</del>稍微解决了一下，但并不完美。
 2. <del>使用link打开App存在问题。</del>已经完美修正。
 3. <del>ngFor和ngIf存在冲突。</del>改用后台增加接口的方案。
-4. iOS的Fab Button感觉怪怪的。
-5. 需要对网络通信做一个Provider，现在太乱了。
-6. 用户的Profile需要进行更新。
+4. <del>iOS的Fab Button感觉怪怪的。</del>看多了就习惯了。O__O
+5. <del>需要对网络通信做一个Provider，现在太乱了。</del>已经修正。
+6. <del>用户的Profile需要进行更新。</del>已经修正。
 7. <del>iOS的ICON需要修正。</del>
-8. 添加一个单主播的Modal页面？
+8. <del>添加一个单主播的Modal页面？</del>
 9. Android端双击Back退出。
 10. 取消关注后添加撤销的Toast。
 11. 对邮件发送设限（不要因为Exception而一次性发太多！），添加退订链接。
 12. 主播离开平台后的处理。┑(￣Д ￣)┍
+13. Preference选择bug。
 
 ---
 
@@ -127,6 +128,11 @@
 
 	最近查了一下Twitch的API，虽然经过了HTTPS加密，但是发现逻辑好像也很清晰，只是不知道有没有屏蔽这种规律抓取的行为，有时间添加一下。
 
+* 2016.5.17
+
+	需要苹果开发者证书啊！
+
+	手贱使用了Git工作流，略蛋疼！
 
 ---
 

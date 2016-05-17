@@ -97,11 +97,12 @@ export class Home {
                     icon: !this.platform.is('ios') ? 'remove-circle' : null,
                     role: 'destructive',
                     handler: () => {
-                        this.data.unfollowStar(star.id).then(
-                            data => {
-                                this.doRefresh(null);
-                            }
-                        );
+                        this.data.unfollowStar(star.id, this.nav)
+                            .then(
+                                data => {
+                                    this.doRefresh(null);
+                                }
+                            );
                     }
                 }, {
                     text: '取消',
@@ -123,6 +124,9 @@ export class Home {
         let showOnlyOnline = this.setting.showOnlyOnline;
         let autoOpenApp = this.setting.autoOpenApp;
         let orderByFollow = this.setting.orderByFollow;
+        console.log(showOnlyOnline);
+        console.log(autoOpenApp);
+        console.log(orderByFollow);
         alert.addInput({
             type: 'checkbox',
             label: '仅显示在线主播',

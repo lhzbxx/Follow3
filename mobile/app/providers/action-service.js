@@ -1,15 +1,17 @@
 import {Injectable} from 'angular2/core';
 import {UserConfig} from './user-config';
+import {Platform} from 'ionic-angular';
 
 
 @Injectable()
-export class Action {
+export class ActionService {
     static get parameters(){
-        return [[UserConfig]];
+        return [[UserConfig], [Platform]];
     }
 
-    constructor(http, user) {
+    constructor(user, platform) {
         this.user = user;
+        this.platform = platform;
     }
 
     watch(star, autoOpenApp) {
