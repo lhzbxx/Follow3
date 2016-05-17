@@ -22,9 +22,9 @@ $app->get('auth/activate/{register_token}', 'AuthController@activate');
 $app->patch('auth/reset', 'AuthController@reset_password');
 $app->get('auth/reset/{reset_token}', 'AuthController@confirm_reset_password');
 
+$app->get('user/profile', 'UserController@self_profile');
 $app->get('user/profile/{user_id}', 'UserController@profile');
 $app->patch('user/notify', 'UserController@notify');
-
 $app->get('user/follow', 'UserController@follow_list');
 $app->get('user/follow/online', 'UserController@online_list');
 $app->get('user/follow/all', 'UserController@follow_list');

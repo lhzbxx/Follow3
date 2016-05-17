@@ -28,15 +28,32 @@ class UserController extends Controller
 
     /**
      *
-     * 用户信息
+     * 个人用户信息
      *
      * @return mixed
      * @author: LuHao
      */
-    public function profile()
+    public function self_profile()
     {
         $result = User::find($this->user_id);
         return $this->result($result);
+    }
+
+    /**
+     *
+     * 通用用户信息
+     *
+     * @param $user_id
+     * @author: LuHao
+     */
+    public function profile($user_id)
+    {
+        $result = User::find($user_id); 
+        if ($result) {
+            return $this->result($result);
+        } else {
+            abort(922, 'No such user.');
+        }
     }
 
     /**

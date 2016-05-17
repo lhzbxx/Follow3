@@ -19,17 +19,17 @@ export class Setting {
             isAppNotify: false,
             isNoDisturb: false
         };
-        this.config.isAutoNotify().then(
+        this.config.getIsAutoNotify().then(
             (value) => {
                 this.settings.isAutoNotify = value;
             }
         );
-        this.config.isAppNotify().then(
+        this.config.getIsAppNotify().then(
             (value) => {
                 this.settings.isAppNotify = value;
             }
         );
-        this.config.isNoDisturb().then(
+        this.config.getIsNoDisturb().then(
             (value) => {
                 this.settings.isNoDisturb = value;
             }
