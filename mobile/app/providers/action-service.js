@@ -18,7 +18,7 @@ export class ActionService {
         this.config.getAutoOpenApp()
             .then(
                 value => {
-                    if (value) {
+                    if (value == "true") {
                         if (star.platform == 'PANDA') {
                             cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
                         } else if (star.platform == 'DOUYU') {

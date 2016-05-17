@@ -1,6 +1,5 @@
 import {Page, Modal, NavController, ViewController, NavParams, Alert} from 'ionic-angular';
 import {DataService} from '../../providers/data-service';
-import {Md5} from 'ts-md5/dist/md5';
 
 
 @Page({
@@ -19,7 +18,7 @@ export class LoginAndRegister {
 
     register() {
         let context = this;
-        this.data.register(this.register_mail, this.register_nickname, Md5.hashStr(this.register_passwd), this.nav)
+        this.data.register(this.register_mail, this.register_nickname, this.register_passwd, this.nav)
             .then(function () {
                 context.login_mail = context.register_mail;
                 context.login_passwd = context.register_passwd;
@@ -28,7 +27,7 @@ export class LoginAndRegister {
     }
 
     login() {
-        this.data.login(this.login_mail, Md5.hashStr(this.login_passwd), this.nav);
+        this.data.login(this.login_mail, this.login_passwd, this.nav);
     }
 
     showResetPasswd() {
@@ -58,7 +57,7 @@ class ResetPasswd {
 
     reset() {
         let context = this;
-        this.data.resetPassword(this.reset_mail, Md5.hashStr(this.reset_passwd), this.nav)
+        this.data.resetPassword(this.reset_mail, this.reset_passwd, this.nav)
             .then(function () {
                 let t = Alert.create({
                     title: '修改成功！',

@@ -605,7 +605,7 @@
     </object>
     <object type="LMREQUEST" id="z208">
         <attribute name="uuid" type="string">A201BCD3-5E9B-498E-87BB-0EFA8A5D606C</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"AD22CA10-C04B-412E-B62D-3A28CCF8F13F"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/user\\/search?access_token=",{"data":{"request":"48969A8B-F717-400A-9369-22B0A0AC47AB","keyPath":["data.access_token"],"format":1},"identifier":"com.luckymarmot.ResponseBodyPathDynamicValue"},"\u2600platform=PANDA\u2600query=",{"data":{"useUppercaseLetters":1,"length":32,"useDigits":1,"useHexDigits":0,"useASCIISymbols":0,"useLowercaseLetters":1},"identifier":"com.luckymarmot.NonceDynamicValue"}]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"AD22CA10-C04B-412E-B62D-3A28CCF8F13F"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/user\\/search?access_token=",{"data":{"request":"48969A8B-F717-400A-9369-22B0A0AC47AB","keyPath":["data.access_token"],"format":1},"identifier":"com.luckymarmot.ResponseBodyPathDynamicValue"},"\u2600query=2"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>

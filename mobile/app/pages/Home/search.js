@@ -73,11 +73,11 @@ export class Search {
                         if (star.user_id) {
                             // 取消关注
                             this.data.unfollowStar(star.id, this.nav);
-                            this.user_id = null;
+                            star.user_id = null;
                         } else {
                             // 关注
                             this.data.followStar(star.id, this.nav);
-                            this.user_id = 1;
+                            star.user_id = 1;
                         }
                     }
                 },{

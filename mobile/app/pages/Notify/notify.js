@@ -1,5 +1,6 @@
 import {Page, NavController, Alert, Storage, SqlStorage, Platform} from 'ionic-angular';
 import {TimeAgoPipe} from 'angular2-moment';
+import {ActionService} from '../../providers/action-service';
 
 
 @Page({
@@ -8,13 +9,14 @@ import {TimeAgoPipe} from 'angular2-moment';
 })
 export class Notify {
     static get parameters() {
-        return [NavController, Platform];
+        return [NavController, Platform, ActionService];
     }
 
-    constructor(NavController, Platform) {
-        this.nav = NavController;
+    constructor(nav, platform, action) {
+        this.nav = nav;
         this.notifications = null;
-        this.platform = Platform;
+        this.platform = platform;
+        this.action = action;
         this.storage = new Storage(SqlStorage);
         this.refresh();
     }
@@ -50,11 +52,11 @@ export class Notify {
     }
 
     watchDirect(notification) {
-        //
+        this.action.watch(notification);
     }
 
-    shareOut() {
-        //
+    shareOut(notification) {
+        this.action.share("我在Follow3上关注了" + notification.nickname + "，实时获得开播信息。真的很好用！");
     }
 
     readAll() {

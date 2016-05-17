@@ -151,9 +151,12 @@ class UserController extends Controller
             abort(999, $v->errors());
         }
         $query = $request->input('query');
-        $star = Star::search($query)
+        $star = Star::select('Star.id', 'Star.nickname', 'Star.title',
+            'Star.cover', 'Star.link', 'Star.avatar', 'Star.platform',
+            'Star.info', 'Star.serial', 'Star.followers', 'Star.is_live',
+            'Star.began_at', 'Star.end_at', 'Follow.user_id')->search($query)
             ->leftJoin('Follow', function ($join) {
-                $join->on('Follow.star_id', '=', 'Star.id')
+                $join->on('Star.id', '=', 'Follow.star_id')
                     ->where('Follow.user_id', '=', $this->user_id);
             })->get();
         if ( ! $star->isEmpty()) {

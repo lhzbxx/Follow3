@@ -33,6 +33,7 @@ export class Home {
         this.config.getShowOnlyOnline().then(
             (value) => {
                 this.setting.showOnlyOnline = value;
+                this.fetch(null);
             }
         );
         this.config.getAutoOpenApp().then(
@@ -46,7 +47,6 @@ export class Home {
             }
         );
         this.platform.ready();
-        this.fetch(null);
     }
 
     fetch(refresher) {
@@ -121,29 +121,24 @@ export class Home {
         let alert = Alert.create();
         alert.setTitle('Preference');
         let context = this;
-        let showOnlyOnline = this.setting.showOnlyOnline;
-        let autoOpenApp = this.setting.autoOpenApp;
-        let orderByFollow = this.setting.orderByFollow;
-        console.log(showOnlyOnline);
-        console.log(autoOpenApp);
-        console.log(orderByFollow);
+        console.log(this.setting.showOnlyOnline=="true");
         alert.addInput({
             type: 'checkbox',
             label: '仅显示在线主播',
             value: 'showOnlyOnline',
-            checked: showOnlyOnline
+            checked: this.setting.showOnlyOnline=="true"
         });
         alert.addInput({
             type: 'checkbox',
             label: '自动打开对应APP',
             value: 'autoOpenApp',
-            checked: autoOpenApp
+            checked: this.setting.autoOpenApp=="true"
         });
         alert.addInput({
             type: 'checkbox',
             label: '按照关注顺序排列',
             value: 'orderByFollow',
-            checked: orderByFollow
+            checked: this.setting.orderByFollow=="true"
         });
         alert.addButton('Cancel');
         alert.addButton({
@@ -152,9 +147,10 @@ export class Home {
                 context.config.setShowOnlyOnline(data.indexOf('showOnlyOnline') > -1);
                 context.config.setAutoOpenApp(data.indexOf('autoOpenApp') > -1);
                 context.config.setOrderByFollow(data.indexOf('orderByFollow') > -1);
-                context.setting.showOnlyOnline = data.indexOf('showOnlyOnline') > -1;
-                context.setting.autoOpenApp = data.indexOf('autoOpenApp') > -1;
-                context.setting.orderByFollow = data.indexOf('orderByFollow') > -1;
+                // 注意，当涉及到LocalStorage存取操作的时候，只能设置为字符。
+                context.setting.showOnlyOnline = data.indexOf('showOnlyOnline') > -1 ? "true" : "false";
+                context.setting.autoOpenApp = data.indexOf('autoOpenApp') > -1 ? "true" : "false";
+                context.setting.orderByFollow = data.indexOf('orderByFollow') > -1 ? "true" : "false";
                 context.fetch(null);
             }
         });

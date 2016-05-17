@@ -99,8 +99,9 @@ export class Setting {
             inputs: [
                 {
                     name: 'password',
+                    type: 'password',
                     placeholder: 'Password...'
-                },
+                }
             ],
             buttons: [
                 {
@@ -112,7 +113,21 @@ export class Setting {
                 {
                     text: 'Reset',
                     handler: data => {
-                        this.data.resetPassword(this.mail, data, this.nav);
+                        let navTransition = t.dismiss();
+                        this.data.resetPassword(this.mail, data, this.nav)
+                            .then(
+                                data => {
+                                    navTransition.then(() => {
+                                        let m = Alert.create({
+                                            title: '修改成功！',
+                                            subTitle: '已向您邮箱发送一封确认邮件，确认后即修改成功。',
+                                            buttons: ['OK']
+                                        });
+                                        this.nav.present(m);
+                                    });
+                                }
+                            );
+                        return false;
                     }
                 }
             ]

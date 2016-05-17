@@ -85,25 +85,43 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             //     }
             // }, false);
 
-            _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' + 'content TEXT,' + 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
+            _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' + 'content TEXT, serial INTEGER, platform TEXT, info TEXT, link TEXT, cover TEXT,' + 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
 
             document.addEventListener("jpush.receiveNotification", function (e) {
                 var nickname;
                 var title;
                 var notified_at;
                 var avatar;
+                var serial;
+                var _platform;
+                var info;
+                var link;
+                var cover;
+                var star_id;
                 if (platform.is('android')) {
+                    serial = window.plugins.jPushPlugin.receiveNotification.extras.serial;
+                    _platform = window.plugins.jPushPlugin.receiveNotification.extras._platform;
+                    info = window.plugins.jPushPlugin.receiveNotification.extras.info;
+                    link = window.plugins.jPushPlugin.receiveNotification.extras.link;
+                    cover = window.plugins.jPushPlugin.receiveNotification.extras.cover;
+                    star_id = window.plugins.jPushPlugin.receiveNotification.extras.star_id;
                     nickname = window.plugins.jPushPlugin.receiveNotification.extras.nickname;
                     title = window.plugins.jPushPlugin.receiveNotification.extras.title;
                     notified_at = window.plugins.jPushPlugin.receiveNotification.extras.notified_at;
                     avatar = window.plugins.jPushPlugin.receiveNotification.extras.avatar;
                 } else {
+                    serial = event.serial;
+                    _platform = event._platform;
+                    info = event.info;
+                    link = event.link;
+                    cover = event.cover;
+                    star_id = event.star_id;
                     nickname = event.nickname;
                     title = event.title;
                     notified_at = event.notified_at;
                     avatar = event.avatar;
                 }
-                _this.storage.query('INSERT INTO notifications (received_at, content, nickname, notified_at, avatar)' + 'VALUES (' + new Date().getTime() + ', "' + title + '", "' + nickname + '", "' + notified_at * 1000 + '", "' + avatar + '")').then(function (data) {
+                _this.storage.query('INSERT INTO notifications (serial, platform, info, link, cover,' + 'star_id, received_at, content, nickname, notified_at, avatar)' + 'VALUES ("' + serial, '", "' + _platform, '", "' + info, '", "' + link, '", "' + cover, '", "' + star_id, '", "' + new Date().getTime() + '", "' + title + '", "' + nickname + '", "' + notified_at * 1000 + '", "' + avatar + '")').then(function (data) {
                     console.log(JSON.stringify(data.res));
                 }, function (error) {
                     console.log("ERROR -> " + JSON.stringify(error.err));
@@ -133,8 +151,6 @@ var _ionicAngular = require('ionic-angular');
 
 var _dataService = require('../../providers/data-service');
 
-var _md = require('ts-md5/dist/md5');
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page)({
@@ -159,7 +175,7 @@ var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page
         key: 'register',
         value: function register() {
             var context = this;
-            this.data.register(this.register_mail, this.register_nickname, _md.Md5.hashStr(this.register_passwd), this.nav).then(function () {
+            this.data.register(this.register_mail, this.register_nickname, this.register_passwd, this.nav).then(function () {
                 context.login_mail = context.register_mail;
                 context.login_passwd = context.register_passwd;
                 context.auth = 'login';
@@ -168,7 +184,7 @@ var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page
     }, {
         key: 'login',
         value: function login() {
-            this.data.login(this.login_mail, _md.Md5.hashStr(this.login_passwd), this.nav);
+            this.data.login(this.login_mail, this.login_passwd, this.nav);
         }
     }, {
         key: 'showResetPasswd',
@@ -208,7 +224,7 @@ var ResetPasswd = (_dec2 = (0, _ionicAngular.Page)({
         key: 'reset',
         value: function reset() {
             var context = this;
-            this.data.resetPassword(this.reset_mail, _md.Md5.hashStr(this.reset_passwd), this.nav).then(function () {
+            this.data.resetPassword(this.reset_mail, this.reset_passwd, this.nav).then(function () {
                 var t = _ionicAngular.Alert.create({
                     title: '修改成功！',
                     subTitle: '已向您邮箱发送一封确认邮件，确认后即修改成功。',
@@ -227,7 +243,7 @@ var ResetPasswd = (_dec2 = (0, _ionicAngular.Page)({
     return ResetPasswd;
 }()) || _class2);
 
-},{"../../providers/data-service":10,"ionic-angular":351,"ts-md5/dist/md5":672}],3:[function(require,module,exports){
+},{"../../providers/data-service":10,"ionic-angular":351}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -241,9 +257,9 @@ var _dec, _class;
 
 var _ionicAngular = require('ionic-angular');
 
-var _http = require('angular2/http');
+var _dataService = require('../../providers/data-service');
 
-require('rxjs/Rx');
+var _actionService = require('../../providers/action-service');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -253,16 +269,16 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
     _createClass(Add, null, [{
         key: 'parameters',
         get: function get() {
-            return [_http.Http, _ionicAngular.NavController, _ionicAngular.Platform];
+            return [_dataService.DataService, _actionService.ActionService, _ionicAngular.NavController, _ionicAngular.Platform];
         }
     }]);
 
-    function Add(http, navController, platform) {
+    function Add(data, action, nav, platform) {
         _classCallCheck(this, Add);
 
-        this.http = http;
-        this.addStar = Add;
-        this.nav = navController;
+        this.data = data;
+        this.action = action;
+        this.nav = nav;
         this.platform = platform;
         this.loading = true;
         this.result = null;
@@ -279,42 +295,34 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
             console.log(this.room);
             console.log(this.plat);
             if (q == '' || p == '') return;
-            var body = JSON.stringify({ 'platform': p, 'query': q });
-            var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-            this.http.post('http://www.lhzbxx.top:9900/star/add?platform=' + p + '&query=' + q, body, { headers: headers }).map(function (res) {
-                return res.json();
-            }).subscribe(function (data) {
-                if (data.status == 200) {
-                    _this.addFailed = false;
-                    var t = _ionicAngular.Toast.create({
-                        message: '添加成功！',
-                        duration: 2000
-                    });
-                    _this.nav.present(t);
-                    _this.result = JSON.parse(data.data);
-                } else {
-                    var _t = _ionicAngular.Toast.create({
-                        message: '添加失败...',
-                        duration: 2000
-                    });
-                    _this.nav.present(_t);
-                    _this.addFailed = true;
-                    _this.result = null;
-                }
-            }, function (error) {
-                var t = _ionicAngular.Toast.create({
-                    message: '无法连接到服务器...',
-                    duration: 3000
-                });
-                _this.nav.present(t);
+            this.data.addStar(p, q, this.nav).then(function (data) {
+                console.log(data);
+                _this.result = JSON.parse(data);
+            }).catch(function (data) {
+                _this.addFailed = true;
+                _this.result = null;
             });
+        }
+    }, {
+        key: 'watchStar',
+        value: function watchStar(result) {
+            console.log(result);
+            console.log(result.id);
+            this.action.watch(result.id);
+        }
+    }, {
+        key: 'followStar',
+        value: function followStar(result) {
+            console.log(result);
+            console.log(result.id);
+            this.data.followStar(result.id, this.nav);
         }
     }]);
 
     return Add;
 }()) || _class);
 
-},{"angular2/http":21,"ionic-angular":351,"rxjs/Rx":425}],4:[function(require,module,exports){
+},{"../../providers/action-service":9,"../../providers/data-service":10,"ionic-angular":351}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -374,6 +382,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
         };
         this.config.getShowOnlyOnline().then(function (value) {
             _this.setting.showOnlyOnline = value;
+            _this.fetch(null);
         });
         this.config.getAutoOpenApp().then(function (value) {
             _this.setting.autoOpenApp = value;
@@ -382,7 +391,6 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
             _this.setting.orderByFollow = value;
         });
         this.platform.ready();
-        this.fetch(null);
     }
 
     _createClass(Home, [{
@@ -455,29 +463,24 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
             var alert = _ionicAngular.Alert.create();
             alert.setTitle('Preference');
             var context = this;
-            var showOnlyOnline = this.setting.showOnlyOnline;
-            var autoOpenApp = this.setting.autoOpenApp;
-            var orderByFollow = this.setting.orderByFollow;
-            console.log(showOnlyOnline);
-            console.log(autoOpenApp);
-            console.log(orderByFollow);
+            console.log(this.setting.showOnlyOnline == "true");
             alert.addInput({
                 type: 'checkbox',
                 label: '仅显示在线主播',
                 value: 'showOnlyOnline',
-                checked: showOnlyOnline
+                checked: this.setting.showOnlyOnline == "true"
             });
             alert.addInput({
                 type: 'checkbox',
                 label: '自动打开对应APP',
                 value: 'autoOpenApp',
-                checked: autoOpenApp
+                checked: this.setting.autoOpenApp == "true"
             });
             alert.addInput({
                 type: 'checkbox',
                 label: '按照关注顺序排列',
                 value: 'orderByFollow',
-                checked: orderByFollow
+                checked: this.setting.orderByFollow == "true"
             });
             alert.addButton('Cancel');
             alert.addButton({
@@ -486,9 +489,10 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     context.config.setShowOnlyOnline(data.indexOf('showOnlyOnline') > -1);
                     context.config.setAutoOpenApp(data.indexOf('autoOpenApp') > -1);
                     context.config.setOrderByFollow(data.indexOf('orderByFollow') > -1);
-                    context.setting.showOnlyOnline = data.indexOf('showOnlyOnline') > -1;
-                    context.setting.autoOpenApp = data.indexOf('autoOpenApp') > -1;
-                    context.setting.orderByFollow = data.indexOf('orderByFollow') > -1;
+                    // 注意，当涉及到LocalStorage存取操作的时候，只能设置为字符。
+                    context.setting.showOnlyOnline = data.indexOf('showOnlyOnline') > -1 ? "true" : "false";
+                    context.setting.autoOpenApp = data.indexOf('autoOpenApp') > -1 ? "true" : "false";
+                    context.setting.orderByFollow = data.indexOf('orderByFollow') > -1 ? "true" : "false";
                     context.fetch(null);
                 }
             });
@@ -598,11 +602,11 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
                         if (star.user_id) {
                             // 取消关注
                             _this2.data.unfollowStar(star.id, _this2.nav);
-                            _this2.user_id = null;
+                            star.user_id = null;
                         } else {
                             // 关注
                             _this2.data.followStar(star.id, _this2.nav);
-                            _this2.user_id = 1;
+                            star.user_id = 1;
                         }
                     }
                 }, {
@@ -637,6 +641,8 @@ var _ionicAngular = require('ionic-angular');
 
 var _angular2Moment = require('angular2-moment');
 
+var _actionService = require('../../providers/action-service');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
@@ -646,16 +652,17 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
     _createClass(Notify, null, [{
         key: 'parameters',
         get: function get() {
-            return [_ionicAngular.NavController, _ionicAngular.Platform];
+            return [_ionicAngular.NavController, _ionicAngular.Platform, _actionService.ActionService];
         }
     }]);
 
-    function Notify(NavController, Platform) {
+    function Notify(nav, platform, action) {
         _classCallCheck(this, Notify);
 
-        this.nav = NavController;
+        this.nav = nav;
         this.notifications = null;
-        this.platform = Platform;
+        this.platform = platform;
+        this.action = action;
         this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
         this.refresh();
     }
@@ -698,12 +705,12 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'watchDirect',
         value: function watchDirect(notification) {
-            //
+            this.action.watch(notification);
         }
     }, {
         key: 'shareOut',
-        value: function shareOut() {
-            //
+        value: function shareOut(notification) {
+            this.action.share("我在Follow3上关注了" + notification.nickname + "，实时获得开播信息。真的很好用！");
         }
     }, {
         key: 'readAll',
@@ -733,7 +740,7 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
     return Notify;
 }()) || _class);
 
-},{"angular2-moment":17,"ionic-angular":351}],7:[function(require,module,exports){
+},{"../../providers/action-service":9,"angular2-moment":17,"ionic-angular":351}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -844,6 +851,7 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
                 message: "输入新的密码...",
                 inputs: [{
                     name: 'password',
+                    type: 'password',
                     placeholder: 'Password...'
                 }],
                 buttons: [{
@@ -854,7 +862,18 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
                 }, {
                     text: 'Reset',
                     handler: function handler(data) {
-                        _this4.data.resetPassword(_this4.mail, data, _this4.nav);
+                        var navTransition = t.dismiss();
+                        _this4.data.resetPassword(_this4.mail, data, _this4.nav).then(function (data) {
+                            navTransition.then(function () {
+                                var m = _ionicAngular.Alert.create({
+                                    title: '修改成功！',
+                                    subTitle: '已向您邮箱发送一封确认邮件，确认后即修改成功。',
+                                    buttons: ['OK']
+                                });
+                                _this4.nav.present(m);
+                            });
+                        });
+                        return false;
                     }
                 }]
             });
@@ -983,7 +1002,7 @@ var ActionService = exports.ActionService = (_dec = (0, _core.Injectable)(), _de
             var _this = this;
 
             this.config.getAutoOpenApp().then(function (value) {
-                if (value) {
+                if (value == "true") {
                     if (star.platform == 'PANDA') {
                         cordova.InAppBrowser.open("pandatv://openroom/" + star.serial, "_system", "location=true");
                     } else if (star.platform == 'DOUYU') {
@@ -1041,14 +1060,10 @@ var _ionicAngular = require('ionic-angular');
 
 var _tabs = require('../pages/tabs/tabs');
 
+var _md = require('ts-md5/dist/md5');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/*
- Generated class for the DataService provider.
-
- See https://angular.io/docs/ts/latest/guide/dependency-injection.html
- for more info on providers and Angular 2 DI.
- */
 var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
     _createClass(DataService, null, [{
         key: 'parameters',
@@ -1072,7 +1087,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             var _this = this;
 
             var url = this.BASE_URL + 'auth/login';
-            var body = JSON.stringify({ 'email': email, 'password': password });
+            var body = JSON.stringify({ 'email': email, 'password': _md.Md5.hashStr(password) });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
             this.http.post(url, body, { headers: headers }).map(function (res) {
                 return res.json();
@@ -1084,7 +1099,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                     // nav.pop();
                     _this.config.setAuth(data.data.access_token, data.data.refresh_token);
                     _this.profile();
-                    _this.config.init();
+                    _this.config.initUser();
                 } else {
                     _this.showToast('用户名或密码不正确...', 2000, nav);
                 }
@@ -1121,7 +1136,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             var _this3 = this;
 
             var url = this.BASE_URL + 'auth/register';
-            var body = JSON.stringify({ 'email': email, 'nickname': nickname, 'password': password });
+            var body = JSON.stringify({ 'email': email, 'nickname': nickname, 'password': _md.Md5.hashStr(password) });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
             return new Promise(function (resolve) {
                 _this3.http.post(url, body, { headers: headers }).map(function (res) {
@@ -1208,7 +1223,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             var _this7 = this;
 
             var url = this.BASE_URL;
-            if (showOnlyOnline) {
+            if (showOnlyOnline == "true") {
                 url = url + 'user/follow/online';
             } else {
                 url = url + 'user/follow';
@@ -1232,7 +1247,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             var _this8 = this;
 
             var url = this.BASE_URL + 'auth/reset';
-            var body = JSON.stringify({ 'email': email, 'password': password });
+            var body = JSON.stringify({ 'email': email, 'password': _md.Md5.hashStr(password) });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
             return new Promise(function (resolve) {
                 _this8.http.patch(url, body, { headers: headers }).map(function (res) {
@@ -1262,7 +1277,12 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                     _this9.http.post(url, body, { headers: headers }).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
-                        _this9.showToast('关注成功！', 2000, nav);
+                        console.log(data.msg);
+                        if (data.status == 200) {
+                            _this9.showToast('关注成功！', 2000, nav);
+                        } else {
+                            _this9.showToast('关注失败...', 2000, nav);
+                        }
                         resolve();
                     }, function (error) {
                         _this9.showToast('无法连接到服务器...', 2000, nav);
@@ -1282,8 +1302,12 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                     _this10.http.delete(url).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
-                        _this10.showToast('取关成功', 2000, nav);
-                        resolve();
+                        if (data.status == 200) {
+                            _this10.showToast('取关成功', 2000, nav);
+                            resolve();
+                        } else {
+                            _this10.showToast('取关失败...', 2000, nav);
+                        }
                     }, function (error) {
                         _this10.showToast('无法连接到服务器...', 2000, nav);
                         reject();
@@ -1293,23 +1317,43 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
         }
     }, {
         key: 'addStar',
-        value: function addStar(nav) {
-            // todo: 添加Star
+        value: function addStar(platform, query, nav) {
+            var _this11 = this;
+
+            return new Promise(function (resolve) {
+                var url = _this11.BASE_URL + 'star/add';
+                var body = JSON.stringify({ 'query': query, 'platform': platform });
+                var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+                _this11.http.post(url, body, { headers: headers }).map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    if (data.status == 200) {
+                        _this11.showToast('添加成功！', 2000, nav);
+                        resolve(data.data);
+                    } else {
+                        _this11.showToast('添加失败...', 2000, nav);
+                        reject();
+                    }
+                }, function (error) {
+                    _this11.showToast('无法连接到服务器...', 2000, nav);
+                    reject();
+                });
+            });
         }
     }, {
         key: 'searchStar',
         value: function searchStar(q, nav) {
-            var _this11 = this;
+            var _this12 = this;
 
             return new Promise(function (resolve) {
-                _this11.config.getAccessToken().then(function (token) {
-                    var url = _this11.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;
-                    _this11.http.get(url).map(function (res) {
+                _this12.config.getAccessToken().then(function (token) {
+                    var url = _this12.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;
+                    _this12.http.get(url).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
                         resolve(data);
                     }, function (error) {
-                        _this11.showToast('无法连接到服务器...', 2000, nav);
+                        _this12.showToast('无法连接到服务器...', 2000, nav);
                         reject();
                     });
                 });
@@ -1339,7 +1383,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
     return DataService;
 }()) || _class);
 
-},{"../pages/tabs/tabs":8,"./user-config":11,"angular2/core":20,"angular2/http":21,"ionic-angular":351,"rxjs/add/operator/map":482}],11:[function(require,module,exports){
+},{"../pages/tabs/tabs":8,"./user-config":11,"angular2/core":20,"angular2/http":21,"ionic-angular":351,"rxjs/add/operator/map":482,"ts-md5/dist/md5":672}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1530,13 +1574,14 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
                 return value;
             });
         }
-        // todo: 初始化用户的所有数据
-
     }, {
-        key: 'init',
-        value: function init() {
+        key: 'initUser',
+        value: function initUser() {
             this.setIsAppNotify(true);
             this.setIsNoDisturb(false);
+            this.setAutoOpenApp(true);
+            this.setShowOnlyOnline(false);
+            this.setOrderByFollow(false);
         }
     }]);
 

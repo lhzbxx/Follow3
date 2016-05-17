@@ -63,7 +63,7 @@ export class MyApp {
 
             this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' +
                 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' +
-                'content TEXT,' +
+                'content TEXT, serial INTEGER, platform TEXT, info TEXT, link TEXT, cover TEXT,' +
                 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
 
             document.addEventListener("jpush.receiveNotification", (e) => {
@@ -71,20 +71,45 @@ export class MyApp {
                 var title;
                 var notified_at;
                 var avatar;
+                var serial;
+                var _platform;
+                var info;
+                var link;
+                var cover;
+                var star_id;
                 if (platform.is('android')) {
+                    serial = window.plugins.jPushPlugin.receiveNotification.extras.serial;
+                    _platform = window.plugins.jPushPlugin.receiveNotification.extras._platform;
+                    info = window.plugins.jPushPlugin.receiveNotification.extras.info;
+                    link = window.plugins.jPushPlugin.receiveNotification.extras.link;
+                    cover = window.plugins.jPushPlugin.receiveNotification.extras.cover;
+                    star_id = window.plugins.jPushPlugin.receiveNotification.extras.star_id;
                     nickname = window.plugins.jPushPlugin.receiveNotification.extras.nickname;
                     title = window.plugins.jPushPlugin.receiveNotification.extras.title;
                     notified_at = window.plugins.jPushPlugin.receiveNotification.extras.notified_at;
                     avatar = window.plugins.jPushPlugin.receiveNotification.extras.avatar;
                 } else {
+                    serial = event.serial;
+                    _platform = event._platform;
+                    info = event.info;
+                    link = event.link;
+                    cover = event.cover;
+                    star_id = event.star_id;
                     nickname = event.nickname;
                     title = event.title;
                     notified_at = event.notified_at;
                     avatar = event.avatar;
                 }
-                this.storage.query('INSERT INTO notifications (received_at, content, nickname, notified_at, avatar)' +
-                    'VALUES (' + new Date().getTime() +
-                    ', "' + title +
+                this.storage.query('INSERT INTO notifications (serial, platform, info, link, cover,' +
+                    'star_id, received_at, content, nickname, notified_at, avatar)' +
+                    'VALUES ("' + serial,
+                    '", "' + _platform,
+                    '", "' + info,
+                    '", "' + link,
+                    '", "' + cover,
+                    '", "' + star_id,
+                    '", "' + new Date().getTime() +
+                    '", "' + title +
                     '", "' + nickname +
                     '", "' + notified_at * 1000 +
                     '", "' + avatar +

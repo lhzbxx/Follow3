@@ -76,7 +76,8 @@
 10. 取消关注后添加撤销的Toast。
 11. 对邮件发送设限（不要因为Exception而一次性发太多！），添加退订链接。
 12. 主播离开平台后的处理。┑(￣Д ￣)┍
-13. Preference选择bug。
+13. <del>Preference选择bug。</del>
+14. 通知Tab的Badge处理。
 
 ---
 

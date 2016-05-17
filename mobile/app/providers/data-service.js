@@ -4,13 +4,9 @@ import 'rxjs/add/operator/map';
 import {UserConfig} from './user-config';
 import {Toast, Alert} from 'ionic-angular';
 import {TabsPage} from '../pages/tabs/tabs';
+import {Md5} from 'ts-md5/dist/md5';
 
-/*
- Generated class for the DataService provider.
 
- See https://angular.io/docs/ts/latest/guide/dependency-injection.html
- for more info on providers and Angular 2 DI.
- */
 @Injectable()
 export class DataService {
     static get parameters() {
@@ -26,7 +22,7 @@ export class DataService {
 
     login(email, password, nav) {
         let url = this.BASE_URL + 'auth/login';
-        let body = JSON.stringify({'email': email, 'password': password});
+        let body = JSON.stringify({'email': email, 'password': Md5.hashStr(password)});
         let headers = new Headers({'Content-Type': 'application/json'});
         this.http.post(url, body, {headers: headers})
             .map(res => res.json())
@@ -38,7 +34,7 @@ export class DataService {
                     // nav.pop();
                     this.config.setAuth(data.data.access_token, data.data.refresh_token);
                     this.profile();
-                    this.config.init();
+                    this.config.initUser();
                 } else {
                     this.showToast('用户名或密码不正确...', 2000, nav);
                 }
@@ -71,7 +67,7 @@ export class DataService {
 
     register(email, nickname, password, nav) {
         let url = this.BASE_URL + 'auth/register';
-        let body = JSON.stringify({'email': email, 'nickname': nickname, 'password': password});
+        let body = JSON.stringify({'email': email, 'nickname': nickname, 'password': Md5.hashStr(password)});
         let headers = new Headers({'Content-Type': 'application/json'});
         return new Promise(resolve => {
             this.http.post(url, body, {headers: headers})
@@ -151,7 +147,7 @@ export class DataService {
 
     fetchStars(showOnlyOnline, orderByFollow, nav) {
         var url = this.BASE_URL;
-        if (showOnlyOnline) {
+        if (showOnlyOnline == "true") {
             url = url + 'user/follow/online';
         } else {
             url = url + 'user/follow';
@@ -174,7 +170,7 @@ export class DataService {
 
     resetPassword(email, password, nav) {
         let url = this.BASE_URL + 'auth/reset';
-        let body = JSON.stringify({'email': email, 'password': password});
+        let body = JSON.stringify({'email': email, 'password': Md5.hashStr(password)});
         let headers = new Headers({'Content-Type': 'application/json'});
         return new Promise(resolve => {
             this.http.patch(url, body, {headers: headers})
@@ -202,7 +198,12 @@ export class DataService {
                     this.http.post(url, body, {headers: headers})
                         .map(res => res.json())
                         .subscribe(data => {
-                            this.showToast('关注成功！', 2000, nav);
+                            console.log(data.msg);
+                            if (data.status == 200) {
+                                this.showToast('关注成功！', 2000, nav);
+                            } else {
+                                this.showToast('关注失败...', 2000, nav);
+                            }
                             resolve();
                         }, error => {
                             this.showToast('无法连接到服务器...', 2000, nav);
@@ -221,8 +222,12 @@ export class DataService {
                     this.http.delete(url)
                         .map(res => res.json())
                         .subscribe(data => {
-                            this.showToast('取关成功', 2000, nav);
-                            resolve();
+                            if (data.status == 200) {
+                                this.showToast('取关成功', 2000, nav);
+                                resolve();
+                            } else {
+                                this.showToast('取关失败...', 2000, nav);
+                            }
                         }, error => {
                             this.showToast('无法连接到服务器...', 2000, nav);
                             reject();
@@ -232,8 +237,26 @@ export class DataService {
         });
     }
 
-    addStar(nav) {
-        // todo: 添加Star
+    addStar(platform, query, nav) {
+        return new Promise(resolve => {
+            let url = this.BASE_URL + 'star/add';
+            let body = JSON.stringify({'query': query, 'platform': platform});
+            let headers = new Headers({'Content-Type': 'application/json'});
+            this.http.post(url, body, {headers: headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    if (data.status == 200) {
+                        this.showToast('添加成功！', 2000, nav);
+                        resolve(data.data);
+                    } else {
+                        this.showToast('添加失败...', 2000, nav);
+                        reject();
+                    }
+                }, error => {
+                    this.showToast('无法连接到服务器...', 2000, nav);
+                    reject();
+                });
+        });
     }
     
     searchStar(q, nav) {

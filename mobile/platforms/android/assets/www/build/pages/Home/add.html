@@ -38,11 +38,11 @@
             </ion-item>
             <img [src]="result.cover">
             <ion-item>
-                <button clear item-left>
+                <button (click)="watchStar(result)" clear item-left>
                     <ion-icon name="play"></ion-icon>
                     <div>观看</div>
                 </button>
-                <button clear item-left>
+                <button (click)="followStar(result)" clear item-left>
                     <ion-icon name="add-circle"></ion-icon>
                     <div>关注</div>
                 </button>

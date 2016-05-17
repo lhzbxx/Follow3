@@ -89,10 +89,16 @@ class SendNotify extends Job
                 ->addAndroidNotification($star->nickname . '开播啦~~~', 'Follow3', 1, array(
                     "nickname" => $star->nickname, "title" => $star->title,
                     "notified_at" => time(), "avatar" => $star->avatar,
+                    "serial" => $star->serial, "cover" => $star->cover,
+                    "info" => $star->info, "star_id" => $star->id,
+                    "link" => $star->link, "platform" => $star->platform
                 ))
                 ->addIosNotification($star->nickname . '开播啦~~~', 'iOS sound', '+1', true, 'iOS category', array(
                     "nickname" => $star->nickname, "title" => $star->title,
                     "notified_at" => time(), "avatar" => $star->avatar,
+                    "serial" => $star->serial, "cover" => $star->cover,
+                    "info" => $star->info, "star_id" => $star->id,
+                    "link" => $star->link, "platform" => $star->platform
                 ))
                 ->send();
         }
