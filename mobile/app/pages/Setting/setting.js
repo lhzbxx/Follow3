@@ -1,4 +1,4 @@
-import {Page, Alert, Loading, NavController} from 'ionic-angular';
+import {Page, Alert, NavController} from 'ionic-angular';
 import {DataService} from '../../providers/data-service';
 import {UserConfig} from '../../providers/user-config';
 import {LoginAndRegister} from '../auth/login&register';
@@ -104,10 +104,19 @@ export class Setting {
     }
     
     rateMe() {
+        var customLocale = {};
+        customLocale.title = "给Follow3评分";
+        customLocale.message = "如果你喜欢使用Follow3，请给个好评吧！";
+        customLocale.cancelButtonLabel = "残忍拒绝";
+        customLocale.laterButtonLabel = "稍后再说";
+        customLocale.rateButtonLabel = "棒棒哒";
+        // AppRate.preferences.openStoreInApp = true;
+        AppRate.preferences.useLanguage = 'zh-CN';
         AppRate.preferences.storeAppURL.ios = '<my_app_id>';
         AppRate.preferences.storeAppURL.android = 'market://details?id=top.lhzbxx.follow3';
         // AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
         // AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
-        AppRate.promptForRating(false);
+        AppRate.preferences.customLocale = customLocale;
+        AppRate.promptForRating(true);
     }
 }

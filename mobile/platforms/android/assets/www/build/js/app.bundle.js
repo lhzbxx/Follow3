@@ -166,11 +166,7 @@ var LoginAndRegister = exports.LoginAndRegister = (_dec = (0, _ionicAngular.Page
     }, {
         key: 'login',
         value: function login() {
-            var _this = this;
-
-            this.data.login(this.login_mail, _md.Md5.hashStr(this.login_passwd), this.nav).then(function (value) {
-                _this.data.profile();
-            });
+            this.data.login(this.login_mail, _md.Md5.hashStr(this.login_passwd), this.nav);
         }
     }, {
         key: 'showResetPasswd',
@@ -881,11 +877,20 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'rateMe',
         value: function rateMe() {
+            var customLocale = {};
+            customLocale.title = "给Follow3评分";
+            customLocale.message = "如果你喜欢使用Follow3，请给个好评吧！";
+            customLocale.cancelButtonLabel = "残忍拒绝";
+            customLocale.laterButtonLabel = null;
+            customLocale.rateButtonLabel = "棒棒哒";
+            // AppRate.preferences.openStoreInApp = true;
+            AppRate.preferences.useLanguage = 'zh-CN';
             AppRate.preferences.storeAppURL.ios = '<my_app_id>';
             AppRate.preferences.storeAppURL.android = 'market://details?id=top.lhzbxx.follow3';
             // AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
             // AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
-            AppRate.promptForRating(false);
+            AppRate.preferences.customLocale = customLocale;
+            AppRate.promptForRating(true);
         }
     }]);
 
@@ -979,23 +984,21 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             var url = this.BASE_URL + 'auth/login';
             var body = JSON.stringify({ 'email': email, 'password': password });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-            return new Promise(function (resolve) {
-                _this.http.post(url, body, { headers: headers }).map(function (res) {
-                    return res.json();
-                }).subscribe(function (data) {
-                    console.log(data.msg);
-                    if (data.status == 200) {
-                        nav.rootNav.setRoot(_tabs.TabsPage);
-                        _this.showToast('登录成功！', 2000, nav);
-                        // nav.pop();
-                        _this.config.setAuth(data.data.access_token, data.data.refresh_token);
-                        resolve();
-                    } else {
-                        _this.showToast('用户名或密码不正确...', 2000, nav);
-                    }
-                }, function (error) {
-                    _this.showToast('无法连接到服务器...', 2000, nav);
-                });
+            this.http.post(url, body, { headers: headers }).map(function (res) {
+                return res.json();
+            }).subscribe(function (data) {
+                console.log(data.msg);
+                if (data.status == 200) {
+                    nav.rootNav.setRoot(_tabs.TabsPage);
+                    _this.showToast('登录成功！', 2000, nav);
+                    // nav.pop();
+                    _this.config.setAuth(data.data.access_token, data.data.refresh_token);
+                    _this.profile();
+                } else {
+                    _this.showToast('用户名或密码不正确...', 2000, nav);
+                }
+            }, function (error) {
+                _this.showToast('无法连接到服务器...', 2000, nav);
             });
         }
     }, {
@@ -1100,7 +1103,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                         _this6.config.setUserMail(data.data.email);
                         _this6.config.setUserId(data.data.id);
                         _this6.config.setUserNickname(data.data.nickname);
-                        _this6.config.setIsAutoNotify(data.data.is_auto_notify);
+                        _this6.config.setIsAutoNotify(data.data.is_auto_notify == 1);
                     } else {
                         // never.
                     }
@@ -1131,6 +1134,16 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                     _this7.showToast('无法连接到服务器...', 2000, nav);
                 });
             });
+        }
+    }, {
+        key: 'followStar',
+        value: function followStar() {
+            // todo: 关注
+        }
+    }, {
+        key: 'unfollowStar',
+        value: function unfollowStar() {
+            // todo: 取消关注
         }
     }, {
         key: 'showToast',
