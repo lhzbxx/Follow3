@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cn.jpush.phonegap.JPushPlugin"
-        version="2.1.6">
+        version="2.1.7">
 
     <name>JPush Plugin</name>
     <description>JPush for cordova plugin</description>
@@ -31,7 +31,7 @@
             <source-file src="src/ios/Plugins/JPushPlugin.m"/>
 
             <header-file src="src/ios/lib/JPUSHService.h" />
-            <source-file src="src/ios/lib/jpush-ios-2.1.0.a" framework="true" />
+            <source-file src="src/ios/lib/jpush-ios-2.1.6.a" framework="true" />
             <header-file src="src/ios/Plugins/AppDelegate+JPush.h"/>
             <source-file src="src/ios/Plugins/AppDelegate+JPush.m"/>
             <resource-file src="src/ios/PushConfig.plist" />
@@ -43,7 +43,8 @@
             <framework src="Foundation.framework" weak="true" />
             <framework src="UIKit.framework" weak="true" />
             <framework src="Security.framework" weak="true" />
-            <framework src="libz.dylib" weak="true" />
+            <framework src="libz.tbd" weak="true" />
+            <framework src="AdSupport.framework" weak="true" />
 
             <config-file target="*PushConfig.plist" parent="APP_KEY">
                 <string>$API_KEY</string>
@@ -92,6 +93,13 @@
                     <category android:name="android.intent.category.DEFAULT"/>
                     <category android:name="$PACKAGE_NAME"/>
                 </intent-filter>
+            </activity>
+
+            <!-- Rich push 核心功能 since 2.0.6-->
+            <activity
+                android:name="cn.jpush.android.ui.PopWinActivity"
+                android:theme="@style/MyDialogStyle"
+                android:exported="false">
             </activity>
 
             <!-- Required  SDK核心功能-->
@@ -165,6 +173,7 @@
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
             <meta-data android:name="JPUSH_APPKEY" android:value="$API_KEY"/>
         </config-file>
+
         <source-file src="src/android/jpush-android-2.1.3.jar" target-dir="libs"/>
         <source-file src="src/android/armeabi/libjpush213.so" target-dir="libs/armeabi"/>
         <source-file src="src/android/armeabi-v7a/libjpush213.so" target-dir="libs/armeabi-v7a"/>
@@ -176,5 +185,14 @@
         <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap"/>
     	<source-file src="src/android/test_notification_layout.xml" target-dir="res/layout"/>
     	<source-file src="src/android/jpush_notification_icon.png" target-dir="res/drawable"/>
+
+        <!-- Rich Push resources  -->
+        <source-file src="src/android/ic_richpush_actionbar_back.png" target-dir="res/drawable" />
+        <source-file src="src/android/ic_richpush_actionbar_divider.png" target-dir="res/drawable" />
+        <source-file src="src/android/richpush_btn_selector.xml" target-dir="res/drawable" />
+        <source-file src="src/android/jpush_popwin_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/jpush_webview_layout.xml" target-dir="res/layout" />
+        <source-file src="src/android/jpush_style.xml" target-dir="res/values" />
+
     </platform>
 </plugin>

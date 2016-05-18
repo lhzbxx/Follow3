@@ -2,8 +2,8 @@
 
 [![Build Status](https://travis-ci.org/jpush/jpush-phonegap-plugin.svg?branch=master)](https://travis-ci.org/jpush/jpush-phonegap-plugin)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jpush/jpush-phonegap-plugin)
-[![release](https://img.shields.io/badge/release-2.1.3-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
-[![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin-plugin)
+[![release](https://img.shields.io/badge/release-2.1.5-blue.svg)](https://github.com/jpush/jpush-phonegap-plugin/releases)
+[![platforms](https://img.shields.io/badge/platforms-iOS%7CAndroid-lightgrey.svg)](https://github.com/jpush/jpush-phonegap-plugin)
 [![weibo](https://img.shields.io/badge/weibo-JPush-blue.svg)](http://weibo.com/jpush?refer_flag=1001030101_&is_all=1)
 
 支持 iOS, Android 的 Cordova 推送插件。
@@ -55,14 +55,14 @@
     git clone https://github.com/jpush/jpush-phonegap-plugin.git
     cordova plugin add $JPUSH_PLUGIN_DIR  --variable API_KEY=your_jpush_appkey
 
-[Android 手动安装文档地址](API/Android_handle_install.md)
+[Android 手动安装文档地址](/doc/Android_handle_install.md)
 
-[IOS 手动安装文档地址](API/iOS_install.md)
+[IOS 手动安装文档地址](/doc/iOS_install.md)
 
 
-#### 2.安装 org.apache.cordova.device 插件
+#### 2.安装 cordova device 插件
 
-     cordova plugin add org.apache.cordova.device
+     cordova plugin add cordova-plugin-device
 
 
 #### 3.在 js 中调用函数，初始化 JPush
@@ -97,11 +97,11 @@ iOS:
 
 ### 具体的 API 请参考：
 
-- [公共 API](https://github.com/jpush/jpush-phonegap-plugin/blob/dev/API/Common_detail_api.md)
+- [公共 API](/doc/Common_detail_api.md)
 
-- [iOS API](https://github.com/jpush/jpush-phonegap-plugin/blob/dev/API/iOS%20API.md)
+- [iOS API](/doc/iOS_API.md)
 
-- [Android API](https://github.com/jpush/jpush-phonegap-plugin/blob/dev/API/Android_detail_api.md)
+- [Android API](/doc/Android_detail_api.md)
 
 
 ## 常见问题
@@ -117,19 +117,18 @@ eclipse 中 import PhoneGap 工程之后出现：`Type CallbackContext cannot be
 
 ### 2. iOS
 
-- 设置 / 修改 APP_KEY:
-
-    在 PushConfig.plist 中修改。
-	PushConfig.plist 中其他值说明：
-
-	- CHANNEL: 渠道标识。
-	- IsProduction: 是否生产环境（暂未启用）。
-
-
 - 收不到推送:
 
 	请首先按照正确方式再次配置证书、描述文件
-	[iOS 证书设置指南](http://docs.jpush.io/client/ios_tutorials/#ios_1)。
+	[iOS 证书设置指南](http://docs.jpush.io/client/ios_tutorials/#ios_1)
+
+- 设置 PushConfig.plist：
+
+	- APP_KEY：应用标识
+	- CHANNEL：渠道标识
+	- IsProduction：是否生产环境
+	- IsIDFA：是否使用 IDFA 启动 sdk
+
 
 
 ## 更多

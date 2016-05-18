@@ -1,11 +1,13 @@
 <ion-navbar *navbar primary>
+    <ion-buttons start>
+        <button (click)="readAll()">
+            <ion-icon name="done-all"></ion-icon>
+        </button>
+    </ion-buttons>
     <ion-title>
         通知
     </ion-title>
     <ion-buttons end>
-        <button (click)="readAll()">
-            <ion-icon name="done-all"></ion-icon>
-        </button>
         <button (click)="refresh()">
             <ion-icon name="refresh"></ion-icon>
         </button>

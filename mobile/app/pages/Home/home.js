@@ -1,4 +1,4 @@
-import {Page, Toast, ActionSheet, NavController, Platform, Alert} from 'ionic-angular';
+import {Page, ActionSheet, NavController, Platform, Alert} from 'ionic-angular';
 import {Search} from './search';
 import {UserConfig} from '../../providers/user-config';
 import {DataService} from '../../providers/data-service';
@@ -30,23 +30,24 @@ export class Home {
             autoOpenApp: false,
             orderByFollow: false
         };
-        this.config.getShowOnlyOnline().then(
-            (value) => {
-                this.setting.showOnlyOnline = value;
-                this.fetch(null);
-            }
-        );
-        this.config.getAutoOpenApp().then(
-            (value) => {
-                this.setting.autoOpenApp = value;
-            }
-        );
-        this.config.getOrderByFollow().then(
-            (value) => {
-                this.setting.orderByFollow = value;
-            }
-        );
-        this.platform.ready();
+        this.platform.ready().then(() => {
+            this.config.getShowOnlyOnline().then(
+                (value) => {
+                    this.setting.showOnlyOnline = value;
+                    this.fetch(null);
+                }
+            );
+            this.config.getAutoOpenApp().then(
+                (value) => {
+                    this.setting.autoOpenApp = value;
+                }
+            );
+            this.config.getOrderByFollow().then(
+                (value) => {
+                    this.setting.orderByFollow = value;
+                }
+            );
+        });
     }
 
     fetch(refresher) {

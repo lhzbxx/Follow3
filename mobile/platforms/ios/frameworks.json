@@ -9,7 +9,8 @@
     "Foundation.framework": 1,
     "UIKit.framework": 1,
     "Security.framework": 1,
-    "libz.dylib": 1,
+    "libz.tbd": 1,
+    "AdSupport.framework": 1,
     "AudioToolbox.framework": 1,
     "StoreKit.framework": 1
 }

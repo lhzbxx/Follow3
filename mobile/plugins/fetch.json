@@ -42,7 +42,7 @@
     "ionic-plugin-keyboard": {
         "source": {
             "type": "registry",
-            "id": "ionic-plugin-keyboard@~2.0.1"
+            "id": "ionic-plugin-keyboard@~2.2.0"
         },
         "is_top_level": true,
         "variables": {}

@@ -74,7 +74,7 @@ export class Setting {
 
     checkUpdate() {
         let alert = Alert.create({
-            title: '',
+            title: '检查更新',
             buttons: ['OK']
         });
         this.data.version(this.nav)

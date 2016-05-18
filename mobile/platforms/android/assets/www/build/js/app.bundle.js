@@ -44,23 +44,22 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
         _classCallCheck(this, MyApp);
 
         this.config = config;
-        // this.nav = navController;
         platform.ready().then(function () {
             var context = _this;
+            window.plugins.jPushPlugin.init();
             _this.config.hasLoggedIn().then(function (value) {
                 if (value) {
                     context.rootPage = _tabs.TabsPage;
                 } else {
                     context.rootPage = _loginRegister.LoginAndRegister;
                 }
+                _ionicNative.Splashscreen.hide();
             });
             _ionicNative.StatusBar.styleDefault();
-            // if (platform.is('android'))
-            //     StatusBar.backgroundColorByHexString("#25312C");
-            // StatusBar.show();
+            if (platform.is('android')) _ionicNative.StatusBar.backgroundColorByHexString("#285BB1");
+            _ionicNative.StatusBar.show();
+
             cordova.plugins.Keyboard.disableScroll(true);
-            window.plugins.jPushPlugin.init();
-            window.plugins.jPushPlugin.setAlias('JPush_1');
 
             // this.registerBackButtonListener();
             // var backCount = 0;
@@ -68,8 +67,6 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             //     message: '再次点击返回退出...',
             //     duration: 1000
             // });
-
-            _this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
 
             // document.addEventListener('backbutton', (e) => {
             //     e.preventDefault();
@@ -85,8 +82,8 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             //     }
             // }, false);
 
+            _this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
             _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' + 'content TEXT, serial INTEGER, platform TEXT, info TEXT, link TEXT, cover TEXT,' + 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
-
             document.addEventListener("jpush.receiveNotification", function (e) {
                 var nickname;
                 var title;
@@ -127,8 +124,6 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                     console.log("ERROR -> " + JSON.stringify(error.err));
                 });
             }, false);
-
-            _ionicNative.Splashscreen.hide();
         });
     }
 
@@ -380,17 +375,18 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
             autoOpenApp: false,
             orderByFollow: false
         };
-        this.config.getShowOnlyOnline().then(function (value) {
-            _this.setting.showOnlyOnline = value;
-            _this.fetch(null);
+        this.platform.ready().then(function () {
+            _this.config.getShowOnlyOnline().then(function (value) {
+                _this.setting.showOnlyOnline = value;
+                _this.fetch(null);
+            });
+            _this.config.getAutoOpenApp().then(function (value) {
+                _this.setting.autoOpenApp = value;
+            });
+            _this.config.getOrderByFollow().then(function (value) {
+                _this.setting.orderByFollow = value;
+            });
         });
-        this.config.getAutoOpenApp().then(function (value) {
-            _this.setting.autoOpenApp = value;
-        });
-        this.config.getOrderByFollow().then(function (value) {
-            _this.setting.orderByFollow = value;
-        });
-        this.platform.ready();
     }
 
     _createClass(Home, [{
@@ -830,7 +826,7 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
             var _this3 = this;
 
             var alert = _ionicAngular.Alert.create({
-                title: '',
+                title: '检查更新',
                 buttons: ['OK']
             });
             this.data.version(this.nav).then(function (data) {
@@ -1209,6 +1205,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
                         _this6.config.setUserId(data.data.id);
                         _this6.config.setUserNickname(data.data.nickname);
                         _this6.config.setIsAutoNotify(data.data.is_auto_notify == 1);
+                        window.plugins.jPushPlugin.setAlias('JPush_' + data.data.id);
                     } else {
                         // never.
                     }
@@ -1228,7 +1225,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             } else {
                 url = url + 'user/follow';
             }
-            return new Promise(function (resolve) {
+            return new Promise(function (resolve, reject) {
                 _this7.config.getAccessToken().then(function (token) {
                     _this7.http.get(url + '?access_token=' + token).map(function (res) {
                         return res.json();
@@ -1269,7 +1266,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
         value: function followStar(star_id, nav) {
             var _this9 = this;
 
-            return new Promise(function (resolve) {
+            return new Promise(function (resolve, reject) {
                 _this9.config.getAccessToken().then(function (token) {
                     var url = _this9.BASE_URL + 'user/follow/' + star_id;
                     var body = JSON.stringify({ 'access_token': token });
@@ -1296,7 +1293,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
         value: function unfollowStar(star_id, nav) {
             var _this10 = this;
 
-            return new Promise(function (resolve) {
+            return new Promise(function (resolve, reject) {
                 _this10.config.getAccessToken().then(function (token) {
                     var url = _this10.BASE_URL + 'user/follow/' + star_id + "?access_token=" + token;
                     _this10.http.delete(url).map(function (res) {
@@ -1320,7 +1317,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
         value: function addStar(platform, query, nav) {
             var _this11 = this;
 
-            return new Promise(function (resolve) {
+            return new Promise(function (resolve, reject) {
                 var url = _this11.BASE_URL + 'star/add';
                 var body = JSON.stringify({ 'query': query, 'platform': platform });
                 var headers = new _http.Headers({ 'Content-Type': 'application/json' });
@@ -1345,7 +1342,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
         value: function searchStar(q, nav) {
             var _this12 = this;
 
-            return new Promise(function (resolve) {
+            return new Promise(function (resolve, reject) {
                 _this12.config.getAccessToken().then(function (token) {
                     var url = _this12.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;
                     _this12.http.get(url).map(function (res) {
@@ -1425,7 +1422,7 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
         this.USER_MAIL = "USER_MAIL";
         this.USER_ID = "USER_ID";
         this.USER_NICKNAME = "USER_NICKNAME";
-        this.VERSION = "0.3.1";
+        this.VERSION = "0.3.2";
     }
 
     _createClass(UserConfig, [{
@@ -30290,6 +30287,7 @@ function escape(s) {
 }
 exports.escape = escape;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],205:[function(require,module,exports){
 'use strict';"use strict";
 var lang_1 = require('angular2/src/facade/lang');
@@ -83479,6 +83477,7 @@ if (freeGlobal && (freeGlobal.global === freeGlobal || freeGlobal.window === fre
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],668:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
@@ -83961,4 +83960,7 @@ if (Md5.hashStr('hello') !== '5d41402abc4b2a76b9719d911017c592') {
     console.error('Md5 self test failed.');
 }
 
-},{}]},{},[1]);
+},{}]},{},[1])
+
+
+//# sourceMappingURL=app.bundle.js.map

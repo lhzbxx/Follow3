@@ -40,7 +40,7 @@ $app->get('star/hot/{page}', 'StarController@hot');
 $app->get('star/online/{page}', 'StarController@online');
 
 $app->get('/version', function () {
-    return '0.3.1';
+    return '0.3.2';
 });
 
 $app->get('test', function () {

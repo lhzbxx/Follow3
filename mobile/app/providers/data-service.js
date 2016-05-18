@@ -135,6 +135,7 @@ export class DataService {
                             this.config.setUserId(data.data.id);
                             this.config.setUserNickname(data.data.nickname);
                             this.config.setIsAutoNotify(data.data.is_auto_notify == 1);
+                            window.plugins.jPushPlugin.setAlias('JPush_' + data.data.id);
                         } else {
                             // never.
                         }
@@ -152,7 +153,7 @@ export class DataService {
         } else {
             url = url + 'user/follow';
         }
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             this.config.getAccessToken().then(
                 token => {
                     this.http.get(url + '?access_token=' + token)
@@ -189,7 +190,7 @@ export class DataService {
     }
 
     followStar(star_id, nav) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             this.config.getAccessToken().then(
                 token => {
                     let url = this.BASE_URL + 'user/follow/' + star_id;
@@ -215,7 +216,7 @@ export class DataService {
     }
 
     unfollowStar(star_id, nav) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             this.config.getAccessToken().then(
                 token => {
                     let url = this.BASE_URL + 'user/follow/' + star_id + "?access_token=" + token;
@@ -238,7 +239,7 @@ export class DataService {
     }
 
     addStar(platform, query, nav) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             let url = this.BASE_URL + 'star/add';
             let body = JSON.stringify({'query': query, 'platform': platform});
             let headers = new Headers({'Content-Type': 'application/json'});
@@ -260,7 +261,7 @@ export class DataService {
     }
     
     searchStar(q, nav) {
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             this.config.getAccessToken().then(
                 token => {
                     let url = this.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;

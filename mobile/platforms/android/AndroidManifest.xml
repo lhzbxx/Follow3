@@ -16,6 +16,7 @@
                 <category android:name="top.lhzbxx.follow3" />
             </intent-filter>
         </activity>
+        <activity android:exported="false" android:name="cn.jpush.android.ui.PopWinActivity" android:theme="@style/MyDialogStyle" />
         <service android:enabled="true" android:exported="false" android:name="cn.jpush.android.service.DownloadService" />
         <service android:enabled="true" android:exported="false" android:name="cn.jpush.android.service.PushService">
             <intent-filter>

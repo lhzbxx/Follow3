@@ -18,25 +18,25 @@ export class MyApp {
 
     constructor(platform, config) {
         this.config = config;
-        // this.nav = navController;
         platform.ready().then(() => {
             let context = this;
+            window.plugins.jPushPlugin.init();
             this.config.hasLoggedIn().then(
-                function (value) {
+                value => {
                     if (value) {
                         context.rootPage = TabsPage;
                     } else {
                         context.rootPage = LoginAndRegister;
                     }
+                    Splashscreen.hide();
                 }
             );
             StatusBar.styleDefault();
-            // if (platform.is('android'))
-            //     StatusBar.backgroundColorByHexString("#25312C");
-            // StatusBar.show();
+            if (platform.is('android'))
+                StatusBar.backgroundColorByHexString("#285BB1");
+            StatusBar.show();
+
             cordova.plugins.Keyboard.disableScroll(true);
-            window.plugins.jPushPlugin.init();
-            window.plugins.jPushPlugin.setAlias('JPush_1');
 
             // this.registerBackButtonListener();
             // var backCount = 0;
@@ -44,8 +44,6 @@ export class MyApp {
             //     message: '再次点击返回退出...',
             //     duration: 1000
             // });
-
-            this.storage = new Storage(SqlStorage);
 
             // document.addEventListener('backbutton', (e) => {
             //     e.preventDefault();
@@ -61,11 +59,11 @@ export class MyApp {
             //     }
             // }, false);
 
+            this.storage = new Storage(SqlStorage);
             this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' +
                 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' +
                 'content TEXT, serial INTEGER, platform TEXT, info TEXT, link TEXT, cover TEXT,' +
                 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
-
             document.addEventListener("jpush.receiveNotification", (e) => {
                 var nickname;
                 var title;
@@ -119,8 +117,6 @@ export class MyApp {
                     console.log("ERROR -> " + JSON.stringify(error.err));
                 });
             }, false);
-
-            Splashscreen.hide();
         });
     }
 }

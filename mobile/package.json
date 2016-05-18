@@ -26,7 +26,6 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard",
     "cordova-plugin-inappbrowser",
     "cordova-plugin-x-socialsharing",
     "cordova-plugin-geolocation",
@@ -38,13 +37,14 @@
       "id": "cn.jpush.phonegap.JPushPlugin"
     },
     "cordova-plugin-apprate",
-    "cordova-sqlite-storage"
+    "cordova-sqlite-storage",
+    "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [
     "ios",
     "android"
   ],
   "name": "Follow3",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "麻麻再也不用担心我错过直播了-计划3.0·Alpha"
 }
