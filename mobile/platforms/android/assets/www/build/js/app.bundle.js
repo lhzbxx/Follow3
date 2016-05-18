@@ -57,7 +57,7 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             });
             _ionicNative.StatusBar.styleDefault();
             if (platform.is('android')) _ionicNative.StatusBar.backgroundColorByHexString("#285BB1");
-            _ionicNative.StatusBar.show();
+            // StatusBar.show();
 
             cordova.plugins.Keyboard.disableScroll(true);
 
@@ -83,7 +83,7 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
             // }, false);
 
             _this.storage = new _ionicAngular.Storage(_ionicAngular.SqlStorage);
-            _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' + 'content TEXT, serial INTEGER, platform TEXT, info TEXT, link TEXT, cover TEXT,' + 'avatar TEXT, nickname TEXT, status INTEGER default 0)');
+            _this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' + 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' + 'content TEXT, serial INTEGER, platform TEXT, info TEXT, link TEXT, cover TEXT,' + 'avatar TEXT, nickname TEXT, star_id INTEGER, status INTEGER default 0)');
             document.addEventListener("jpush.receiveNotification", function (e) {
                 var nickname;
                 var title;
@@ -97,7 +97,7 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                 var star_id;
                 if (platform.is('android')) {
                     serial = window.plugins.jPushPlugin.receiveNotification.extras.serial;
-                    _platform = window.plugins.jPushPlugin.receiveNotification.extras._platform;
+                    _platform = window.plugins.jPushPlugin.receiveNotification.extras.platform;
                     info = window.plugins.jPushPlugin.receiveNotification.extras.info;
                     link = window.plugins.jPushPlugin.receiveNotification.extras.link;
                     cover = window.plugins.jPushPlugin.receiveNotification.extras.cover;
@@ -108,7 +108,7 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                     avatar = window.plugins.jPushPlugin.receiveNotification.extras.avatar;
                 } else {
                     serial = event.serial;
-                    _platform = event._platform;
+                    _platform = event.platform;
                     info = event.info;
                     link = event.link;
                     cover = event.cover;
@@ -118,7 +118,9 @@ var MyApp = exports.MyApp = (_dec = (0, _ionicAngular.App)({
                     notified_at = event.notified_at;
                     avatar = event.avatar;
                 }
-                _this.storage.query('INSERT INTO notifications (serial, platform, info, link, cover,' + 'star_id, received_at, content, nickname, notified_at, avatar)' + 'VALUES ("' + serial, '", "' + _platform, '", "' + info, '", "' + link, '", "' + cover, '", "' + star_id, '", "' + new Date().getTime() + '", "' + title + '", "' + nickname + '", "' + notified_at * 1000 + '", "' + avatar + '")').then(function (data) {
+                var query = 'INSERT INTO notifications (serial, platform, info, link, cover,' + 'star_id, received_at, content, nickname, notified_at, avatar)' + 'VALUES ("' + serial + '", "' + _platform + '", "' + encodeURI(info) + '", "' + link + '", "' + cover + '", "' + star_id + '", "' + new Date().getTime() + '", "' + title + '", "' + nickname + '", "' + notified_at * 1000 + '", "' + avatar + '")';
+                console.log(query);
+                _this.storage.query(query).then(function (data) {
                     console.log(JSON.stringify(data.res));
                 }, function (error) {
                     console.log("ERROR -> " + JSON.stringify(error.err));
@@ -1010,7 +1012,7 @@ var ActionService = exports.ActionService = (_dec = (0, _core.Injectable)(), _de
                             cordova.InAppBrowser.open(star.link, "_system", "location=true");
                         }
                     } else if (star.platform == 'ZHANQI') {
-                        var info = JSON.parse(star.info);
+                        var info = JSON.parse(decodeURI(star.info));
                         cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
                     } else {
                         cordova.InAppBrowser.open(star.link, "_system", "location=true");

@@ -30,7 +30,7 @@ export class ActionService {
                                 cordova.InAppBrowser.open(star.link, "_system", "location=true");
                             }
                         } else if (star.platform == 'ZHANQI') {
-                            let info = JSON.parse(star.info);
+                            let info = JSON.parse(decodeURI(star.info));
                             cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
                         } else {
                             cordova.InAppBrowser.open(star.link, "_system", "location=true");

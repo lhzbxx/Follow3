@@ -34,7 +34,7 @@ export class MyApp {
             StatusBar.styleDefault();
             if (platform.is('android'))
                 StatusBar.backgroundColorByHexString("#285BB1");
-            StatusBar.show();
+            // StatusBar.show();
 
             cordova.plugins.Keyboard.disableScroll(true);
 
@@ -63,7 +63,7 @@ export class MyApp {
             this.storage.query('CREATE TABLE IF NOT EXISTS notifications (' +
                 'id INTEGER PRIMARY KEY AUTOINCREMENT, received_at INTEGER, notified_at INTEGER,' +
                 'content TEXT, serial INTEGER, platform TEXT, info TEXT, link TEXT, cover TEXT,' +
-                'avatar TEXT, nickname TEXT, status INTEGER default 0)');
+                'avatar TEXT, nickname TEXT, star_id INTEGER, status INTEGER default 0)');
             document.addEventListener("jpush.receiveNotification", (e) => {
                 var nickname;
                 var title;
@@ -77,7 +77,7 @@ export class MyApp {
                 var star_id;
                 if (platform.is('android')) {
                     serial = window.plugins.jPushPlugin.receiveNotification.extras.serial;
-                    _platform = window.plugins.jPushPlugin.receiveNotification.extras._platform;
+                    _platform = window.plugins.jPushPlugin.receiveNotification.extras.platform;
                     info = window.plugins.jPushPlugin.receiveNotification.extras.info;
                     link = window.plugins.jPushPlugin.receiveNotification.extras.link;
                     cover = window.plugins.jPushPlugin.receiveNotification.extras.cover;
@@ -88,7 +88,7 @@ export class MyApp {
                     avatar = window.plugins.jPushPlugin.receiveNotification.extras.avatar;
                 } else {
                     serial = event.serial;
-                    _platform = event._platform;
+                    _platform = event.platform;
                     info = event.info;
                     link = event.link;
                     cover = event.cover;
@@ -98,20 +98,22 @@ export class MyApp {
                     notified_at = event.notified_at;
                     avatar = event.avatar;
                 }
-                this.storage.query('INSERT INTO notifications (serial, platform, info, link, cover,' +
+                let query = 'INSERT INTO notifications (serial, platform, info, link, cover,' +
                     'star_id, received_at, content, nickname, notified_at, avatar)' +
-                    'VALUES ("' + serial,
-                    '", "' + _platform,
-                    '", "' + info,
-                    '", "' + link,
-                    '", "' + cover,
-                    '", "' + star_id,
+                    'VALUES ("' + serial +
+                    '", "' + _platform +
+                    '", "' + encodeURI(info) +
+                    '", "' + link +
+                    '", "' + cover +
+                    '", "' + star_id +
                     '", "' + new Date().getTime() +
                     '", "' + title +
                     '", "' + nickname +
                     '", "' + notified_at * 1000 +
                     '", "' + avatar +
-                    '")').then((data) => {
+                    '")';
+                console.log(query);
+                this.storage.query(query).then((data) => {
                     console.log(JSON.stringify(data.res))
                 }, (error) => {
                     console.log("ERROR -> " + JSON.stringify(error.err));
