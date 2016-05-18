@@ -570,7 +570,7 @@
     </object>
     <object type="LMREQUEST" id="z205">
         <attribute name="uuid" type="string">CAAD9D55-D16F-49AB-828E-C6DE9CB2073C</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"AD22CA10-C04B-412E-B62D-3A28CCF8F13F"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/star\\/search?platform=DOUYU\u2600query=weixiao"]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"AD22CA10-C04B-412E-B62D-3A28CCF8F13F"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/star\\/search?platform=DOUYU\u2600query=%E7%8E%8B"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
