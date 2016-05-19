@@ -32,7 +32,12 @@ export class ActionService {
                         } else if (star.platform == 'ZHANQI') {
                             let info = JSON.parse(decodeURI(star.info));
                             cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
-                        } else {
+                        }
+                        // else if (star.platform == 'QUANMIN') {
+                        //     console.log("quanmin://mobile.app/liveroom?uid=" + star.serial);
+                        //     cordova.InAppBrowser.open("quanmin://mobile.app/liveroom/?uid=" + star.serial, "_system", "location=true");
+                        // }
+                        else {
                             cordova.InAppBrowser.open(star.link, "_system", "location=true");
                         }
                     } else {

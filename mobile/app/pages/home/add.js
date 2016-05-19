@@ -47,7 +47,7 @@ export class Add {
     watchStar(result) {
         console.log(result);
         console.log(result.id);
-        this.action.watch(result.id);
+        this.action.watch(result);
     }
 
     followStar(result) {

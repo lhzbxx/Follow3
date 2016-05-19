@@ -305,7 +305,7 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
         value: function watchStar(result) {
             console.log(result);
             console.log(result.id);
-            this.action.watch(result.id);
+            this.action.watch(result);
         }
     }, {
         key: 'followStar',
@@ -1014,6 +1014,9 @@ var ActionService = exports.ActionService = (_dec = (0, _core.Injectable)(), _de
                     } else if (star.platform == 'ZHANQI') {
                         var info = JSON.parse(decodeURI(star.info));
                         cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
+                    } else if (star.platform == 'QUANMIN') {
+                        console.log("quanmin://mobile.app/liveroom?uid=" + star.serial);
+                        cordova.InAppBrowser.open("quanmin://mobile.app/liveroom/?uid=" + star.serial, "_system", "location=true");
                     } else {
                         cordova.InAppBrowser.open(star.link, "_system", "location=true");
                     }
