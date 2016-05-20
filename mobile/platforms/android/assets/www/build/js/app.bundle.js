@@ -501,7 +501,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     return Home;
 }()) || _class);
 
-},{"../../providers/action-service":9,"../../providers/data-service":10,"../../providers/user-config":11,"./search":5,"angular2-moment":17,"angular2/http":21,"ionic-angular":351,"rxjs/Rx":425}],5:[function(require,module,exports){
+},{"../../providers/action-service":9,"../../providers/data-service":10,"../../providers/user-config":11,"./search":5,"angular2-moment":17,"angular2/http":21,"ionic-angular":351,"rxjs/Rx":435}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -623,7 +623,7 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
     return Search;
 }()) || _class);
 
-},{"../../providers/action-service":9,"../../providers/data-service":10,"./add":3,"angular2/http":21,"ionic-angular":351,"rxjs/Rx":425}],6:[function(require,module,exports){
+},{"../../providers/action-service":9,"../../providers/data-service":10,"./add":3,"angular2/http":21,"ionic-angular":351,"rxjs/Rx":435}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1014,12 +1014,14 @@ var ActionService = exports.ActionService = (_dec = (0, _core.Injectable)(), _de
                     } else if (star.platform == 'ZHANQI') {
                         var info = JSON.parse(decodeURI(star.info));
                         cordova.InAppBrowser.open("zhanqi://?roomid=" + info.id, "_system", "location=true");
-                    } else if (star.platform == 'QUANMIN') {
-                        console.log("quanmin://mobile.app/liveroom?uid=" + star.serial);
-                        cordova.InAppBrowser.open("quanmin://mobile.app/liveroom/?uid=" + star.serial, "_system", "location=true");
-                    } else {
-                        cordova.InAppBrowser.open(star.link, "_system", "location=true");
                     }
+                    // else if (star.platform == 'QUANMIN') {
+                    //     console.log("quanmin://mobile.app/liveroom?uid=" + star.serial);
+                    //     cordova.InAppBrowser.open("quanmin://mobile.app/liveroom/?uid=" + star.serial, "_system", "location=true");
+                    // }
+                    else {
+                            cordova.InAppBrowser.open(star.link, "_system", "location=true");
+                        }
                 } else {
                     cordova.InAppBrowser.open(star.link, "_system", "location=true");
                 }
@@ -1385,7 +1387,7 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
     return DataService;
 }()) || _class);
 
-},{"../pages/tabs/tabs":8,"./user-config":11,"angular2/core":20,"angular2/http":21,"ionic-angular":351,"rxjs/add/operator/map":482,"ts-md5/dist/md5":672}],11:[function(require,module,exports){
+},{"../pages/tabs/tabs":8,"./user-config":11,"angular2/core":20,"angular2/http":21,"ionic-angular":351,"rxjs/add/operator/map":492,"ts-md5/dist/md5":682}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1672,7 +1674,7 @@ var CalendarPipe = (function () {
 }());
 exports.CalendarPipe = CalendarPipe;
 
-},{"angular2/core":20,"moment":418}],13:[function(require,module,exports){
+},{"angular2/core":20,"moment":428}],13:[function(require,module,exports){
 /* angular2-moment (c) 2015, 2016 Uri Shaked / MIT Licence */
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1706,7 +1708,7 @@ var DateFormatPipe = (function () {
 }());
 exports.DateFormatPipe = DateFormatPipe;
 
-},{"angular2/core":20,"moment":418}],14:[function(require,module,exports){
+},{"angular2/core":20,"moment":428}],14:[function(require,module,exports){
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1740,7 +1742,7 @@ var DurationPipe = (function () {
 }());
 exports.DurationPipe = DurationPipe;
 
-},{"angular2/core":20,"moment":418}],15:[function(require,module,exports){
+},{"angular2/core":20,"moment":428}],15:[function(require,module,exports){
 /* angular2-moment (c) 2015, 2016 Uri Shaked / MIT Licence */
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1775,7 +1777,7 @@ var FromUnixPipe = (function () {
 }());
 exports.FromUnixPipe = FromUnixPipe;
 
-},{"angular2/core":20,"moment":418}],16:[function(require,module,exports){
+},{"angular2/core":20,"moment":428}],16:[function(require,module,exports){
 /* angular2-moment (c) 2015, 2016 Uri Shaked / MIT Licence */
 "use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1839,7 +1841,7 @@ var TimeAgoPipe = (function () {
 }());
 exports.TimeAgoPipe = TimeAgoPipe;
 
-},{"angular2/core":20,"moment":418}],17:[function(require,module,exports){
+},{"angular2/core":20,"moment":428}],17:[function(require,module,exports){
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -29067,7 +29069,7 @@ var EventEmitter = (function (_super) {
     return EventEmitter;
 }(Subject_1.Subject));
 exports.EventEmitter = EventEmitter;
-},{"angular2/src/facade/lang":204,"angular2/src/facade/promise":206,"rxjs/Observable":421,"rxjs/Subject":426,"rxjs/observable/PromiseObservable":548,"rxjs/operator/toPromise":628}],197:[function(require,module,exports){
+},{"angular2/src/facade/lang":204,"angular2/src/facade/promise":206,"rxjs/Observable":431,"rxjs/Subject":436,"rxjs/observable/PromiseObservable":558,"rxjs/operator/toPromise":638}],197:[function(require,module,exports){
 'use strict';"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -30578,7 +30580,7 @@ var JSONPBackend_ = (function (_super) {
     return JSONPBackend_;
 }(JSONPBackend));
 exports.JSONPBackend_ = JSONPBackend_;
-},{"../base_response_options":212,"../enums":213,"../interfaces":217,"../static_response":219,"./browser_jsonp":207,"angular2/core":20,"angular2/src/facade/exceptions":201,"angular2/src/facade/lang":204,"rxjs/Observable":421}],210:[function(require,module,exports){
+},{"../base_response_options":212,"../enums":213,"../interfaces":217,"../static_response":219,"./browser_jsonp":207,"angular2/core":20,"angular2/src/facade/exceptions":201,"angular2/src/facade/lang":204,"rxjs/Observable":431}],210:[function(require,module,exports){
 'use strict';"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -30707,7 +30709,7 @@ var XHRBackend = (function () {
     return XHRBackend;
 }());
 exports.XHRBackend = XHRBackend;
-},{"../base_response_options":212,"../enums":213,"../headers":214,"../http_utils":216,"../static_response":219,"./browser_xhr":208,"angular2/core":20,"angular2/src/facade/lang":204,"rxjs/Observable":421}],211:[function(require,module,exports){
+},{"../base_response_options":212,"../enums":213,"../headers":214,"../http_utils":216,"../static_response":219,"./browser_xhr":208,"angular2/core":20,"angular2/src/facade/lang":204,"rxjs/Observable":431}],211:[function(require,module,exports){
 'use strict';"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -64396,6 +64398,7 @@ function throttle(fn, wait, options) {
 exports.throttle = throttle;
 
 },{}],373:[function(require,module,exports){
+"use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -64404,6 +64407,8 @@ ng1_1.initAngular1();
 var DEVICE_READY_TIMEOUT = 2000;
 var actionsheet_1 = require('./plugins/actionsheet');
 exports.ActionSheet = actionsheet_1.ActionSheet;
+var admob_1 = require('./plugins/admob');
+exports.AdMob = admob_1.AdMob;
 var appavailability_1 = require('./plugins/appavailability');
 exports.AppAvailability = appavailability_1.AppAvailability;
 var apprate_1 = require('./plugins/apprate');
@@ -64420,6 +64425,8 @@ var batterystatus_1 = require('./plugins/batterystatus');
 exports.BatteryStatus = batterystatus_1.BatteryStatus;
 var ble_1 = require('./plugins/ble');
 exports.BLE = ble_1.BLE;
+var bluetoothserial_1 = require('./plugins/bluetoothserial');
+exports.BluetoothSerial = bluetoothserial_1.BluetoothSerial;
 var calendar_1 = require('./plugins/calendar');
 exports.Calendar = calendar_1.Calendar;
 var camera_1 = require('./plugins/camera');
@@ -64434,6 +64441,8 @@ var dbmeter_1 = require('./plugins/dbmeter');
 exports.DBMeter = dbmeter_1.DBMeter;
 var device_1 = require('./plugins/device');
 exports.Device = device_1.Device;
+var deviceaccounts_1 = require('./plugins/deviceaccounts');
+exports.DeviceAccounts = deviceaccounts_1.DeviceAccounts;
 var devicemotion_1 = require('./plugins/devicemotion');
 exports.DeviceMotion = devicemotion_1.DeviceMotion;
 var deviceorientation_1 = require('./plugins/deviceorientation');
@@ -64442,6 +64451,8 @@ var diagnostic_1 = require('./plugins/diagnostic');
 exports.Diagnostic = diagnostic_1.Diagnostic;
 var dialogs_1 = require('./plugins/dialogs');
 exports.Dialogs = dialogs_1.Dialogs;
+var emailcomposer_1 = require('./plugins/emailcomposer');
+exports.EmailComposer = emailcomposer_1.EmailComposer;
 var facebook_1 = require('./plugins/facebook');
 exports.Facebook = facebook_1.Facebook;
 var file_1 = require('./plugins/file');
@@ -64452,6 +64463,10 @@ var geolocation_1 = require('./plugins/geolocation');
 exports.Geolocation = geolocation_1.Geolocation;
 var globalization_1 = require('./plugins/globalization');
 exports.Globalization = globalization_1.Globalization;
+var googlemaps_1 = require('./plugins/googlemaps');
+exports.GoogleMaps = googlemaps_1.GoogleMaps;
+var googleanalytics_1 = require('./plugins/googleanalytics');
+exports.GoogleAnalytics = googleanalytics_1.GoogleAnalytics;
 var hotspot_1 = require('./plugins/hotspot');
 exports.Hotspot = hotspot_1.Hotspot;
 var imagepicker_1 = require('./plugins/imagepicker');
@@ -64464,11 +64479,15 @@ var launchnavigator_1 = require('./plugins/launchnavigator');
 exports.LaunchNavigator = launchnavigator_1.LaunchNavigator;
 var localnotifications_1 = require('./plugins/localnotifications');
 exports.LocalNotifications = localnotifications_1.LocalNotifications;
+var media_1 = require('./plugins/media');
+exports.MediaPlugin = media_1.MediaPlugin;
 var network_1 = require('./plugins/network');
 exports.Network = network_1.Network;
 exports.Connection = network_1.Connection;
 var push_1 = require('./plugins/push');
 exports.Push = push_1.Push;
+var screenshot_1 = require('./plugins/screenshot');
+exports.Screenshot = screenshot_1.Screenshot;
 var sms_1 = require('./plugins/sms');
 exports.SMS = sms_1.SMS;
 var socialsharing_1 = require('./plugins/socialsharing');
@@ -64477,6 +64496,8 @@ var spinnerdialog_1 = require('./plugins/spinnerdialog');
 exports.SpinnerDialog = spinnerdialog_1.SpinnerDialog;
 var splashscreen_1 = require('./plugins/splashscreen');
 exports.Splashscreen = splashscreen_1.Splashscreen;
+var sqlite_1 = require('./plugins/sqlite');
+exports.SQLite = sqlite_1.SQLite;
 var statusbar_1 = require('./plugins/statusbar');
 exports.StatusBar = statusbar_1.StatusBar;
 var toast_1 = require('./plugins/toast');
@@ -64485,10 +64506,13 @@ var touchid_1 = require('./plugins/touchid');
 exports.TouchID = touchid_1.TouchID;
 var vibration_1 = require('./plugins/vibration');
 exports.Vibration = vibration_1.Vibration;
+var webintent_1 = require('./plugins/webintent');
+exports.WebIntent = webintent_1.WebIntent;
 __export(require('./plugins/plugin'));
 // Window export to use outside of a module loading system
 window['IonicNative'] = {
     ActionSheet: actionsheet_1.ActionSheet,
+    AdMob: admob_1.AdMob,
     AppAvailability: appavailability_1.AppAvailability,
     AppRate: apprate_1.AppRate,
     AppVersion: appversion_1.AppVersion,
@@ -64497,6 +64521,7 @@ window['IonicNative'] = {
     Base64ToGallery: base64togallery_1.Base64ToGallery,
     BatteryStatus: batterystatus_1.BatteryStatus,
     BLE: ble_1.BLE,
+    BluetoothSerial: bluetoothserial_1.BluetoothSerial,
     Calendar: calendar_1.Calendar,
     Camera: camera_1.Camera,
     Clipboard: clipboard_1.Clipboard,
@@ -64505,31 +64530,39 @@ window['IonicNative'] = {
     DatePicker: datepicker_1.DatePicker,
     DBMeter: dbmeter_1.DBMeter,
     Device: device_1.Device,
+    DeviceAccounts: deviceaccounts_1.DeviceAccounts,
     DeviceMotion: devicemotion_1.DeviceMotion,
     DeviceOrientation: deviceorientation_1.DeviceOrientation,
     Dialogs: dialogs_1.Dialogs,
     Diagnostic: diagnostic_1.Diagnostic,
+    EmailComposer: emailcomposer_1.EmailComposer,
     Facebook: facebook_1.Facebook,
     File: file_1.File,
     Flashlight: flashlight_1.Flashlight,
     Geolocation: geolocation_1.Geolocation,
     Globalization: globalization_1.Globalization,
+    GoogleMaps: googlemaps_1.GoogleMaps,
+    GoogleAnalytics: googleanalytics_1.GoogleAnalytics,
     Hotspot: hotspot_1.Hotspot,
     ImagePicker: imagepicker_1.ImagePicker,
     InAppBrowser: inappbrowser_1.InAppBrowser,
     Keyboard: keyboard_1.Keyboard,
     LaunchNavigator: launchnavigator_1.LaunchNavigator,
     LocalNotifications: localnotifications_1.LocalNotifications,
+    MediaPlugin: media_1.MediaPlugin,
     Network: network_1.Network,
     Push: push_1.Push,
+    Screenshot: screenshot_1.Screenshot,
     SMS: sms_1.SMS,
     SocialSharing: socialsharing_1.SocialSharing,
     SpinnerDialog: spinnerdialog_1.SpinnerDialog,
     Splashscreen: splashscreen_1.Splashscreen,
+    SQLite: sqlite_1.SQLite,
     StatusBar: statusbar_1.StatusBar,
     Toast: toast_1.Toast,
     TouchID: touchid_1.TouchID,
-    Vibration: vibration_1.Vibration
+    Vibration: vibration_1.Vibration,
+    WebIntent: webintent_1.WebIntent
 };
 // To help developers using cordova, we listen for the device ready event and
 // log an error if it didn't fire in a reasonable amount of time. Generally,
@@ -64547,7 +64580,8 @@ setTimeout(function () {
     }
 }, DEVICE_READY_TIMEOUT);
 
-},{"./ng1":374,"./plugins/actionsheet":375,"./plugins/appavailability":376,"./plugins/apprate":377,"./plugins/appversion":378,"./plugins/badge":379,"./plugins/barcodescanner":380,"./plugins/base64togallery":381,"./plugins/batterystatus":382,"./plugins/ble":383,"./plugins/calendar":384,"./plugins/camera":385,"./plugins/clipboard":386,"./plugins/contacts":387,"./plugins/datepicker":388,"./plugins/dbmeter":389,"./plugins/device":390,"./plugins/devicemotion":391,"./plugins/deviceorientation":392,"./plugins/diagnostic":393,"./plugins/dialogs":394,"./plugins/facebook":395,"./plugins/file":396,"./plugins/flashlight":397,"./plugins/geolocation":398,"./plugins/globalization":399,"./plugins/hotspot":400,"./plugins/imagepicker":401,"./plugins/inappbrowser":402,"./plugins/keyboard":403,"./plugins/launchnavigator":404,"./plugins/localnotifications":405,"./plugins/network":406,"./plugins/plugin":407,"./plugins/push":408,"./plugins/sms":409,"./plugins/socialsharing":410,"./plugins/spinnerdialog":411,"./plugins/splashscreen":412,"./plugins/statusbar":413,"./plugins/toast":414,"./plugins/touchid":415,"./plugins/vibration":416}],374:[function(require,module,exports){
+},{"./ng1":374,"./plugins/actionsheet":375,"./plugins/admob":376,"./plugins/appavailability":377,"./plugins/apprate":378,"./plugins/appversion":379,"./plugins/badge":380,"./plugins/barcodescanner":381,"./plugins/base64togallery":382,"./plugins/batterystatus":383,"./plugins/ble":384,"./plugins/bluetoothserial":385,"./plugins/calendar":386,"./plugins/camera":387,"./plugins/clipboard":388,"./plugins/contacts":389,"./plugins/datepicker":390,"./plugins/dbmeter":391,"./plugins/device":392,"./plugins/deviceaccounts":393,"./plugins/devicemotion":394,"./plugins/deviceorientation":395,"./plugins/diagnostic":396,"./plugins/dialogs":397,"./plugins/emailcomposer":398,"./plugins/facebook":399,"./plugins/file":400,"./plugins/flashlight":401,"./plugins/geolocation":402,"./plugins/globalization":403,"./plugins/googleanalytics":404,"./plugins/googlemaps":405,"./plugins/hotspot":406,"./plugins/imagepicker":407,"./plugins/inappbrowser":408,"./plugins/keyboard":409,"./plugins/launchnavigator":410,"./plugins/localnotifications":411,"./plugins/media":412,"./plugins/network":413,"./plugins/plugin":414,"./plugins/push":415,"./plugins/screenshot":416,"./plugins/sms":417,"./plugins/socialsharing":418,"./plugins/spinnerdialog":419,"./plugins/splashscreen":420,"./plugins/sqlite":421,"./plugins/statusbar":422,"./plugins/toast":423,"./plugins/touchid":424,"./plugins/vibration":425,"./plugins/webintent":426}],374:[function(require,module,exports){
+"use strict";
 /**
  * Initialize the ngCordova Angular module if we're running in ng1
  */
@@ -64573,6 +64607,7 @@ function publishAngular1Service(config, cls) {
 exports.publishAngular1Service = publishAngular1Service;
 
 },{}],375:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64613,10 +64648,10 @@ var ActionSheet = (function () {
      * |-------------------------------|-----------|----------------------------------------------|
      * | title                         |`string`   | The title for the actionsheet                |
      * | buttonLabels                  |`string[]` | the labels for the buttons. Uses the index x |
-     * | androidTheme                  |`number`   | Theme to bue used on Android                 |
+     * | androidTheme                  |`number`   | Theme to be used on Android                  |
      * | androidEnableCancelButton     |`boolean`  | Enable a cancel on Android                   |
-     * | winphoneEnableCancelButton    |`boolean`  | Enable a cancel on Android                   |
-     * | addCancelButtonWithLabel      |`string`   | Add a cancle button with text                |
+     * | winphoneEnableCancelButton    |`boolean`  | Enable a cancel on Windows Phone             |
+     * | addCancelButtonWithLabel      |`string`   | Add a cancel button with text                |
      * | addDestructiveButtonWithLabel |`string`   | Add a destructive button with text           |
      * | position                      |`number[]` | On an iPad, set the X,Y position             |
      *
@@ -64644,10 +64679,215 @@ var ActionSheet = (function () {
         })
     ], ActionSheet);
     return ActionSheet;
-})();
+}());
 exports.ActionSheet = ActionSheet;
 
-},{"./plugin":407}],376:[function(require,module,exports){
+},{"./plugin":414}],376:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+/**
+ * @name AdMob
+ * @description
+ * @usage
+ */
+var AdMob = (function () {
+    function AdMob() {
+    }
+    // Static Methods
+    /**
+     *
+     * @param adIdOrOptions
+     */
+    AdMob.createBanner = function (adIdOrOptions) { return; };
+    /**
+     *
+     */
+    AdMob.removeBanner = function () { };
+    /**
+     *
+     * @param position
+     */
+    AdMob.showBanner = function (position) { };
+    /**
+     *
+     * @param x
+     * @param y
+     */
+    AdMob.showBannerAtXY = function (x, y) { };
+    /**
+     *
+     */
+    AdMob.hideBanner = function () { };
+    /**
+     *
+     * @param adIdOrOptions
+     */
+    AdMob.prepareInterstitial = function (adIdOrOptions) { return; };
+    /**
+     * Show interstitial
+     */
+    AdMob.showInterstitial = function () { };
+    /**
+     *
+     */
+    AdMob.isInterstitialReady = function () { return; };
+    /**
+     * Prepare a reward video ad
+     * @param adIdOrOptions
+     */
+    AdMob.prepareRewardVideoAd = function (adIdOrOptions) { return; };
+    /**
+     * Show a reward video ad
+     */
+    AdMob.showRewardVideoAd = function () { };
+    /**
+     * Sets the values for configuration and targeting
+     * @param options Returns a promise that resolves if the options are set successfully
+     */
+    AdMob.setOptions = function (options) { return; };
+    /**
+     * Get user ad settings
+     * @returns {Promise<any>} Returns a promise that resolves with the ad settings
+     */
+    AdMob.getAdSettings = function () { return; };
+    // Events
+    AdMob.onBannerFailedToReceive = function () { return; };
+    AdMob.onBannerReceive = function () { return; };
+    AdMob.onBannerPresent = function () { return; };
+    AdMob.onBannerLeaveApp = function () { return; };
+    AdMob.onBannerDismiss = function () { return; };
+    AdMob.onInterstitialFailedToReceive = function () { return; };
+    AdMob.onInterstitialReceive = function () { return; };
+    AdMob.onInterstitialPresent = function () { return; };
+    AdMob.onInterstitialLeaveApp = function () { return; };
+    AdMob.onInterstitialDismiss = function () { return; };
+    __decorate([
+        plugin_1.Cordova()
+    ], AdMob, "createBanner", null);
+    __decorate([
+        plugin_1.Cordova({
+            sync: true
+        })
+    ], AdMob, "removeBanner", null);
+    __decorate([
+        plugin_1.Cordova({
+            sync: true
+        })
+    ], AdMob, "showBanner", null);
+    __decorate([
+        plugin_1.Cordova({
+            sync: true
+        })
+    ], AdMob, "showBannerAtXY", null);
+    __decorate([
+        plugin_1.Cordova({
+            sync: true
+        })
+    ], AdMob, "hideBanner", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], AdMob, "prepareInterstitial", null);
+    __decorate([
+        plugin_1.Cordova({
+            sync: true
+        })
+    ], AdMob, "showInterstitial", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], AdMob, "isInterstitialReady", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], AdMob, "prepareRewardVideoAd", null);
+    __decorate([
+        plugin_1.Cordova({
+            sync: true
+        })
+    ], AdMob, "showRewardVideoAd", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], AdMob, "setOptions", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], AdMob, "getAdSettings", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onBannerFailedToReceive'
+        })
+    ], AdMob, "onBannerFailedToReceive", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onBannerReceive'
+        })
+    ], AdMob, "onBannerReceive", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onBannerPresent'
+        })
+    ], AdMob, "onBannerPresent", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onBannerLeaveApp'
+        })
+    ], AdMob, "onBannerLeaveApp", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onBannerDismiss'
+        })
+    ], AdMob, "onBannerDismiss", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onInterstitialFailedToReceive'
+        })
+    ], AdMob, "onInterstitialFailedToReceive", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onInterstitialReceive'
+        })
+    ], AdMob, "onInterstitialReceive", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onInterstitialPresent'
+        })
+    ], AdMob, "onInterstitialPresent", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onInterstitialLeaveApp'
+        })
+    ], AdMob, "onInterstitialLeaveApp", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'onInterstitialDismiss'
+        })
+    ], AdMob, "onInterstitialDismiss", null);
+    AdMob = __decorate([
+        plugin_1.Plugin({
+            plugin: 'cordova-plugin-admobpro',
+            pluginRef: 'AdMob',
+            repo: 'https://github.com/floatinghotspot/cordova-admob-pro'
+        })
+    ], AdMob);
+    return AdMob;
+}());
+exports.AdMob = AdMob;
+
+},{"./plugin":414}],377:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64703,10 +64943,11 @@ var AppAvailability = (function () {
         })
     ], AppAvailability);
     return AppAvailability;
-})();
+}());
 exports.AppAvailability = AppAvailability;
 
-},{"./plugin":407}],377:[function(require,module,exports){
+},{"./plugin":414}],378:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64740,19 +64981,21 @@ var AppRate = (function () {
         /**
          * Rating dialog preferences
          *
-         * useLanguage {String} null - custom BCP 47 language tag
-         * displayAppName {String} '' - custom application title
-         * promptAgainForEachNewVersion {Boolean} true - show dialog again when application version will be updated
-         * usesUntilPrompt {Integer} 3 - count of runs of application before dialog will be displayed
-         * openStoreInApp {Boolean} false - leave app or no when application page opened in app store (now supported only for iOS)
-         * useCustomRateDialog {Boolean} false - use custom view for rate dialog
-         * callbacks.onButtonClicked {Function} null - call back function. called when user clicked on rate-dialog buttons
-         * callbacks.onRateDialogShow {Function} null - call back function. called when rate-dialog showing
-         * storeAppURL.ios {String} null - application id in AppStore
-         * storeAppURL.android {String} null - application URL in GooglePlay
-         * storeAppURL.blackberry {String} null - application URL in AppWorld
-         * storeAppURL.windows8 {String} null - application URL in WindowsStore
-         * customLocale {Object} null - custom locale object
+         * | Option                       | Type       | Default | Description                                                                            |
+         * |------------------------------|------------|---------|----------------------------------------------------------------------------------------|
+         * | useLanguage                  | `String`   | null    | custom BCP 47 language tag                                                             |
+         * | displayAppName               | `String`   | ''      | custom application title                                                               |
+         * | promptAgainForEachNewVersion | `Boolean`  | true    | show dialog again when application version will be updated                             |
+         * | usesUntilPrompt              | `Integer`  | 3       | count of runs of application before dialog will be displayed                           |
+         * | openStoreInApp               | `Boolean`  | false   | leave app or no when application page opened in app store (now supported only for iOS) |
+         * | useCustomRateDialog          | `Boolean`  | false   | use custom view for rate dialog                                                        |
+         * | callbacks.onButtonClicked    | `Function` | null    | call back function. called when user clicked on rate-dialog buttons                    |
+         * | callbacks.onRateDialogShow   | `Function` | null    | call back function. called when rate-dialog showing                                    |
+         * | storeAppURL.ios              | `String`   | null    | application id in AppStore                                                             |
+         * | storeAppURL.android          | `String`   | null    | application URL in GooglePlay                                                          |
+         * | storeAppURL.blackberry       | `String`   | null    | application URL in AppWorld                                                            |
+         * | storeAppURL.windows8         | `String`   | null    | application URL in WindowsStore                                                        |
+         * | customLocale                 | `Object`   | null    | custom locale object                                                                   |
          * @type {{}}
          */
         get: function () { return window.AppRate.preferences; },
@@ -64781,10 +65024,11 @@ var AppRate = (function () {
         })
     ], AppRate);
     return AppRate;
-})();
+}());
 exports.AppRate = AppRate;
 
-},{"./plugin":407}],378:[function(require,module,exports){
+},{"./plugin":414}],379:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64854,10 +65098,11 @@ var AppVersion = (function () {
         })
     ], AppVersion);
     return AppVersion;
-})();
+}());
 exports.AppVersion = AppVersion;
 
-},{"./plugin":407}],379:[function(require,module,exports){
+},{"./plugin":414}],380:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -64891,10 +65136,10 @@ var Badge = (function () {
     Badge.clear = function () { return; };
     /**
      * Set the badge of the app icon.
-     * @param {number} number  The new badge number.
+     * @param {number} badgeNumber  The new badge number.
      * @returns {Promise}
      */
-    Badge.set = function (number) { return; };
+    Badge.set = function (badgeNumber) { return; };
     /**
      * Get the badge of the app icon.
      * @returns {Promise}
@@ -64902,16 +65147,16 @@ var Badge = (function () {
     Badge.get = function () { return; };
     /**
      * Increase the badge number.
-     * @param {number} count  Count to add to the current badge number
+     * @param {number} increaseBy  Count to add to the current badge number
      * @returns {Promise}
      */
-    Badge.increase = function (number) { return; };
+    Badge.increase = function (increaseBy) { return; };
     /**
      * Decrease the badge number.
-     * @param {number} count  Count to subtract from the current badge number
+     * @param {number} decreaseBy  Count to subtract from the current badge number
      * @returns {Promise}
      */
-    Badge.decrease = function (number) { return; };
+    Badge.decrease = function (decreaseBy) { return; };
     /**
      * Determine if the app has permission to show badges.
      */
@@ -64951,10 +65196,11 @@ var Badge = (function () {
         })
     ], Badge);
     return Badge;
-})();
+}());
 exports.Badge = Badge;
 
-},{"./plugin":407}],380:[function(require,module,exports){
+},{"./plugin":414}],381:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65001,10 +65247,11 @@ var BarcodeScanner = (function () {
         })
     ], BarcodeScanner);
     return BarcodeScanner;
-})();
+}());
 exports.BarcodeScanner = BarcodeScanner;
 
-},{"./plugin":407}],381:[function(require,module,exports){
+},{"./plugin":414}],382:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65049,10 +65296,11 @@ var Base64ToGallery = (function () {
         })
     ], Base64ToGallery);
     return Base64ToGallery;
-})();
+}());
 exports.Base64ToGallery = Base64ToGallery;
 
-},{"./plugin":407}],382:[function(require,module,exports){
+},{"./plugin":414}],383:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65104,7 +65352,7 @@ var BatteryStatus = (function () {
     __decorate([
         plugin_1.Cordova({
             eventObservable: true,
-            event: 'batterylevel'
+            event: 'batterystatus'
         })
     ], BatteryStatus, "onChange", null);
     __decorate([
@@ -65127,10 +65375,11 @@ var BatteryStatus = (function () {
         })
     ], BatteryStatus);
     return BatteryStatus;
-})();
+}());
 exports.BatteryStatus = BatteryStatus;
 
-},{"./plugin":407}],383:[function(require,module,exports){
+},{"./plugin":414}],384:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65375,9 +65624,9 @@ var BLE = (function () {
     /**
      * Read the value of a characteristic.
      *
-     * @param {string} device_id  UUID or MAC address of the peripheral
-     * @param {string} service_uuid  UUID of the BLE service
-     * @param {string} characteristic_uuid  UUID of the BLE characteristic
+     * @param {string} deviceId  UUID or MAC address of the peripheral
+     * @param {string} serviceUUID  UUID of the BLE service
+     * @param {string} characteristicUUID  UUID of the BLE characteristic
      * @return Returns a Promise
      */
     BLE.read = function (deviceId, serviceUUID, characteristicUUID) { return; };
@@ -65404,9 +65653,9 @@ var BLE = (function () {
      * BLE.write(device_id, SERVICE, CHARACTERISTIC, data.buffer);
      *
      * ```
-     * @param {string} device_id  UUID or MAC address of the peripheral
-     * @param {string} service_uuid  UUID of the BLE service
-     * @param {string} characteristic_uuid  UUID of the BLE characteristic
+     * @param {string} deviceId  UUID or MAC address of the peripheral
+     * @param {string} serviceUUID  UUID of the BLE service
+     * @param {string} characteristicUUID  UUID of the BLE characteristic
      * @param {ArrayBuffer} value  Data to write to the characteristic, as an ArrayBuffer.
      * @return Returns a Promise
      */
@@ -65414,9 +65663,9 @@ var BLE = (function () {
     /**
      * Write the value of a characteristic without waiting for confirmation from the peripheral.
      *
-     * @param {string} device_id  UUID or MAC address of the peripheral
-     * @param {string} service_uuid  UUID of the BLE service
-     * @param {string} characteristic_uuid  UUID of the BLE characteristic
+     * @param {string} deviceId  UUID or MAC address of the peripheral
+     * @param {string} serviceUUID  UUID of the BLE service
+     * @param {string} characteristicUUID  UUID of the BLE characteristic
      * @param {ArrayBuffer} value  Data to write to the characteristic, as an ArrayBuffer.
      * @return Returns a Promise
      */
@@ -65431,18 +65680,18 @@ var BLE = (function () {
      * });
      * ```
      *
-     * @param {string} device_id  UUID or MAC address of the peripheral
-     * @param {string} service_uuid  UUID of the BLE service
-     * @param {string} characteristic_uuid  UUID of the BLE characteristic
+     * @param {string} deviceId  UUID or MAC address of the peripheral
+     * @param {string} serviceUUID  UUID of the BLE service
+     * @param {string} characteristicUUID  UUID of the BLE characteristic
      * @return Returns an Observable that notifies of characteristic changes.
      */
     BLE.startNotification = function (deviceId, serviceUUID, characteristicUUID) { return; };
     /**
      * Stop being notified when the value of a characteristic changes.
      *
-     * @param {string} device_id  UUID or MAC address of the peripheral
-     * @param {string} service_uuid  UUID of the BLE service
-     * @param {string} characteristic_uuid  UUID of the BLE characteristic
+     * @param {string} deviceId  UUID or MAC address of the peripheral
+     * @param {string} serviceUUID  UUID of the BLE service
+     * @param {string} characteristicUUID  UUID of the BLE characteristic
      * @return Returns a Promise.
      */
     BLE.stopNotification = function (deviceId, serviceUUID, characteristicUUID) { return; };
@@ -65456,7 +65705,7 @@ var BLE = (function () {
      *   () => { console.log('not connected'); }
      * );
      * ```
-     * @param {string} device_id  UUID or MAC address of the peripheral
+     * @param {string} deviceId  UUID or MAC address of the peripheral
      * @return Returns a Promise.
      */
     BLE.isConnected = function (deviceId) { return; };
@@ -65550,10 +65799,268 @@ var BLE = (function () {
         })
     ], BLE);
     return BLE;
-})();
+}());
 exports.BLE = BLE;
 
-},{"./plugin":407}],384:[function(require,module,exports){
+},{"./plugin":414}],385:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+/**
+ * @name Bluetooth Serial
+ * @description This plugin enables serial communication over Bluetooth. It was written for communicating between Android or iOS and an Arduino.
+ * @usage
+ */
+var BluetoothSerial = (function () {
+    function BluetoothSerial() {
+    }
+    /**
+     * Connect to a Bluetooth device
+     * @param macAddress_or_uuid Identifier of the remote device
+     */
+    BluetoothSerial.connect = function (macAddress_or_uuid) { return; };
+    /**
+     * Connect insecurely to a Bluetooth device
+     * @param macAddress Identifier of the remote device
+     */
+    BluetoothSerial.connectInsecure = function (macAddress) { return; };
+    /**
+     * Disconnect
+     */
+    BluetoothSerial.disconnect = function () { return; };
+    /**
+     * Writes data to the serial port
+     * @param data ArrayBuffer of data
+     * @usage
+     * ```ts
+     * // Write a string
+     * Bluetooth.write("hello world").then(success, failure);
+     *
+     * // Array of int or bytes
+     * Bluetooth.write([186, 220, 222]).then(success, failure);
+     *
+     * // Typed Array
+     * var data = new Uint8Array(4);
+     * data[0] = 0x41;
+     * data[1] = 0x42;
+     * data[2] = 0x43;
+     * data[3] = 0x44;
+     * Bluetooth.write(data).then(success, failure);
+     *
+     * // Array Buffer
+     * Bluetooth.write(data.buffer).then(success, failure);
+     * ```
+     */
+    BluetoothSerial.write = function (data) { return; };
+    /**
+     * Gets the number of bytes of data available
+     */
+    BluetoothSerial.available = function () { return; };
+    /**
+     * Reads data from the buffer
+     */
+    BluetoothSerial.read = function () { return; };
+    /**
+     * Reads data from the buffer until it reaches a delimiter
+     * @param delimiter
+     */
+    BluetoothSerial.readUntil = function (delimiter) { return; };
+    /**
+     * Subscribe to be notified when data is received
+     * @param delimiter
+     */
+    BluetoothSerial.subscribe = function (delimiter) { return; };
+    /**
+     * Subscribe to be notified when data is received
+     */
+    BluetoothSerial.subscribeRawData = function () { return; };
+    /**
+     * Clears data in buffer
+     */
+    BluetoothSerial.clear = function () { return; };
+    /**
+     * Lists bonded devices
+     */
+    BluetoothSerial.list = function () { return; };
+    /**
+     * Reports if bluetooth is enabled
+     */
+    BluetoothSerial.isEnabled = function () { return; };
+    /**
+     * Reports the connection status
+     */
+    BluetoothSerial.isConnected = function () { return; };
+    /**
+     * Reads the RSSI from the connected peripheral
+     */
+    BluetoothSerial.readRSSI = function () { return; };
+    /**
+     * Show the Bluetooth settings on the device
+     */
+    BluetoothSerial.showBluetoothSettings = function () { return; };
+    /**
+     * Enable Bluetooth on the device
+     */
+    BluetoothSerial.enable = function () { return; };
+    /**
+     * Discover unpaired devices
+     * @usage
+     * ```ts
+     * [{
+     *    "class": 276,
+     *    "id": "10:BF:48:CB:00:00",
+     *    "address": "10:BF:48:CB:00:00",
+     *    "name": "Nexus 7"
+     * }, {
+     *    "class": 7936,
+     *    "id": "00:06:66:4D:00:00",
+     *    "address": "00:06:66:4D:00:00",
+     *    "name": "RN42"
+     * }]
+     * ```
+     */
+    BluetoothSerial.discoverUnpaired = function () { return; };
+    /**
+     * Subscribe to be notified on Bluetooth device discovery. Discovery process must be initiated with the `discoverUnpaired` function.
+     */
+    BluetoothSerial.setDeviceDiscoveredListener = function () { return; };
+    /**
+     * Sets the human readable device name that is broadcasted to other devices
+     * @param newName Desired name of device
+     */
+    BluetoothSerial.setName = function (newName) { };
+    /**
+     * Makes the device discoverable by other devices
+     * @param discoverableDuration Desired number of seconds device should be discoverable for
+     */
+    BluetoothSerial.setDiscoverable = function (discoverableDuration) { };
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "connect", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android']
+        })
+    ], BluetoothSerial, "connectInsecure", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "disconnect", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "write", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "available", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "read", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "readUntil", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone'],
+            observable: true,
+            clearFunction: 'unsubscribe'
+        })
+    ], BluetoothSerial, "subscribe", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone'],
+            observable: true,
+            clearFunction: 'unsubscribeRawData'
+        })
+    ], BluetoothSerial, "subscribeRawData", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "clear", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "list", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "isEnabled", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "isConnected", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "readRSSI", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "showBluetoothSettings", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "enable", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone']
+        })
+    ], BluetoothSerial, "discoverUnpaired", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android', 'iOS', 'Windows Phone'],
+            observable: true,
+            clearFunction: 'clearDeviceDiscoveredListener'
+        })
+    ], BluetoothSerial, "setDeviceDiscoveredListener", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android'],
+            sync: true
+        })
+    ], BluetoothSerial, "setName", null);
+    __decorate([
+        plugin_1.Cordova({
+            platforms: ['Android'],
+            sync: true
+        })
+    ], BluetoothSerial, "setDiscoverable", null);
+    BluetoothSerial = __decorate([
+        plugin_1.Plugin({
+            repo: 'https://github.com/don/BluetoothSerial',
+            plugin: 'cordova-plugin-bluetooth-serial',
+            pluginRef: 'bluetoothSerial',
+            platforms: ['Android', 'iOS', 'Windows Phone', 'Browser']
+        })
+    ], BluetoothSerial);
+    return BluetoothSerial;
+}());
+exports.BluetoothSerial = BluetoothSerial;
+
+},{"./plugin":414}],386:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65856,10 +66363,11 @@ var Calendar = (function () {
         })
     ], Calendar);
     return Calendar;
-})();
+}());
 exports.Calendar = Calendar;
 
-},{"./plugin":407}],385:[function(require,module,exports){
+},{"./plugin":414}],387:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65902,6 +66410,68 @@ var Camera = (function () {
      */
     Camera.cleanup = function () { };
     ;
+    /**
+     * @enum {number}
+     */
+    Camera.DestinationType = {
+        /** Return base64 encoded string. DATA_URL can be very memory intensive and cause app crashes or out of memory errors. Use FILE_URI or NATIVE_URI if possible */
+        DATA_URL: 0,
+        /** Return file uri (content://media/external/images/media/2 for Android) */
+        FILE_URI: 1,
+        /** Return native uri (eg. asset-library://... for iOS) */
+        NATIVE_URI: 2
+    };
+    /**
+     * @enum {number}
+     */
+    Camera.EncodingType = {
+        /** Return JPEG encoded image */
+        JPEG: 0,
+        /** Return PNG encoded image */
+        PNG: 1
+    };
+    /**
+     * @enum {number}
+     */
+    Camera.MediaType = {
+        /** Allow selection of still pictures only. DEFAULT. Will return format specified via DestinationType */
+        PICTURE: 0,
+        /** Allow selection of video only, ONLY RETURNS URL */
+        VIDEO: 1,
+        /** Allow selection from all media types */
+        ALLMEDIA: 2
+    };
+    /**
+     * @enum {number}
+     */
+    Camera.PictureSourceType = {
+        /** Choose image from picture library (same as SAVEDPHOTOALBUM for Android) */
+        PHOTOLIBRARY: 0,
+        /** Take picture from camera */
+        CAMERA: 1,
+        /** Choose image from picture library (same as PHOTOLIBRARY for Android) */
+        SAVEDPHOTOALBUM: 2
+    };
+    /**
+     * Matches iOS UIPopoverArrowDirection constants to specify arrow location on popover.
+     * @enum {number}
+     */
+    Camera.PopoverArrowDirection = {
+        ARROW_UP: 1,
+        ARROW_DOWN: 2,
+        ARROW_LEFT: 4,
+        ARROW_RIGHT: 8,
+        ARROW_ANY: 15
+    };
+    /**
+     * @enum {number}
+     */
+    Camera.Direction = {
+        /** Use the back-facing camera */
+        BACK: 0,
+        /** Use the front-facing camera */
+        FRONT: 1
+    };
     __decorate([
         plugin_1.Cordova({
             callbackOrder: 'reverse'
@@ -65921,10 +66491,11 @@ var Camera = (function () {
         })
     ], Camera);
     return Camera;
-})();
+}());
 exports.Camera = Camera;
 
-},{"./plugin":407}],386:[function(require,module,exports){
+},{"./plugin":414}],388:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -65988,10 +66559,11 @@ var Clipboard = (function () {
         })
     ], Clipboard);
     return Clipboard;
-})();
+}());
 exports.Clipboard = Clipboard;
 
-},{"./plugin":407}],387:[function(require,module,exports){
+},{"./plugin":414}],389:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66014,12 +66586,11 @@ var plugin_1 = require('./plugin');
  *
  *
  *
- * Contacts.save({
+ * Contacts.create({
  *   displayName: "Mr. Ionitron"
  * }).then((contact) => {}, (err) => {})
  * ```
  *
- * See the `save()` docs for a full list of fields.
  *
  */
 var Contacts = (function () {
@@ -66080,10 +66651,11 @@ var Contacts = (function () {
         })
     ], Contacts);
     return Contacts;
-})();
+}());
 exports.Contacts = Contacts;
 
-},{"./plugin":407}],388:[function(require,module,exports){
+},{"./plugin":414}],390:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66136,10 +66708,11 @@ var DatePicker = (function () {
         })
     ], DatePicker);
     return DatePicker;
-})();
+}());
 exports.DatePicker = DatePicker;
 
-},{"./plugin":407}],389:[function(require,module,exports){
+},{"./plugin":414}],391:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66223,10 +66796,11 @@ var DBMeter = (function () {
         })
     ], DBMeter);
     return DBMeter;
-})();
+}());
 exports.DBMeter = DBMeter;
 
-},{"./plugin":407}],390:[function(require,module,exports){
+},{"./plugin":414}],392:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66272,10 +66846,63 @@ var Device = (function () {
         })
     ], Device);
     return Device;
-})();
+}());
 exports.Device = Device;
 
-},{"./plugin":407}],391:[function(require,module,exports){
+},{"./plugin":414}],393:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+var DeviceAccounts = (function () {
+    function DeviceAccounts() {
+    }
+    /**
+     *  Gets all accounts registered on the Android Device
+     */
+    DeviceAccounts.get = function () { return; };
+    /**
+     *  Get all accounts registered on Android device for requested type
+     */
+    DeviceAccounts.getByType = function (type) { return; };
+    /**
+     *  Get all emails registered on Android device (accounts with 'com.google' type)
+     */
+    DeviceAccounts.getEmails = function () { return; };
+    /**
+     *  Get the first email registered on Android device
+     */
+    DeviceAccounts.getEmail = function () { return; };
+    __decorate([
+        plugin_1.Cordova()
+    ], DeviceAccounts, "get", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], DeviceAccounts, "getByType", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], DeviceAccounts, "getEmails", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], DeviceAccounts, "getEmail", null);
+    DeviceAccounts = __decorate([
+        plugin_1.Plugin({
+            plugin: 'https://github.com/loicknuchel/cordova-device-accounts.git',
+            pluginRef: 'plugins.DeviceAccounts',
+            repo: 'https://github.com/loicknuchel/cordova-device-accounts',
+            platforms: ['Android']
+        })
+    ], DeviceAccounts);
+    return DeviceAccounts;
+}());
+exports.DeviceAccounts = DeviceAccounts;
+
+},{"./plugin":414}],394:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66301,7 +66928,7 @@ var plugin_1 = require('./plugin');
  * );
  *
  * // Watch device acceleration
- * var subscription = DeviceMotion.watchPosition().subscribe(acceleration => {
+ * var subscription = DeviceMotion.watchAcceleration().subscribe(acceleration => {
  *   console.log(acceleration);
  * });
  *
@@ -66318,7 +66945,9 @@ var DeviceMotion = (function () {
      *
      * @returns {Promise<any>} Returns object with x, y, z, and timestamp properties
      */
-    DeviceMotion.getCurrentAcceleration = function () { return; };
+    DeviceMotion.getCurrentAcceleration = function () {
+        return;
+    };
     /**
      * Watch the device acceleration. Clear the watch by unsubscribing from the observable.
      *
@@ -66332,9 +66961,11 @@ var DeviceMotion = (function () {
      * subscription.unsubscribe();
      * ```
      * @param options
-     * @returns {Observable<accelerationData>}
+     * @returns {Observable<AccelerationData>}
      */
-    DeviceMotion.watchAcceleration = function (options) { return; };
+    DeviceMotion.watchAcceleration = function (options) {
+        return;
+    };
     __decorate([
         plugin_1.Cordova()
     ], DeviceMotion, "getCurrentAcceleration", null);
@@ -66353,10 +66984,11 @@ var DeviceMotion = (function () {
         })
     ], DeviceMotion);
     return DeviceMotion;
-})();
+}());
 exports.DeviceMotion = DeviceMotion;
 
-},{"./plugin":407}],392:[function(require,module,exports){
+},{"./plugin":414}],395:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66424,10 +67056,11 @@ var DeviceOrientation = (function () {
         })
     ], DeviceOrientation);
     return DeviceOrientation;
-})();
+}());
 exports.DeviceOrientation = DeviceOrientation;
 
-},{"./plugin":407}],393:[function(require,module,exports){
+},{"./plugin":414}],396:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66439,8 +67072,8 @@ var Diagnostic = (function () {
     function Diagnostic() {
     }
     /**
-    * Checks if app is able to access device location.
-    */
+     * Checks if app is able to access device location.
+     */
     Diagnostic.isLocationEnabled = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66450,9 +67083,9 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /**
-    * Checks if Wifi is connected/enabled. On iOS this returns true if the device is connected to a network by WiFi. On Android and Windows 10 Mobile this returns true if the WiFi setting is set to enabled.
-    * On Android this requires permission <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    */
+     * Checks if Wifi is connected/enabled. On iOS this returns true if the device is connected to a network by WiFi. On Android and Windows 10 Mobile this returns true if the WiFi setting is set to enabled.
+     * On Android this requires permission. `<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />`
+     */
     Diagnostic.isWifiEnabled = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66462,9 +67095,9 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /*
-    * Checks if the device has a camera. On Android this returns true if the device has a camera. On iOS this returns true if both the device has a camera AND the application is authorized to use it. On Windows 10 Mobile this returns true if both the device has a rear-facing camera AND the
-    * application is authorized to use it.
-    */
+     * Checks if the device has a camera. On Android this returns true if the device has a camera. On iOS this returns true if both the device has a camera AND the application is authorized to use it. On Windows 10 Mobile this returns true if both the device has a rear-facing camera AND the
+     * application is authorized to use it.
+     */
     Diagnostic.isCameraEnabled = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66474,9 +67107,9 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /*
-    * Checks if the device has Bluetooth capabilities and if so that Bluetooth is switched on (same on Android, iOS and Windows 10 Mobile)
-    * On Android this requires permission <uses-permission android:name="android.permission.BLUETOOTH" />
-    */
+     * Checks if the device has Bluetooth capabilities and if so that Bluetooth is switched on (same on Android, iOS and Windows 10 Mobile)
+     * On Android this requires permission <uses-permission android:name="android.permission.BLUETOOTH" />
+     */
     Diagnostic.isBluetoothEnabled = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66486,11 +67119,11 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /*
-    * Returns the location authorization status for the application.
-    * Note for Android: this is intended for Android 6 / API 23 and above. Calling on Android 5 / API 22 and below will always return GRANTED status as permissions are already granted at installation time.
-    *
-    * mode - (iOS-only / optional) location authorization mode: "always" or "when_in_use". If not specified, defaults to "when_in_use".
-    */
+     * Returns the location authorization status for the application.
+     * Note for Android: this is intended for Android 6 / API 23 and above. Calling on Android 5 / API 22 and below will always return GRANTED status as permissions are already granted at installation time.
+     *
+     * mode - (iOS-only / optional) location authorization mode: "always" or "when_in_use". If not specified, defaults to "when_in_use".
+     */
     Diagnostic.requestLocationAuthorization = function (mode) {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66500,9 +67133,9 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /*
-    * Checks if the application is authorized to use location.
-    * Note for Android: this is intended for Android 6 / API 23 and above. Calling on Android 5 / API 22 and below will always return GRANTED status as permissions are already granted at installation time.
-    */
+     * Checks if the application is authorized to use location.
+     * Note for Android: this is intended for Android 6 / API 23 and above. Calling on Android 5 / API 22 and below will always return GRANTED status as permissions are already granted at installation time.
+     */
     Diagnostic.isLocationAuthorized = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66512,8 +67145,8 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /*
-    * Checks if camera hardware is present on device.
-    */
+     * Checks if camera hardware is present on device.
+     */
     Diagnostic.isCameraPresent = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66523,9 +67156,9 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /*
-    * Checks if the application is authorized to use the camera.
-    * Note for Android: this is intended for Android 6 / API 23 and above. Calling on Android 5 / API 22 and below will always return TRUE as permissions are already granted at installation time.
-    */
+     * Checks if the application is authorized to use the camera.
+     * Note for Android: this is intended for Android 6 / API 23 and above. Calling on Android 5 / API 22 and below will always return TRUE as permissions are already granted at installation time.
+     */
     Diagnostic.isCameraAuthorized = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66535,11 +67168,11 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /*
-    * Checks if location mode is set to return high-accuracy locations from GPS hardware.
-    *   Returns true if Location mode is enabled and is set to either:
-    *   - Device only = GPS hardware only (high accuracy)
-    *   - High accuracy = GPS hardware, network triangulation and Wifi network IDs (high and low accuracy)
-    */
+     * Checks if location mode is set to return high-accuracy locations from GPS hardware.
+     *   Returns true if Location mode is enabled and is set to either:
+     *   - Device only = GPS hardware only (high accuracy)
+     *   - High accuracy = GPS hardware, network triangulation and Wifi network IDs (high and low accuracy)
+     */
     Diagnostic.isGpsLocationEnabled = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66549,11 +67182,11 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /*
-    * Checks if location mode is set to return low-accuracy locations from network triangulation/WiFi access points.
-    * Returns true if Location mode is enabled and is set to either:
-    *   - Battery saving = network triangulation and Wifi network IDs (low accuracy)
-    *   - High accuracy = GPS hardware, network triangulation and Wifi network IDs (high and low accuracy)
-    */
+     * Checks if location mode is set to return low-accuracy locations from network triangulation/WiFi access points.
+     * Returns true if Location mode is enabled and is set to either:
+     *   - Battery saving = network triangulation and Wifi network IDs (low accuracy)
+     *   - High accuracy = GPS hardware, network triangulation and Wifi network IDs (high and low accuracy)
+     */
     Diagnostic.isNetworkLocationEnabled = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66563,11 +67196,11 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /**
-    *
-    * Checks if remote (push) notifications are enabled.
-    * On iOS 8+, returns true if app is registered for remote notifications AND "Allow Notifications" switch is ON AND alert style is not set to "None" (i.e. "Banners" or "Alerts").
-    * On iOS <=7, returns true if app is registered for remote notifications AND alert style is not set to "None" (i.e. "Banners" or "Alerts") - same as isRegisteredForRemoteNotifications().
-    */
+     *
+     * Checks if remote (push) notifications are enabled.
+     * On iOS 8+, returns true if app is registered for remote notifications AND "Allow Notifications" switch is ON AND alert style is not set to "None" (i.e. "Banners" or "Alerts").
+     * On iOS <=7, returns true if app is registered for remote notifications AND alert style is not set to "None" (i.e. "Banners" or "Alerts") - same as isRegisteredForRemoteNotifications().
+     */
     Diagnostic.isRemoteNotificationsEnabled = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66577,11 +67210,11 @@ var Diagnostic = (function () {
         return new Promise(function (res, rej) { });
     };
     /**
-    *
-    * Indicates if the app is registered for remote (push) notifications on the device.
-    * On iOS 8+, returns true if the app is registered for remote notifications and received its device token, or false if registration has not occurred, has failed, or has been denied by the user. Note that user preferences for notifications in the Settings app will not affect this.
-    * On iOS <=7, returns true if app is registered for remote notifications AND alert style is not set to "None" (i.e. "Banners" or "Alerts") - same as isRemoteNotificationsEnabled().
-    */
+     *
+     * Indicates if the app is registered for remote (push) notifications on the device.
+     * On iOS 8+, returns true if the app is registered for remote notifications and received its device token, or false if registration has not occurred, has failed, or has been denied by the user. Note that user preferences for notifications in the Settings app will not affect this.
+     * On iOS <=7, returns true if app is registered for remote notifications AND alert style is not set to "None" (i.e. "Banners" or "Alerts") - same as isRemoteNotificationsEnabled().
+     */
     Diagnostic.isRegisteredForRemoteNotifications = function () {
         // This Promise is replaced by one from the @Cordova decorator that wraps
         // the plugin's callbacks. We provide a dummy one here so TypeScript
@@ -66629,14 +67262,16 @@ var Diagnostic = (function () {
     Diagnostic = __decorate([
         plugin_1.Plugin({
             plugin: 'cordova.plugins.diagnostic',
-            pluginRef: 'cordova.plugins.diagnostic'
+            pluginRef: 'cordova.plugins.diagnostic',
+            repo: 'https://github.com/floatinghotpot/cordova-plugin-admob'
         })
     ], Diagnostic);
     return Diagnostic;
-})();
+}());
 exports.Diagnostic = Diagnostic;
 
-},{"./plugin":407}],394:[function(require,module,exports){
+},{"./plugin":414}],397:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66737,10 +67372,108 @@ var Dialogs = (function () {
         })
     ], Dialogs);
     return Dialogs;
-})();
+}());
 exports.Dialogs = Dialogs;
 
-},{"./plugin":407}],395:[function(require,module,exports){
+},{"./plugin":414}],398:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+/**
+ * @name Email Composer
+ * @description
+ *
+ * Requires Cordova plugin: cordova-plugin-email-composer. For more info, please see the [Email Composer plugin docs](https://github.com/katzer/cordova-plugin-email-composer).
+ *
+ * @usage
+ * ```ts
+ * import {EmailComposer} from 'ionic-native';
+ *
+ *
+ * EmailComposer.isAvailable().then((available) =>{
+ *  if(available) {
+ *    //Now we know we can send
+ *  }
+ * });
+ *
+ * let email = {
+ *   to: 'max@mustermann.de',
+ *   cc: 'erika@mustermann.de',
+ *   bcc: ['john@doe.com', 'jane@doe.com'],
+ *   attachments: [
+ *     'file://img/logo.png',
+ *     'res://icon.png',
+ *     'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
+ *     'file://README.pdf'
+ *   ],
+ *   subject: 'Cordova Icons',
+ *   body: 'How are you? Nice greetings from Leipzig',
+ *   isHtml: true
+ * };
+ *
+ * // Send a text message using default options
+ * EmailComposer.send(email);
+ *
+ * ```
+ */
+var EmailComposer = (function () {
+    function EmailComposer() {
+    }
+    /**
+     * Verifies if sending emails is supported on the device.
+     *
+     * @param app {string?} An optional app id or uri scheme. Defaults to mailto.
+     * @param scope {any?} An optional scope for the promise
+     * @returns {Promise<boolean>} Resolves promise with boolean whether EmailComposer is available
+     */
+    EmailComposer.isAvailable = function (app, scope) {
+        return new Promise(function (resolve, reject) {
+            cordova.plugins.email.isAvailable(app, resolve, scope);
+        });
+    };
+    /**
+     * Adds a new mail app alias.
+     *
+     * @param alias {string} The alias name
+     * @param packageName {string} The package name
+     */
+    EmailComposer.addAlias = function (alias, packageName) { };
+    /**
+     * Displays the email composer pre-filled with data.
+     *
+     * @param email {Email} Email
+     * @param scope {any?} An optional scope for the promise
+     * @returns {Promise<any>} Resolves promise when the EmailComposer has been opened
+     */
+    EmailComposer.open = function (email, scope) { return; };
+    __decorate([
+        plugin_1.Cordova()
+    ], EmailComposer, "addAlias", null);
+    __decorate([
+        plugin_1.Cordova({
+            successIndex: 1,
+            errorIndex: 3
+        })
+    ], EmailComposer, "open", null);
+    EmailComposer = __decorate([
+        plugin_1.Plugin({
+            plugin: 'cordova-plugin-email-composer',
+            pluginRef: 'cordova.plugins.email',
+            repo: 'https://github.com/katzer/cordova-plugin-email-composer.git',
+            platforms: ['Android', 'iOS', 'Windows Phone 8']
+        })
+    ], EmailComposer);
+    return EmailComposer;
+}());
+exports.EmailComposer = EmailComposer;
+
+},{"./plugin":414}],399:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -66768,7 +67501,7 @@ var plugin_1 = require('./plugin');
  * Then type in the following command in your Terminal, where APP_ID and APP_NAME are the values from the Facebook Developer portal.
  *
  * ```bash
- *  cordova plugin add cordova-plugin-facebook4 --save --variable APP_ID="123456789" --variable APP_NAME="myApplication"
+ *  ionic plugin add cordova-plugin-facebook4 --save --variable APP_ID="123456789" --variable APP_NAME="myApplication"
  * ```
  *
  * After, you'll need to add the native platforms you'll be using to your app in the Facebook Developer portal under your app's Settings:
@@ -66994,10 +67727,11 @@ var Facebook = (function () {
         })
     ], Facebook);
     return Facebook;
-})();
+}());
 exports.Facebook = Facebook;
 
-},{"./plugin":407}],396:[function(require,module,exports){
+},{"./plugin":414}],400:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67069,7 +67803,7 @@ var File = (function () {
         if ((/^\//.test(dirName))) {
             rejectFn('directory cannot start with \/');
         }
-        replace = replace ? false : true;
+        replace = !replace;
         var options = {
             create: true,
             exclusive: replace
@@ -67094,7 +67828,7 @@ var File = (function () {
         return promise;
     };
     /**
-     * Remove a directory at a given path
+     * Remove a directory at a given path.
      *
      * @param {string} path The path to the directory
      * @param {string} dirName The directory name
@@ -67131,7 +67865,7 @@ var File = (function () {
         return promise;
     };
     /**
-     * Move a directory to a given path
+     * Move a directory to a given path.
      *
      * @param {string} path The source path to the directory
      * @param {string} dirName The source directory name
@@ -67216,7 +67950,7 @@ var File = (function () {
         return promise;
     };
     /**
-     * List files and directory from a given path
+     * List files and directory from a given path.
      *
      * @param {string} path Base FileSystem. Please refer to the iOS and Android filesystems above
      * @param {string} dirName Name of directory
@@ -67342,7 +68076,7 @@ var File = (function () {
         if ((/^\//.test(fileName))) {
             rejectFn('file-name cannot start with \/');
         }
-        replace = replace ? false : true;
+        replace = !replace;
         var options = {
             create: true,
             exclusive: replace
@@ -67516,10 +68250,11 @@ var File = (function () {
         })
     ], File);
     return File;
-})();
+}());
 exports.File = File;
 
-},{"./plugin":407}],397:[function(require,module,exports){
+},{"./plugin":414}],401:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67545,8 +68280,8 @@ var Flashlight = (function () {
     function Flashlight() {
     }
     /**
-     * Checks if the flash light is available
-     * @returns {Promise<boolean>} Returns a promise that resolves with a boolean stating if the flash light is available.
+     * Checks if the flashlight is available
+     * @returns {Promise<boolean>} Returns a promise that resolves with a boolean stating if the flashlight is available.
      */
     Flashlight.available = function () { return; };
     /**
@@ -67555,7 +68290,7 @@ var Flashlight = (function () {
      */
     Flashlight.switchOn = function () { return; };
     /**
-     * Switches the flash light off
+     * Switches the flashlight off
      * @returns {Promise<boolean>}
      */
     Flashlight.switchOff = function () { return; };
@@ -67565,7 +68300,7 @@ var Flashlight = (function () {
      */
     Flashlight.toggle = function () { return; };
     /**
-     * Checks if the flash light is turned on.
+     * Checks if the flashlight is turned on.
      * Returns a boolean
      */
     Flashlight.isSwitchedOn = function () { return; };
@@ -67594,10 +68329,11 @@ var Flashlight = (function () {
         })
     ], Flashlight);
     return Flashlight;
-})();
+}());
 exports.Flashlight = Flashlight;
 
-},{"./plugin":407}],398:[function(require,module,exports){
+},{"./plugin":414}],402:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67678,10 +68414,11 @@ var Geolocation = (function () {
         })
     ], Geolocation);
     return Geolocation;
-})();
+}());
 exports.Geolocation = Geolocation;
 
-},{"./plugin":407}],399:[function(require,module,exports){
+},{"./plugin":414}],403:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67705,19 +68442,19 @@ var Globalization = (function () {
     }
     /**
      * Returns the BCP-47 compliant language identifier tag to the successCallback with a properties object as a parameter. That object should have a value property with a String value.
-     * @return {Promise<{value:string}>}
+     * @return {Promise<{value: string}>}
      */
     Globalization.getPreferredLanguage = function () { return; };
     /**
      * Returns the BCP 47 compliant locale identifier string to the successCallback with a properties object as a parameter.
-     * @return {Promise<{value:string}>}
+     * @return {Promise<{value: string}>}
      */
     Globalization.getLocaleName = function () { return; };
     /**
      * Converts date to string
      * @param date
      * @param options
-     * @return {Promise<{value:string}>}
+     * @return {Promise<{value: string}>}
      */
     Globalization.dateToString = function (date, options) { return; };
     /**
@@ -67752,10 +68489,10 @@ var Globalization = (function () {
     Globalization.numberToString = function (options) { return; };
     /**
      *
-     * @param string
+     * @param stringToConvert
      * @param options
      */
-    Globalization.stringToNumber = function (string, options) { return; };
+    Globalization.stringToNumber = function (stringToConvert, options) { return; };
     /**
      *
      * @param options
@@ -67824,14 +68561,204 @@ var Globalization = (function () {
         plugin_1.Plugin({
             plugin: 'cordova-plugin-globalization',
             pluginRef: 'navigator.globalization',
-            repo: 'https://github.com/apache/cordova-plugin-globalization'
+            repo: 'https: //github.com/apache/cordova-plugin-globalization'
         })
     ], Globalization);
     return Globalization;
-})();
+}());
 exports.Globalization = Globalization;
 
-},{"./plugin":407}],400:[function(require,module,exports){
+},{"./plugin":414}],404:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+/**
+ * @name Google Analytics
+ * @description
+ * This plugin connects to Google's native Universal Analytics SDK
+ * Prerequisites:
+ * - A Cordova 3.0+ project for iOS and/or Android
+ * - A Mobile App property through the Google Analytics Admin Console
+ * - (Android) Google Play Services SDK installed via [Android SDK Manager](https://developer.android.com/sdk/installing/adding-packages.html)
+ */
+var GoogleAnalytics = (function () {
+    function GoogleAnalytics() {
+    }
+    /**
+     * In your 'deviceready' handler, set up your Analytics tracker.
+     * https://developers.google.com/analytics/devguides/collection/analyticsjs/
+     * @param {string}  id  Your Google Analytics Mobile App property
+     */
+    GoogleAnalytics.startTrackerWithId = function (id) { return; };
+    /**
+     * Track a screen
+     * https://developers.google.com/analytics/devguides/collection/analyticsjs/screens
+     *
+     * @param {string}  title   Screen title
+     */
+    GoogleAnalytics.trackView = function (title) { return; };
+    /**
+     * Track an event
+     * https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+     * @param {string}  category
+     * @param {string}  action
+     * @param {string}  label
+     * @param {number}  value
+     */
+    GoogleAnalytics.trackEvent = function (category, action, label, value) { return; };
+    /**
+     * Track an exception
+     * @param {string}  description
+     * @param {boolean} fatal
+     */
+    GoogleAnalytics.trackException = function (description, fatal) { return; };
+    /**
+     * Track User Timing (App Speed)
+     * @param {string}  category
+     * @param {number}  intervalInMilliseconds
+     * @param {string}  variable
+     * @param {string}  label
+     */
+    GoogleAnalytics.trackTiming = function (category, intervalInMilliseconds, variable, label) { return; };
+    /**
+     * Add a Transaction (Ecommerce)
+     * https://developers.google.com/analytics/devguides/collection/analyticsjs/ecommerce#addTrans
+     * @param {string}  id
+     * @param {string}  affiliation
+     * @param {number}  revenue
+     * @param {number}  tax
+     * @param {number}  shipping
+     * @param {string}  currencyCode
+     */
+    GoogleAnalytics.addTransaction = function (id, affiliation, revenue, tax, shipping, currencyCode) { return; };
+    /**
+     * Add a Transaction Item (Ecommerce)
+     * https://developers.google.com/analytics/devguides/collection/analyticsjs/ecommerce#addItem
+     * @param {string}  id
+     * @param {string}  name
+     * @param {string}  sku
+     * @param {string}  category
+     * @param {number}  price
+     * @param {number}  quantity
+     * @param {string}  currencyCode
+     */
+    GoogleAnalytics.addTransactionItem = function (id, name, sku, category, price, quantity, currencyCode) { return; };
+    /**
+     * Add a Custom Dimension
+     * https://developers.google.com/analytics/devguides/platform/customdimsmets
+     * @param {string}  key
+     * @param {string}  value
+     */
+    GoogleAnalytics.addCustomDimension = function (key, value) { return; };
+    /**
+     * Set a UserId
+     * https://developers.google.com/analytics/devguides/collection/analyticsjs/user-id
+     * @param {string}  id
+     */
+    GoogleAnalytics.setUserId = function (id) { return; };
+    /**
+     * Enable verbose logging
+     */
+    GoogleAnalytics.debugMode = function () { return; };
+    /**
+     * Enable/disable automatic reporting of uncaught exceptions
+     * @param {boolean} shouldEnable
+     */
+    GoogleAnalytics.enableUncaughtExceptionReporting = function (shouldEnable) { return; };
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "startTrackerWithId", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "trackView", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "trackEvent", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "trackException", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "trackTiming", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "addTransaction", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "addTransactionItem", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "addCustomDimension", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "setUserId", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "debugMode", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], GoogleAnalytics, "enableUncaughtExceptionReporting", null);
+    GoogleAnalytics = __decorate([
+        plugin_1.Plugin({
+            plugin: 'cordova-plugin-google-analytics',
+            pluginRef: 'analytics',
+            repo: 'https://github.com/danwilson/google-analytics-plugin',
+            platforms: ['Android', 'iOS']
+        })
+    ], GoogleAnalytics);
+    return GoogleAnalytics;
+}());
+exports.GoogleAnalytics = GoogleAnalytics;
+
+},{"./plugin":414}],405:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+var plugin_2 = require('./plugin');
+/**
+ * @name Google Maps
+ */
+var GoogleMaps = (function () {
+    function GoogleMaps(elementId) {
+        this._objectInstance = plugin.google.maps.Map.getMap(document.getElementById(elementId));
+    }
+    GoogleMaps.onInit = function () { return; };
+    GoogleMaps.prototype.setDebuggable = function (isDebuggable) { };
+    GoogleMaps.prototype.setClickable = function (isClickable) { };
+    __decorate([
+        plugin_2.CordovaInstance({
+            sync: true
+        })
+    ], GoogleMaps.prototype, "setDebuggable", null);
+    __decorate([
+        plugin_1.Cordova({
+            eventObservable: true,
+            event: 'plugin.google.maps.event.MAP_READY'
+        })
+    ], GoogleMaps, "onInit", null);
+    GoogleMaps = __decorate([
+        plugin_1.Plugin({
+            pluginRef: 'plugin.google.maps',
+            plugin: 'cordova-plugin-googlemaps',
+            repo: 'https://github.com/mapsplugin/cordova-plugin-googlemaps'
+        })
+    ], GoogleMaps);
+    return GoogleMaps;
+}());
+exports.GoogleMaps = GoogleMaps;
+
+},{"./plugin":414}],406:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67844,9 +68771,13 @@ var plugin_1 = require('./plugin');
  * @description
  * @usage
  * ```js
- * import {Hotspot} from 'ionic-native';
+ * import {Hotspot, Network} from 'ionic-native';
  *
- *
+ * ...
+ *     Hotspot.scanWifi().then((networks: Array<Network>) => {
+ *         console.log(networks);
+ *     });
+ * ...
  *
  * ```
  */
@@ -67855,15 +68786,96 @@ var Hotspot = (function () {
     }
     Hotspot.isAvailable = function () { return; };
     Hotspot.toggleWifi = function () { return; };
+    /**
+     * Configures and starts hotspot with SSID and Password
+     *
+     * @param {string}    SSID        - SSID of your new Access Point
+     * @param {string}    mode        - encryption mode (Open, WEP, WPA, WPA_PSK)
+     * @param {string}    password    - password for your new Access Point
+     *
+     * @return {Promise<void>}        - Promise to call once hotspot is started, or reject upon failure
+     */
     Hotspot.createHotspot = function (ssid, mode, password) { return; };
+    /**
+     * Turns on Access Point
+     *
+     * @return {Promise<boolean>} - true if AP is started
+     */
     Hotspot.startHotspot = function () { return; };
+    /**
+     * Configures hotspot with SSID and Password
+     *
+     * @param {string}    SSID        - SSID of your new Access Point
+     * @param {string}    mode        - encryption mode (Open, WEP, WPA, WPA_PSK)
+     * @param {string}    password    - password for your new Access Point
+     *
+     * @return {Promise<void>}        - Promise to call when hotspot is configured, or reject upon failure
+     */
     Hotspot.configureHotspot = function (ssid, mode, password) { return; };
+    /**
+     * Turns off Access Point
+     *
+     * @return {Promise<boolean>} - Promise to turn off the hotspot, true on success, false on failure
+     */
     Hotspot.stopHotspot = function () { return; };
+    /**
+     * Checks if hotspot is enabled
+     *
+     * @return {Promise<void>}    - Promise that hotspot is enabled, rejected if it is not enabled
+     */
     Hotspot.isHotspotEnabled = function () { return; };
     Hotspot.getAllHotspotDevices = function () { return; };
-    Hotspot.connectToHotspot = function (ssid, password) { return; };
+    /**
+     * Connect to a WiFi network
+     *
+     * @param {string}    ssid
+     *      SSID to connect
+     * @param {string}    password
+     *      password to use
+     *
+     * @return {Promise<void>}
+     *      Promise that connection to the WiFi network was successfull, rejected if unsuccessful
+     */
+    Hotspot.connectToWifi = function (ssid, password) { return; };
+    /**
+     * Connect to a WiFi network
+     *
+     * @param {string}   ssid
+     *      SSID to connect
+     * @param {string}   password
+     *      Password to use
+     * @param {string}   authentication
+     *      Authentication modes to use (LEAP, SHARED, OPEN)
+     * @param {string[]} encryption
+     *      Encryption modes to use (CCMP, TKIP, WEP104, WEP40)
+     *
+     * @return {Promise<void>}
+     *      Promise that connection to the WiFi network was successfull, rejected if unsuccessful
+     */
     Hotspot.connectToWifiAuthEncrypt = function (ssid, password, authentication, encryption) { return; };
+    /**
+     * Add a WiFi network
+     *
+     * @param {string}    ssid
+     *      SSID of network
+     * @param {string}    mode
+     *      Authentication mode of (Open, WEP, WPA, WPA_PSK)
+     * @param {string}    password
+     *      Password for network
+     *
+     * @return {Promise<void>}
+     *      Promise that adding the WiFi network was successfull, rejected if unsuccessful
+     */
     Hotspot.addWifiNetwork = function (ssid, mode, password) { return; };
+    /**
+     * Remove a WiFi network
+     *
+     * @param {string}    ssid
+     *      SSID of network
+     *
+     * @return {Promise<void>}
+     *      Promise that removing the WiFi network was successfull, rejected if unsuccessful
+     */
     Hotspot.removeWifiNetwork = function (ssid) { return; };
     Hotspot.isConnectedToInternet = function () { return; };
     Hotspot.isConnectedToInternetViaWifi = function () { return; };
@@ -67872,14 +68884,40 @@ var Hotspot = (function () {
     Hotspot.isWifiDirectSupported = function () { return; };
     Hotspot.scanWifi = function () { return; };
     Hotspot.scanWifiByLevel = function () { return; };
-    Hotspot.startPeriodicallyScan = function (interval, duration) { return; };
-    Hotspot.stopPeriodicallyScan = function () { return; };
+    Hotspot.startWifiPeriodicallyScan = function (interval, duration) { return; };
+    Hotspot.stopWifiPeriodicallyScan = function () { return; };
     Hotspot.getNetConfig = function () { return; };
     Hotspot.getConnectionInfo = function () { return; };
     Hotspot.pingHost = function (ip) { return; };
+    /**
+     * Gets MAC Address associated with IP Address from ARP File
+     *
+     * @param {string}        ip  - IP Address that you want the MAC Address of
+     *
+     * @return {Promise<string>}  - A Promise for the MAC Address
+     */
     Hotspot.getMacAddressOfHost = function (ip) { return; };
+    /**
+     * Checks if IP is live using DNS
+     *
+     * @param {string}        ip  - IP Address you want to test
+     *
+     * @return {Promise<boolean>} - A Promise for whether the IP Address is reachable
+     */
     Hotspot.isDnsLive = function (ip) { return; };
-    Hotspot.isPortLife = function (ip) { return; };
+    /**
+     * Checks if IP is live using socket And PORT
+     *
+     * @param {string}        ip  - IP Address you want to test
+     *
+     * @return {Promise<boolean>} - A Promise for whether the IP Address is reachable
+     */
+    Hotspot.isPortLive = function (ip) { return; };
+    /**
+     * Checks if device is rooted
+     *
+     * @return {Promise<boolean>} - A Promise for whether the device is rooted
+     */
     Hotspot.isRooted = function () { return; };
     __decorate([
         plugin_1.Cordova()
@@ -67907,7 +68945,7 @@ var Hotspot = (function () {
     ], Hotspot, "getAllHotspotDevices", null);
     __decorate([
         plugin_1.Cordova()
-    ], Hotspot, "connectToHotspot", null);
+    ], Hotspot, "connectToWifi", null);
     __decorate([
         plugin_1.Cordova()
     ], Hotspot, "connectToWifiAuthEncrypt", null);
@@ -67940,10 +68978,10 @@ var Hotspot = (function () {
     ], Hotspot, "scanWifiByLevel", null);
     __decorate([
         plugin_1.Cordova()
-    ], Hotspot, "startPeriodicallyScan", null);
+    ], Hotspot, "startWifiPeriodicallyScan", null);
     __decorate([
         plugin_1.Cordova()
-    ], Hotspot, "stopPeriodicallyScan", null);
+    ], Hotspot, "stopWifiPeriodicallyScan", null);
     __decorate([
         plugin_1.Cordova()
     ], Hotspot, "getNetConfig", null);
@@ -67961,7 +68999,7 @@ var Hotspot = (function () {
     ], Hotspot, "isDnsLive", null);
     __decorate([
         plugin_1.Cordova()
-    ], Hotspot, "isPortLife", null);
+    ], Hotspot, "isPortLive", null);
     __decorate([
         plugin_1.Cordova()
     ], Hotspot, "isRooted", null);
@@ -67974,10 +69012,11 @@ var Hotspot = (function () {
         })
     ], Hotspot);
     return Hotspot;
-})();
+}());
 exports.Hotspot = Hotspot;
 
-},{"./plugin":407}],401:[function(require,module,exports){
+},{"./plugin":414}],407:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -68030,10 +69069,11 @@ var ImagePicker = (function () {
         })
     ], ImagePicker);
     return ImagePicker;
-})();
+}());
 exports.ImagePicker = ImagePicker;
 
-},{"./plugin":407}],402:[function(require,module,exports){
+},{"./plugin":414}],408:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -68065,10 +69105,11 @@ var InAppBrowser = (function () {
         })
     ], InAppBrowser);
     return InAppBrowser;
-})();
+}());
 exports.InAppBrowser = InAppBrowser;
 
-},{"./plugin":407}],403:[function(require,module,exports){
+},{"./plugin":414}],409:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -68094,18 +69135,15 @@ var Keyboard = (function () {
      * Hide the keyboard accessory bar with the next, previous and done buttons.
      * @param hide {boolean}
      */
-    //@Cordova({
-    //  sync: true
-    //})
     Keyboard.hideKeyboardAccessoryBar = function (hide) {
-        console.log("hideKeyboardAccessoryBar method has been removed temporarily.");
+        console.log('hideKeyboardAccessoryBar method has been removed temporarily.');
     };
     /**
      * Force keyboard to be shown.
      */
     Keyboard.show = function () { };
     /**
-     * Close the keyboard if open
+     * Close the keyboard if open.
      */
     Keyboard.close = function () { };
     /**
@@ -68161,10 +69199,11 @@ var Keyboard = (function () {
         })
     ], Keyboard);
     return Keyboard;
-})();
+}());
 exports.Keyboard = Keyboard;
 
-},{"./plugin":407}],404:[function(require,module,exports){
+},{"./plugin":414}],410:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -68218,10 +69257,11 @@ var LaunchNavigator = (function () {
         })
     ], LaunchNavigator);
     return LaunchNavigator;
-})();
+}());
 exports.LaunchNavigator = LaunchNavigator;
 
-},{"./plugin":407}],405:[function(require,module,exports){
+},{"./plugin":414}],411:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -68244,7 +69284,7 @@ var plugin_1 = require('./plugin');
  * LocalNotifications.schedule({
  *   id: 1,
  *   text: "Single Notification",
- *   sound: isAndroid? 'file://sound.mp3' : 'file://beep.caf'
+ *   sound: isAndroid? 'file://sound.mp3': 'file://beep.caf'
  *   data: { secret: key }
  * });
  *
@@ -68253,7 +69293,7 @@ var plugin_1 = require('./plugin');
  * LocalNotifications.schedule([{
  *    id: 1,
  *    text: "Multi Notification 1",
- *    sound: isAndroid ? 'file://sound.mp3' : 'file://beep.caf',
+ *    sound: isAndroid ? 'file://sound.mp3': 'file://beep.caf',
  *    data: { secret:key }
  *   },{
  *    id: 2,
@@ -68265,8 +69305,8 @@ var plugin_1 = require('./plugin');
  *
  * // Schedule delayed notification
  * LocalNotifications.schedule({
- *   t ext: "Delayed Notification",
- *    at: new Date(new Date() + 3600),
+ *    text: "Delayed Notification",
+ *    at: new Date(new Date().getTime() + 3600),
  *    led: "FF0000",
  *    sound: null
  * });
@@ -68441,10 +69481,206 @@ var LocalNotifications = (function () {
         })
     ], LocalNotifications);
     return LocalNotifications;
-})();
+}());
 exports.LocalNotifications = LocalNotifications;
 
-},{"./plugin":407}],406:[function(require,module,exports){
+},{"./plugin":414}],412:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+/**
+ * @name MediaPlugin
+ * @description
+ * @usage
+ * ```ts
+ * import {MediaPlugin} from 'ionic-native';
+ *
+ *
+ * ...
+ *
+ *
+ * // Playing a file
+ * var file = new MediaPlugin("path/to/file.mp3");
+ *
+ * // play the file
+ * file.play();
+ *
+ * // skip to 10 seconds
+ * file.seekTo(10000);
+ *
+ * // stop plying the file
+ * file.stop();
+ *
+ *
+ * ...
+ *
+ * // Recording to a file
+ * var newFile = new MediaPlugin("path/to/file.mp3");
+ * newFile.startRecord();
+ *
+ * newFile.stopRecord();
+ *
+ *
+ *
+ * ```
+ */
+var MediaPlugin = (function () {
+    // Methods
+    /**
+     * Open a media file
+     * @param src {string} A URI containing the audio content.
+     */
+    function MediaPlugin(src) {
+        // TODO handle success, error, and status
+        this._objectInstance = new Media(src);
+    }
+    /**
+     * Returns the current amplitude of the current recording.
+     */
+    MediaPlugin.prototype.getCurrentAmplitude = function () { return; };
+    /**
+     * Returns the current position within an audio file. Also updates the Media object's position parameter.
+     */
+    MediaPlugin.prototype.getCurrentPosition = function () { return; };
+    /**
+     * Returns the duration of an audio file in seconds. If the duration is unknown, it returns a value of -1.
+     */
+    MediaPlugin.prototype.getDuration = function () { return; };
+    /**
+     * Starts or resumes playing an audio file.
+     */
+    MediaPlugin.prototype.play = function (iosOptions) { };
+    /**
+     * Pauses playing an audio file.
+     */
+    MediaPlugin.prototype.pause = function () { };
+    /**
+     * Releases the underlying operating system's audio resources. This is particularly important for Android, since there are a finite amount of OpenCore instances for media playback. Applications should call the release function for any Media resource that is no longer needed.
+     */
+    MediaPlugin.prototype.release = function () { };
+    /**
+     * Sets the current position within an audio file.
+     * @param milliseconds
+     */
+    MediaPlugin.prototype.seekTo = function (milliseconds) { };
+    /**
+     * Set the volume for an audio file.
+     * @param volume The volume to set for playback. The value must be within the range of 0.0 to 1.0.
+     */
+    MediaPlugin.prototype.setVolume = function (volume) { };
+    /**
+     * Starts recording an audio file.
+     */
+    MediaPlugin.prototype.startRecord = function () { };
+    /**
+     * Stops recording
+     */
+    MediaPlugin.prototype.stopRecord = function () { };
+    /**
+     * Stops playing an audio file.
+     */
+    MediaPlugin.prototype.stop = function () { };
+    // Constants
+    MediaPlugin.MEDIA_NONE = 0;
+    MediaPlugin.MEDIA_STARTING = 1;
+    MediaPlugin.MEDIA_RUNNING = 2;
+    MediaPlugin.MEDIA_PAUSED = 3;
+    MediaPlugin.MEDIA_STOPPED = 4;
+    __decorate([
+        plugin_1.CordovaInstance()
+    ], MediaPlugin.prototype, "getCurrentAmplitude", null);
+    __decorate([
+        plugin_1.CordovaInstance()
+    ], MediaPlugin.prototype, "getCurrentPosition", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], MediaPlugin.prototype, "getDuration", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], MediaPlugin.prototype, "play", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], MediaPlugin.prototype, "pause", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], MediaPlugin.prototype, "release", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], MediaPlugin.prototype, "seekTo", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], MediaPlugin.prototype, "setVolume", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], MediaPlugin.prototype, "startRecord", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], MediaPlugin.prototype, "stopRecord", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], MediaPlugin.prototype, "stop", null);
+    MediaPlugin = __decorate([
+        plugin_1.Plugin({
+            repo: 'https://github.com/apache/cordova-plugin-media',
+            plugin: 'cordova-plugin-media',
+            pluginRef: 'Media'
+        })
+    ], MediaPlugin);
+    return MediaPlugin;
+}());
+exports.MediaPlugin = MediaPlugin;
+var MediaError = (function () {
+    function MediaError() {
+    }
+    Object.defineProperty(MediaError, "MEDIA_ERR_ABORTED", {
+        get: function () { return 1; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MediaError, "MEDIA_ERR_NETWORK", {
+        get: function () { return 2; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MediaError, "MEDIA_ERR_DECODE", {
+        get: function () { return 3; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MediaError, "MEDIA_ERR_NONE_SUPPORTED", {
+        get: function () { return 4; },
+        enumerable: true,
+        configurable: true
+    });
+    return MediaError;
+}());
+exports.MediaError = MediaError;
+
+},{"./plugin":414}],413:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -68484,7 +69720,7 @@ var plugin_1 = require('./plugin');
  *     if (Network.connection === Connection.WIFI) {
  *       console.log('we got a wifi connection, woohoo!');
  *     }
- *   });
+ *   }, 3000);
  * });
  *
  * // stop connect watch
@@ -68504,12 +69740,12 @@ var Network = (function () {
         configurable: true
     });
     /**
-     * Watch the network for a disconnect (i.e. network goes offline)
+     * Get notified when the device goes offline
      * @returns {Observable<any>} Returns an observable.
      */
     Network.onDisconnect = function () { return; };
     /**
-     * Watch the network for a connection (i.e. network goes online)
+     * Get notified when the device goes online
      * @returns {Observable<any>} Returns an observable.
      */
     Network.onConnect = function () { return; };
@@ -68537,56 +69773,57 @@ var Network = (function () {
         })
     ], Network);
     return Network;
-})();
+}());
 exports.Network = Network;
 var Connection = (function () {
     function Connection() {
     }
     Object.defineProperty(Connection, "UNKNOWN", {
-        get: function () { return "unknown"; },
+        get: function () { return 'unknown'; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Connection, "ETHERNET", {
-        get: function () { return "ethernet"; },
+        get: function () { return 'ethernet'; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Connection, "WIFI", {
-        get: function () { return "wifi"; },
+        get: function () { return 'wifi'; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Connection, "CELL_2G", {
-        get: function () { return "2g"; },
+        get: function () { return '2g'; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Connection, "CELL_3G", {
-        get: function () { return "3g"; },
+        get: function () { return '3g'; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Connection, "CELL_4G", {
-        get: function () { return "4g"; },
+        get: function () { return '4g'; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Connection, "CELL", {
-        get: function () { return "cellular"; },
+        get: function () { return 'cellular'; },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Connection, "NONE", {
-        get: function () { return "none"; },
+        get: function () { return 'none'; },
         enumerable: true,
         configurable: true
     });
     return Connection;
-})();
+}());
 exports.Connection = Connection;
 
-},{"./plugin":407}],407:[function(require,module,exports){
+},{"./plugin":414}],414:[function(require,module,exports){
+"use strict";
 var util_1 = require('../util');
 var Observable_1 = require('rxjs/Observable');
 /**
@@ -68634,12 +69871,10 @@ exports.cordovaWarn = function (pluginName, method) {
         console.warn('Native: tried accessing the ' + pluginName + ' plugin but Cordova is not available. Make sure to include cordova.js or run in a device/simulator');
     }
 };
-function callCordovaPlugin(pluginObj, methodName, args, opts, resolve, reject) {
-    // Try to figure out where the success/error callbacks need to be bound
-    // to our promise resolve/reject handlers.
+function setIndex(args, opts, resolve, reject) {
     if (opts === void 0) { opts = {}; }
     // If the plugin method expects myMethod(success, err, options)
-    if (opts.callbackOrder == 'reverse') {
+    if (opts.callbackOrder === 'reverse') {
         // Get those arguments in the order [resolve, reject, ...restOfArgs]
         args.unshift(reject);
         args.unshift(resolve);
@@ -68655,23 +69890,27 @@ function callCordovaPlugin(pluginObj, methodName, args, opts, resolve, reject) {
         args.push(resolve);
         args.push(reject);
     }
+    return args;
+}
+function callCordovaPlugin(pluginObj, methodName, args, opts, resolve, reject) {
+    // Try to figure out where the success/error callbacks need to be bound
+    // to our promise resolve/reject handlers.
+    if (opts === void 0) { opts = {}; }
+    args = setIndex(args, opts, resolve, reject);
     var pluginInstance = exports.getPlugin(pluginObj.pluginRef);
     if (!pluginInstance) {
         // Do this check in here in the case that the Web API for this plugin is available (for example, Geolocation).
         if (!window.cordova) {
             exports.cordovaWarn(pluginObj.name, methodName);
-            reject && reject({
+            return {
                 error: 'cordova_not_available'
-            });
-            return;
+            };
         }
         exports.pluginWarn(pluginObj, methodName);
-        reject && reject({
+        return {
             error: 'plugin_not_installed'
-        });
-        return;
+        };
     }
-    // console.log('Cordova calling', pluginObj.name, methodName, args);
     // TODO: Illegal invocation needs window context
     return util_1.get(window, pluginObj.pluginRef)[methodName].apply(pluginInstance, args);
 }
@@ -68695,14 +69934,27 @@ function getPromise(cb) {
 }
 function wrapPromise(pluginObj, methodName, args, opts) {
     if (opts === void 0) { opts = {}; }
-    return getPromise(function (resolve, reject) {
-        callCordovaPlugin(pluginObj, methodName, args, opts, resolve, reject);
+    var pluginResult, rej;
+    var p = getPromise(function (resolve, reject) {
+        pluginResult = callCordovaPlugin(pluginObj, methodName, args, opts, resolve, reject);
+        rej = reject;
     });
+    // Angular throws an error on unhandled rejection, but in this case we have already printed
+    // a warning that Cordova is undefined or the plugin is uninstalled, so there is no reason
+    // to error
+    if (pluginResult && pluginResult.error) {
+        p.catch(function () { });
+        rej(pluginResult.error);
+    }
+    return p;
 }
 function wrapObservable(pluginObj, methodName, args, opts) {
     if (opts === void 0) { opts = {}; }
     return new Observable_1.Observable(function (observer) {
         var pluginResult = callCordovaPlugin(pluginObj, methodName, args, opts, observer.next.bind(observer), observer.error.bind(observer));
+        if (pluginResult && pluginResult.error) {
+            observer.error(pluginResult.error);
+        }
         return function () {
             try {
                 if (opts.clearWithArgs) {
@@ -68716,6 +69968,45 @@ function wrapObservable(pluginObj, methodName, args, opts) {
             }
         };
     });
+}
+function callInstance(pluginObj, methodName, args, opts, resolve, reject) {
+    if (opts === void 0) { opts = {}; }
+    args = setIndex(args, opts, resolve, reject);
+    return pluginObj._objectInstance[methodName].apply(pluginObj._objectInstance, args);
+}
+function wrapInstance(pluginObj, methodName, args, opts) {
+    if (opts === void 0) { opts = {}; }
+    return function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        if (opts.sync) {
+            return callInstance(pluginObj, methodName, args, opts);
+        }
+        else if (opts.observable) {
+            return new Observable_1.Observable(function (observer) {
+                var pluginResult = callInstance(pluginObj, methodName, args, opts, observer.next.bind(observer), observer.error.bind(observer));
+                return function () {
+                    try {
+                        if (opts.clearWithArgs) {
+                            return pluginObj._objectInstance[opts.clearFunction].apply(pluginObj._objectInstance, args);
+                        }
+                        return pluginObj._objectInstance[opts.clearFunction].call(pluginObj, pluginResult);
+                    }
+                    catch (e) {
+                        console.warn('Unable to clear the previous observable watch for', pluginObj.name, methodName);
+                        console.error(e);
+                    }
+                };
+            });
+        }
+        else {
+            return getPromise(function (resolve, reject) {
+                callInstance(pluginObj, methodName, args, opts, resolve, reject);
+            });
+        }
+    };
 }
 /**
  * Wrap the event with an observable
@@ -68810,6 +70101,26 @@ exports.Cordova = Cordova;
 /**
  * @private
  *
+ * Wrap an instance method
+ */
+function CordovaInstance(opts) {
+    if (opts === void 0) { opts = {}; }
+    return function (target, methodName) {
+        return {
+            value: function () {
+                var args = [];
+                for (var _i = 0; _i < arguments.length; _i++) {
+                    args[_i - 0] = arguments[_i];
+                }
+                return wrapInstance(this, methodName, opts).apply(this, args);
+            }
+        };
+    };
+}
+exports.CordovaInstance = CordovaInstance;
+/**
+ * @private
+ *
  *
  * Before calling the original method, ensure Cordova and the plugin are installed.
  */
@@ -68820,7 +70131,6 @@ function CordovaProperty(target, key, descriptor) {
         for (var _i = 0; _i < arguments.length; _i++) {
             args[_i - 0] = arguments[_i];
         }
-        // console.log('Calling', this);
         if (!window.cordova) {
             exports.cordovaWarn(this.name, null);
             return {};
@@ -68835,8 +70145,30 @@ function CordovaProperty(target, key, descriptor) {
     return descriptor;
 }
 exports.CordovaProperty = CordovaProperty;
+/**
+ * @private
+ * @param target
+ * @param key
+ * @param descriptor
+ * @constructor
+ */
+function InstanceProperty(target, key, descriptor) {
+    descriptor.get = function () {
+        return this._objectInstance[key];
+    };
+    descriptor.get = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i - 0] = arguments[_i];
+        }
+        return this._objectInstance[key] = args[0];
+    };
+    return descriptor;
+}
+exports.InstanceProperty = InstanceProperty;
 
-},{"../util":417,"rxjs/Observable":421}],408:[function(require,module,exports){
+},{"../util":427,"rxjs/Observable":431}],415:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -68906,10 +70238,63 @@ var Push = (function () {
         })
     ], Push);
     return Push;
-})();
+}());
 exports.Push = Push;
 
-},{"./plugin":407}],409:[function(require,module,exports){
+},{"./plugin":414}],416:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+var Screenshot = (function () {
+    function Screenshot() {
+    }
+    /**
+     *  Takes screenshot and saves the image
+     *
+     * @param {string} format. Format can take the value of either 'jpg' or 'png'
+     * On ios, only 'jpg' format is supported
+     * @param {number} quality. Determines the quality of the screenshot.
+     *        Default quality is set to 100.
+     * @param {string} filename. Name of the file as stored on the storage
+     */
+    Screenshot.save = function (format, quality, filename) { return; };
+    /**
+     *  Takes screenshot and returns the image as an URI
+     *
+     * @param {number} quality. Determines the quality of the screenshot.
+     *        Default quality is set to 100.
+     */
+    Screenshot.URI = function (quality) { return; };
+    __decorate([
+        plugin_1.Cordova({
+            successIndex: 1,
+            errorIndex: 0
+        })
+    ], Screenshot, "save", null);
+    __decorate([
+        plugin_1.Cordova({
+            successIndex: 1,
+            errorIndex: 0
+        })
+    ], Screenshot, "URI", null);
+    Screenshot = __decorate([
+        plugin_1.Plugin({
+            plugin: 'https://github.com/gitawego/cordova-screenshot.git',
+            pluginRef: 'navigator.screenshot',
+            repo: 'https://github.com/gitawego/cordova-screenshot.git'
+        })
+    ], Screenshot);
+    return Screenshot;
+}());
+exports.Screenshot = Screenshot;
+
+},{"./plugin":414}],417:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -68939,12 +70324,12 @@ var SMS = (function () {
     }
     /**
      * Sends sms to a number
-     * @param number {string|Array<string>} Phone number
+     * @param phoneNumber {string|Array<string>} Phone number
      * @param message {string} Message
-     * @param options {smsOptions} Options
+     * @param options {SmsOptions} Options
      * @returns {Promise<any>} Resolves promise when the SMS has been sent
      */
-    SMS.send = function (number, message, options) { return; };
+    SMS.send = function (phoneNumber, message, options) { return; };
     __decorate([
         plugin_1.Cordova()
     ], SMS, "send", null);
@@ -68957,10 +70342,11 @@ var SMS = (function () {
         })
     ], SMS);
     return SMS;
-})();
+}());
 exports.SMS = SMS;
 
-},{"./plugin":407}],410:[function(require,module,exports){
+},{"./plugin":414}],418:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -69042,9 +70428,9 @@ var SocialSharing = (function () {
     /**
      * Share via SMS
      * @param messge {string} message to send
-     * @param number {string} Number or multiple numbers seperated by commas
+     * @param phoneNumber {string} Number or multiple numbers seperated by commas
      */
-    SocialSharing.shareViaSMS = function (messge, number) { return; };
+    SocialSharing.shareViaSMS = function (messge, phoneNumber) { return; };
     /**
      * Share via Email
      * @param message {string}
@@ -69115,10 +70501,11 @@ var SocialSharing = (function () {
         })
     ], SocialSharing);
     return SocialSharing;
-})();
+}());
 exports.SocialSharing = SocialSharing;
 
-},{"./plugin":407}],411:[function(require,module,exports){
+},{"./plugin":414}],419:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -69174,10 +70561,11 @@ var SpinnerDialog = (function () {
         })
     ], SpinnerDialog);
     return SpinnerDialog;
-})();
+}());
 exports.SpinnerDialog = SpinnerDialog;
 
-},{"./plugin":407}],412:[function(require,module,exports){
+},{"./plugin":414}],420:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -69228,10 +70616,140 @@ var Splashscreen = (function () {
         })
     ], Splashscreen);
     return Splashscreen;
-})();
+}());
 exports.Splashscreen = Splashscreen;
 
-},{"./plugin":407}],413:[function(require,module,exports){
+},{"./plugin":414}],421:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+/**
+ * @name SQLite
+ */
+var SQLite = (function () {
+    function SQLite(config) {
+        var _this = this;
+        new Promise(function (resolve, reject) {
+            sqlitePlugin.openDatabase(config, resolve, reject);
+        }).then(function (db) { return _this._objectInstance = db; }, function (error) { return console.warn(error); });
+    }
+    Object.defineProperty(SQLite.prototype, "databaseFeatures", {
+        get: function () {
+            return this._objectInstance.databaseFeatures;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SQLite.prototype.addTransaction = function (transaction) { };
+    SQLite.prototype.transaction = function (fn) { return; };
+    SQLite.prototype.readTransaction = function (fn) { return; };
+    SQLite.prototype.startNextTransaction = function () { };
+    SQLite.prototype.close = function () { return; };
+    SQLite.prototype.start = function () { };
+    SQLite.prototype.executeSql = function (statement, params) { return; };
+    SQLite.prototype.addSatement = function (sql, values) { return; };
+    SQLite.prototype.sqlBatch = function (sqlStatements) { return; };
+    SQLite.prototype.abortallPendingTransactions = function () { };
+    SQLite.prototype.handleStatementSuccess = function (handler, response) { };
+    SQLite.prototype.handleStatementFailure = function (handler, response) { };
+    SQLite.prototype.run = function () { };
+    SQLite.prototype.abort = function (txFailure) { };
+    SQLite.prototype.finish = function () { };
+    SQLite.prototype.abortFromQ = function (sqlerror) { };
+    SQLite.echoTest = function () { return; };
+    SQLite.deleteDatabase = function (first) { return; };
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "addTransaction", null);
+    __decorate([
+        plugin_1.CordovaInstance()
+    ], SQLite.prototype, "transaction", null);
+    __decorate([
+        plugin_1.CordovaInstance()
+    ], SQLite.prototype, "readTransaction", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "startNextTransaction", null);
+    __decorate([
+        plugin_1.CordovaInstance()
+    ], SQLite.prototype, "close", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "start", null);
+    __decorate([
+        plugin_1.CordovaInstance()
+    ], SQLite.prototype, "executeSql", null);
+    __decorate([
+        plugin_1.CordovaInstance()
+    ], SQLite.prototype, "addSatement", null);
+    __decorate([
+        plugin_1.CordovaInstance()
+    ], SQLite.prototype, "sqlBatch", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "abortallPendingTransactions", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "handleStatementSuccess", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "handleStatementFailure", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "run", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "abort", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "finish", null);
+    __decorate([
+        plugin_1.CordovaInstance({
+            sync: true
+        })
+    ], SQLite.prototype, "abortFromQ", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], SQLite, "echoTest", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], SQLite, "deleteDatabase", null);
+    SQLite = __decorate([
+        plugin_1.Plugin({
+            pluginRef: 'sqlitePlugin',
+            plugin: 'cordova-sqlite-storage',
+            repo: 'https://github.com/litehelpers/Cordova-sqlite-storage'
+        })
+    ], SQLite);
+    return SQLite;
+}());
+exports.SQLite = SQLite;
+
+},{"./plugin":414}],422:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -69293,7 +70811,7 @@ var StatusBar = (function () {
      * Set the status bar to a specific named color. Valid options:
      * black, darkGray, lightGray, white, gray, red, green, blue, cyan, yellow, magenta, orange, purple, brown.
      *
-     * iOS note: you must call StatusBar.setOverlay(false) to enable color changing.
+     * iOS note: you must call StatusBar.overlaysWebView(false) to enable color changing.
      *
      * @param {string} colorName  The name of the color (from above)
      */
@@ -69302,7 +70820,7 @@ var StatusBar = (function () {
     /**
      * Set the status bar to a specific hex color (CSS shorthand supported!).
      *
-     * iOS note: you must call StatusBar.setOverlay(false) to enable color changing.
+     * iOS note: you must call StatusBar.overlaysWebView(false) to enable color changing.
      *
      * @param {string} hexString  The hex value of the color.
      */
@@ -69382,10 +70900,11 @@ var StatusBar = (function () {
         })
     ], StatusBar);
     return StatusBar;
-})();
+}());
 exports.StatusBar = StatusBar;
 
-},{"./plugin":407}],414:[function(require,module,exports){
+},{"./plugin":414}],423:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -69531,10 +71050,11 @@ var Toast = (function () {
         })
     ], Toast);
     return Toast;
-})();
+}());
 exports.Toast = Toast;
 
-},{"./plugin":407}],415:[function(require,module,exports){
+},{"./plugin":414}],424:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -69620,10 +71140,11 @@ var TouchID = (function () {
         })
     ], TouchID);
     return TouchID;
-})();
+}());
 exports.TouchID = TouchID;
 
-},{"./plugin":407}],416:[function(require,module,exports){
+},{"./plugin":414}],425:[function(require,module,exports){
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -69670,15 +71191,85 @@ var Vibration = (function () {
     Vibration = __decorate([
         plugin_1.Plugin({
             plugin: 'cordova-plugin-vibration',
-            pluginRef: 'navigator.vibrate',
+            pluginRef: 'navigator',
             repo: 'https://github.com/apache/cordova-plugin-vibration'
         })
     ], Vibration);
     return Vibration;
-})();
+}());
 exports.Vibration = Vibration;
 
-},{"./plugin":407}],417:[function(require,module,exports){
+},{"./plugin":414}],426:[function(require,module,exports){
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var plugin_1 = require('./plugin');
+var WebIntent = (function () {
+    function WebIntent() {
+    }
+    Object.defineProperty(WebIntent, "ACTION_VIEW", {
+        get: function () {
+            return window.plugins.webintent.ACTION_VIEW;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WebIntent, "EXTRA_TEXT", {
+        get: function () {
+            return window.plugins.webintent.EXTRA_TEXT;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    WebIntent.startActivity = function (options) { return; };
+    WebIntent.hasExtra = function (extra) { return; };
+    WebIntent.getExtra = function (extra) { return; };
+    WebIntent.getUri = function () { return; };
+    ;
+    WebIntent.onNewIntent = function () { return; };
+    ;
+    WebIntent.sendBroadcast = function (options) { return; };
+    __decorate([
+        plugin_1.CordovaProperty
+    ], WebIntent, "ACTION_VIEW", null);
+    __decorate([
+        plugin_1.CordovaProperty
+    ], WebIntent, "EXTRA_TEXT", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], WebIntent, "startActivity", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], WebIntent, "hasExtra", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], WebIntent, "getExtra", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], WebIntent, "getUri", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], WebIntent, "onNewIntent", null);
+    __decorate([
+        plugin_1.Cordova()
+    ], WebIntent, "sendBroadcast", null);
+    WebIntent = __decorate([
+        plugin_1.Plugin({
+            plugin: 'https://github.com/Initsogar/cordova-webintent.git',
+            pluginRef: 'window.plugins.webintent',
+            repo: 'https://github.com/Initsogar/cordova-webintent.git'
+        })
+    ], WebIntent);
+    return WebIntent;
+}());
+exports.WebIntent = WebIntent;
+
+},{"./plugin":414}],427:[function(require,module,exports){
+"use strict";
 function get(obj, path) {
     for (var i = 0, path = path.split('.'), len = path.length; i < len; i++) {
         if (!obj) {
@@ -69691,7 +71282,7 @@ function get(obj, path) {
 exports.get = get;
 ;
 
-},{}],418:[function(require,module,exports){
+},{}],428:[function(require,module,exports){
 //! moment.js
 //! version : 2.13.0
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -73732,7 +75323,7 @@ exports.get = get;
     return _moment;
 
 }));
-},{}],419:[function(require,module,exports){
+},{}],429:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -73764,7 +75355,7 @@ var InnerSubscriber = (function (_super) {
 }(Subscriber_1.Subscriber));
 exports.InnerSubscriber = InnerSubscriber;
 
-},{"./Subscriber":427}],420:[function(require,module,exports){
+},{"./Subscriber":437}],430:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('./Observable');
 var Notification = (function () {
@@ -73832,7 +75423,7 @@ var Notification = (function () {
 }());
 exports.Notification = Notification;
 
-},{"./Observable":421}],421:[function(require,module,exports){
+},{"./Observable":431}],431:[function(require,module,exports){
 "use strict";
 var root_1 = require('./util/root');
 var SymbolShim_1 = require('./util/SymbolShim');
@@ -73957,7 +75548,7 @@ var Observable = (function () {
 }());
 exports.Observable = Observable;
 
-},{"./util/SymbolShim":656,"./util/errorObject":657,"./util/root":667,"./util/toSubscriber":670,"./util/tryCatch":671}],422:[function(require,module,exports){
+},{"./util/SymbolShim":666,"./util/errorObject":667,"./util/root":677,"./util/toSubscriber":680,"./util/tryCatch":681}],432:[function(require,module,exports){
 "use strict";
 exports.empty = {
     isUnsubscribed: true,
@@ -73966,7 +75557,7 @@ exports.empty = {
     complete: function () { }
 };
 
-},{}],423:[function(require,module,exports){
+},{}],433:[function(require,module,exports){
 "use strict";
 var Subscriber_1 = require('./Subscriber');
 var Operator = (function () {
@@ -73979,7 +75570,7 @@ var Operator = (function () {
 }());
 exports.Operator = Operator;
 
-},{"./Subscriber":427}],424:[function(require,module,exports){
+},{"./Subscriber":437}],434:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -74005,7 +75596,7 @@ var OuterSubscriber = (function (_super) {
 }(Subscriber_1.Subscriber));
 exports.OuterSubscriber = OuterSubscriber;
 
-},{"./Subscriber":427}],425:[function(require,module,exports){
+},{"./Subscriber":437}],435:[function(require,module,exports){
 "use strict";
 /* tslint:disable:no-unused-variable */
 // Subject imported before Observable to bypass circular dependency issue since
@@ -74163,7 +75754,7 @@ var Symbol = {
 exports.Symbol = Symbol;
 /* tslint:enable:no-var-keyword */
 
-},{"./Notification":420,"./Observable":421,"./Operator":423,"./Subject":426,"./Subscriber":427,"./Subscription":428,"./add/observable/bindCallback":429,"./add/observable/bindNodeCallback":430,"./add/observable/combineLatest":431,"./add/observable/concat":432,"./add/observable/defer":433,"./add/observable/empty":434,"./add/observable/forkJoin":435,"./add/observable/from":436,"./add/observable/fromArray":437,"./add/observable/fromEvent":438,"./add/observable/fromEventPattern":439,"./add/observable/fromPromise":440,"./add/observable/interval":441,"./add/observable/merge":442,"./add/observable/never":443,"./add/observable/race":444,"./add/observable/range":445,"./add/observable/throw":446,"./add/observable/timer":447,"./add/observable/zip":448,"./add/operator/buffer":449,"./add/operator/bufferCount":450,"./add/operator/bufferTime":451,"./add/operator/bufferToggle":452,"./add/operator/bufferWhen":453,"./add/operator/cache":454,"./add/operator/catch":455,"./add/operator/combineAll":456,"./add/operator/combineLatest":457,"./add/operator/concat":458,"./add/operator/concatAll":459,"./add/operator/concatMap":460,"./add/operator/concatMapTo":461,"./add/operator/count":462,"./add/operator/debounce":463,"./add/operator/debounceTime":464,"./add/operator/defaultIfEmpty":465,"./add/operator/delay":466,"./add/operator/delayWhen":467,"./add/operator/dematerialize":468,"./add/operator/distinctUntilChanged":469,"./add/operator/do":470,"./add/operator/every":471,"./add/operator/expand":472,"./add/operator/filter":473,"./add/operator/finally":474,"./add/operator/first":475,"./add/operator/groupBy":476,"./add/operator/ignoreElements":477,"./add/operator/inspect":478,"./add/operator/inspectTime":479,"./add/operator/last":480,"./add/operator/let":481,"./add/operator/map":482,"./add/operator/mapTo":483,"./add/operator/materialize":484,"./add/operator/merge":485,"./add/operator/mergeAll":486,"./add/operator/mergeMap":487,"./add/operator/mergeMapTo":488,"./add/operator/multicast":489,"./add/operator/observeOn":490,"./add/operator/partition":491,"./add/operator/pluck":492,"./add/operator/publish":493,"./add/operator/publishBehavior":494,"./add/operator/publishLast":495,"./add/operator/publishReplay":496,"./add/operator/race":497,"./add/operator/reduce":498,"./add/operator/repeat":499,"./add/operator/retry":500,"./add/operator/retryWhen":501,"./add/operator/sample":502,"./add/operator/sampleTime":503,"./add/operator/scan":504,"./add/operator/share":505,"./add/operator/single":506,"./add/operator/skip":507,"./add/operator/skipUntil":508,"./add/operator/skipWhile":509,"./add/operator/startWith":510,"./add/operator/subscribeOn":511,"./add/operator/switch":512,"./add/operator/switchMap":513,"./add/operator/switchMapTo":514,"./add/operator/take":515,"./add/operator/takeLast":516,"./add/operator/takeUntil":517,"./add/operator/takeWhile":518,"./add/operator/throttle":519,"./add/operator/throttleTime":520,"./add/operator/timeout":521,"./add/operator/timeoutWith":522,"./add/operator/toArray":523,"./add/operator/toPromise":524,"./add/operator/window":525,"./add/operator/windowCount":526,"./add/operator/windowTime":527,"./add/operator/windowToggle":528,"./add/operator/windowWhen":529,"./add/operator/withLatestFrom":530,"./add/operator/zip":531,"./add/operator/zipAll":532,"./observable/ConnectableObservable":537,"./scheduler/asap":642,"./scheduler/queue":643,"./subject/AsyncSubject":644,"./subject/BehaviorSubject":645,"./subject/ReplaySubject":646,"./symbol/rxSubscriber":648,"./util/ArgumentOutOfRangeError":649,"./util/EmptyError":650,"./util/ObjectUnsubscribedError":655}],426:[function(require,module,exports){
+},{"./Notification":430,"./Observable":431,"./Operator":433,"./Subject":436,"./Subscriber":437,"./Subscription":438,"./add/observable/bindCallback":439,"./add/observable/bindNodeCallback":440,"./add/observable/combineLatest":441,"./add/observable/concat":442,"./add/observable/defer":443,"./add/observable/empty":444,"./add/observable/forkJoin":445,"./add/observable/from":446,"./add/observable/fromArray":447,"./add/observable/fromEvent":448,"./add/observable/fromEventPattern":449,"./add/observable/fromPromise":450,"./add/observable/interval":451,"./add/observable/merge":452,"./add/observable/never":453,"./add/observable/race":454,"./add/observable/range":455,"./add/observable/throw":456,"./add/observable/timer":457,"./add/observable/zip":458,"./add/operator/buffer":459,"./add/operator/bufferCount":460,"./add/operator/bufferTime":461,"./add/operator/bufferToggle":462,"./add/operator/bufferWhen":463,"./add/operator/cache":464,"./add/operator/catch":465,"./add/operator/combineAll":466,"./add/operator/combineLatest":467,"./add/operator/concat":468,"./add/operator/concatAll":469,"./add/operator/concatMap":470,"./add/operator/concatMapTo":471,"./add/operator/count":472,"./add/operator/debounce":473,"./add/operator/debounceTime":474,"./add/operator/defaultIfEmpty":475,"./add/operator/delay":476,"./add/operator/delayWhen":477,"./add/operator/dematerialize":478,"./add/operator/distinctUntilChanged":479,"./add/operator/do":480,"./add/operator/every":481,"./add/operator/expand":482,"./add/operator/filter":483,"./add/operator/finally":484,"./add/operator/first":485,"./add/operator/groupBy":486,"./add/operator/ignoreElements":487,"./add/operator/inspect":488,"./add/operator/inspectTime":489,"./add/operator/last":490,"./add/operator/let":491,"./add/operator/map":492,"./add/operator/mapTo":493,"./add/operator/materialize":494,"./add/operator/merge":495,"./add/operator/mergeAll":496,"./add/operator/mergeMap":497,"./add/operator/mergeMapTo":498,"./add/operator/multicast":499,"./add/operator/observeOn":500,"./add/operator/partition":501,"./add/operator/pluck":502,"./add/operator/publish":503,"./add/operator/publishBehavior":504,"./add/operator/publishLast":505,"./add/operator/publishReplay":506,"./add/operator/race":507,"./add/operator/reduce":508,"./add/operator/repeat":509,"./add/operator/retry":510,"./add/operator/retryWhen":511,"./add/operator/sample":512,"./add/operator/sampleTime":513,"./add/operator/scan":514,"./add/operator/share":515,"./add/operator/single":516,"./add/operator/skip":517,"./add/operator/skipUntil":518,"./add/operator/skipWhile":519,"./add/operator/startWith":520,"./add/operator/subscribeOn":521,"./add/operator/switch":522,"./add/operator/switchMap":523,"./add/operator/switchMapTo":524,"./add/operator/take":525,"./add/operator/takeLast":526,"./add/operator/takeUntil":527,"./add/operator/takeWhile":528,"./add/operator/throttle":529,"./add/operator/throttleTime":530,"./add/operator/timeout":531,"./add/operator/timeoutWith":532,"./add/operator/toArray":533,"./add/operator/toPromise":534,"./add/operator/window":535,"./add/operator/windowCount":536,"./add/operator/windowTime":537,"./add/operator/windowToggle":538,"./add/operator/windowWhen":539,"./add/operator/withLatestFrom":540,"./add/operator/zip":541,"./add/operator/zipAll":542,"./observable/ConnectableObservable":547,"./scheduler/asap":652,"./scheduler/queue":653,"./subject/AsyncSubject":654,"./subject/BehaviorSubject":655,"./subject/ReplaySubject":656,"./symbol/rxSubscriber":658,"./util/ArgumentOutOfRangeError":659,"./util/EmptyError":660,"./util/ObjectUnsubscribedError":665}],436:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -74361,7 +75952,7 @@ var SubjectObservable = (function (_super) {
     return SubjectObservable;
 }(Observable_1.Observable));
 
-},{"./Observable":421,"./Subscriber":427,"./Subscription":428,"./subject/SubjectSubscription":647,"./symbol/rxSubscriber":648,"./util/ObjectUnsubscribedError":655,"./util/throwError":669}],427:[function(require,module,exports){
+},{"./Observable":431,"./Subscriber":437,"./Subscription":438,"./subject/SubjectSubscription":657,"./symbol/rxSubscriber":658,"./util/ObjectUnsubscribedError":665,"./util/throwError":679}],437:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -74554,7 +76145,7 @@ var SafeSubscriber = (function (_super) {
     return SafeSubscriber;
 }(Subscriber));
 
-},{"./Observer":422,"./Subscription":428,"./symbol/rxSubscriber":648,"./util/isFunction":660}],428:[function(require,module,exports){
+},{"./Observer":432,"./Subscription":438,"./symbol/rxSubscriber":658,"./util/isFunction":670}],438:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -74675,302 +76266,302 @@ var UnsubscriptionError = (function (_super) {
 }(Error));
 exports.UnsubscriptionError = UnsubscriptionError;
 
-},{"./util/errorObject":657,"./util/isArray":658,"./util/isFunction":660,"./util/isObject":662,"./util/tryCatch":671}],429:[function(require,module,exports){
+},{"./util/errorObject":667,"./util/isArray":668,"./util/isFunction":670,"./util/isObject":672,"./util/tryCatch":681}],439:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var BoundCallbackObservable_1 = require('../../observable/BoundCallbackObservable');
 Observable_1.Observable.bindCallback = BoundCallbackObservable_1.BoundCallbackObservable.create;
 
-},{"../../Observable":421,"../../observable/BoundCallbackObservable":535}],430:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/BoundCallbackObservable":545}],440:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var BoundNodeCallbackObservable_1 = require('../../observable/BoundNodeCallbackObservable');
 Observable_1.Observable.bindNodeCallback = BoundNodeCallbackObservable_1.BoundNodeCallbackObservable.create;
 
-},{"../../Observable":421,"../../observable/BoundNodeCallbackObservable":536}],431:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/BoundNodeCallbackObservable":546}],441:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var combineLatest_1 = require('../../operator/combineLatest');
 Observable_1.Observable.combineLatest = combineLatest_1.combineLatestStatic;
 
-},{"../../Observable":421,"../../operator/combineLatest":561}],432:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/combineLatest":571}],442:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var concat_1 = require('../../operator/concat');
 Observable_1.Observable.concat = concat_1.concatStatic;
 
-},{"../../Observable":421,"../../operator/concat":562}],433:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/concat":572}],443:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var DeferObservable_1 = require('../../observable/DeferObservable');
 Observable_1.Observable.defer = DeferObservable_1.DeferObservable.create;
 
-},{"../../Observable":421,"../../observable/DeferObservable":538}],434:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/DeferObservable":548}],444:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var EmptyObservable_1 = require('../../observable/EmptyObservable');
 Observable_1.Observable.empty = EmptyObservable_1.EmptyObservable.create;
 
-},{"../../Observable":421,"../../observable/EmptyObservable":539}],435:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/EmptyObservable":549}],445:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var ForkJoinObservable_1 = require('../../observable/ForkJoinObservable');
 Observable_1.Observable.forkJoin = ForkJoinObservable_1.ForkJoinObservable.create;
 
-},{"../../Observable":421,"../../observable/ForkJoinObservable":541}],436:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/ForkJoinObservable":551}],446:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var FromObservable_1 = require('../../observable/FromObservable');
 Observable_1.Observable.from = FromObservable_1.FromObservable.create;
 
-},{"../../Observable":421,"../../observable/FromObservable":544}],437:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/FromObservable":554}],447:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var ArrayObservable_1 = require('../../observable/ArrayObservable');
 Observable_1.Observable.fromArray = ArrayObservable_1.ArrayObservable.create;
 Observable_1.Observable.of = ArrayObservable_1.ArrayObservable.of;
 
-},{"../../Observable":421,"../../observable/ArrayObservable":534}],438:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/ArrayObservable":544}],448:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var FromEventObservable_1 = require('../../observable/FromEventObservable');
 Observable_1.Observable.fromEvent = FromEventObservable_1.FromEventObservable.create;
 
-},{"../../Observable":421,"../../observable/FromEventObservable":542}],439:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/FromEventObservable":552}],449:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var FromEventPatternObservable_1 = require('../../observable/FromEventPatternObservable');
 Observable_1.Observable.fromEventPattern = FromEventPatternObservable_1.FromEventPatternObservable.create;
 
-},{"../../Observable":421,"../../observable/FromEventPatternObservable":543}],440:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/FromEventPatternObservable":553}],450:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var PromiseObservable_1 = require('../../observable/PromiseObservable');
 Observable_1.Observable.fromPromise = PromiseObservable_1.PromiseObservable.create;
 
-},{"../../Observable":421,"../../observable/PromiseObservable":548}],441:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/PromiseObservable":558}],451:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var IntervalObservable_1 = require('../../observable/IntervalObservable');
 Observable_1.Observable.interval = IntervalObservable_1.IntervalObservable.create;
 
-},{"../../Observable":421,"../../observable/IntervalObservable":545}],442:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/IntervalObservable":555}],452:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var merge_1 = require('../../operator/merge');
 Observable_1.Observable.merge = merge_1.mergeStatic;
 
-},{"../../Observable":421,"../../operator/merge":589}],443:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/merge":599}],453:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var NeverObservable_1 = require('../../observable/NeverObservable');
 Observable_1.Observable.never = NeverObservable_1.NeverObservable.create;
 
-},{"../../Observable":421,"../../observable/NeverObservable":547}],444:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/NeverObservable":557}],454:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var race_1 = require('../../operator/race');
 Observable_1.Observable.race = race_1.raceStatic;
 
-},{"../../Observable":421,"../../operator/race":601}],445:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/race":611}],455:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var RangeObservable_1 = require('../../observable/RangeObservable');
 Observable_1.Observable.range = RangeObservable_1.RangeObservable.create;
 
-},{"../../Observable":421,"../../observable/RangeObservable":549}],446:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/RangeObservable":559}],456:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var ErrorObservable_1 = require('../../observable/ErrorObservable');
 Observable_1.Observable.throw = ErrorObservable_1.ErrorObservable.create;
 
-},{"../../Observable":421,"../../observable/ErrorObservable":540}],447:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/ErrorObservable":550}],457:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var TimerObservable_1 = require('../../observable/TimerObservable');
 Observable_1.Observable.timer = TimerObservable_1.TimerObservable.create;
 
-},{"../../Observable":421,"../../observable/TimerObservable":552}],448:[function(require,module,exports){
+},{"../../Observable":431,"../../observable/TimerObservable":562}],458:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var zip_1 = require('../../operator/zip');
 Observable_1.Observable.zip = zip_1.zipStatic;
 
-},{"../../Observable":421,"../../operator/zip":635}],449:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/zip":645}],459:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var buffer_1 = require('../../operator/buffer');
 Observable_1.Observable.prototype.buffer = buffer_1.buffer;
 
-},{"../../Observable":421,"../../operator/buffer":553}],450:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/buffer":563}],460:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var bufferCount_1 = require('../../operator/bufferCount');
 Observable_1.Observable.prototype.bufferCount = bufferCount_1.bufferCount;
 
-},{"../../Observable":421,"../../operator/bufferCount":554}],451:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/bufferCount":564}],461:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var bufferTime_1 = require('../../operator/bufferTime');
 Observable_1.Observable.prototype.bufferTime = bufferTime_1.bufferTime;
 
-},{"../../Observable":421,"../../operator/bufferTime":555}],452:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/bufferTime":565}],462:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var bufferToggle_1 = require('../../operator/bufferToggle');
 Observable_1.Observable.prototype.bufferToggle = bufferToggle_1.bufferToggle;
 
-},{"../../Observable":421,"../../operator/bufferToggle":556}],453:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/bufferToggle":566}],463:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var bufferWhen_1 = require('../../operator/bufferWhen');
 Observable_1.Observable.prototype.bufferWhen = bufferWhen_1.bufferWhen;
 
-},{"../../Observable":421,"../../operator/bufferWhen":557}],454:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/bufferWhen":567}],464:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var cache_1 = require('../../operator/cache');
 Observable_1.Observable.prototype.cache = cache_1.cache;
 
-},{"../../Observable":421,"../../operator/cache":558}],455:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/cache":568}],465:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var catch_1 = require('../../operator/catch');
 Observable_1.Observable.prototype.catch = catch_1._catch;
 
-},{"../../Observable":421,"../../operator/catch":559}],456:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/catch":569}],466:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var combineAll_1 = require('../../operator/combineAll');
 Observable_1.Observable.prototype.combineAll = combineAll_1.combineAll;
 
-},{"../../Observable":421,"../../operator/combineAll":560}],457:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/combineAll":570}],467:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var combineLatest_1 = require('../../operator/combineLatest');
 Observable_1.Observable.prototype.combineLatest = combineLatest_1.combineLatest;
 
-},{"../../Observable":421,"../../operator/combineLatest":561}],458:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/combineLatest":571}],468:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var concat_1 = require('../../operator/concat');
 Observable_1.Observable.prototype.concat = concat_1.concat;
 
-},{"../../Observable":421,"../../operator/concat":562}],459:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/concat":572}],469:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var concatAll_1 = require('../../operator/concatAll');
 Observable_1.Observable.prototype.concatAll = concatAll_1.concatAll;
 
-},{"../../Observable":421,"../../operator/concatAll":563}],460:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/concatAll":573}],470:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var concatMap_1 = require('../../operator/concatMap');
 Observable_1.Observable.prototype.concatMap = concatMap_1.concatMap;
 
-},{"../../Observable":421,"../../operator/concatMap":564}],461:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/concatMap":574}],471:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var concatMapTo_1 = require('../../operator/concatMapTo');
 Observable_1.Observable.prototype.concatMapTo = concatMapTo_1.concatMapTo;
 
-},{"../../Observable":421,"../../operator/concatMapTo":565}],462:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/concatMapTo":575}],472:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var count_1 = require('../../operator/count');
 Observable_1.Observable.prototype.count = count_1.count;
 
-},{"../../Observable":421,"../../operator/count":566}],463:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/count":576}],473:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var debounce_1 = require('../../operator/debounce');
 Observable_1.Observable.prototype.debounce = debounce_1.debounce;
 
-},{"../../Observable":421,"../../operator/debounce":567}],464:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/debounce":577}],474:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var debounceTime_1 = require('../../operator/debounceTime');
 Observable_1.Observable.prototype.debounceTime = debounceTime_1.debounceTime;
 
-},{"../../Observable":421,"../../operator/debounceTime":568}],465:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/debounceTime":578}],475:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var defaultIfEmpty_1 = require('../../operator/defaultIfEmpty');
 Observable_1.Observable.prototype.defaultIfEmpty = defaultIfEmpty_1.defaultIfEmpty;
 
-},{"../../Observable":421,"../../operator/defaultIfEmpty":569}],466:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/defaultIfEmpty":579}],476:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var delay_1 = require('../../operator/delay');
 Observable_1.Observable.prototype.delay = delay_1.delay;
 
-},{"../../Observable":421,"../../operator/delay":570}],467:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/delay":580}],477:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var delayWhen_1 = require('../../operator/delayWhen');
 Observable_1.Observable.prototype.delayWhen = delayWhen_1.delayWhen;
 
-},{"../../Observable":421,"../../operator/delayWhen":571}],468:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/delayWhen":581}],478:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var dematerialize_1 = require('../../operator/dematerialize');
 Observable_1.Observable.prototype.dematerialize = dematerialize_1.dematerialize;
 
-},{"../../Observable":421,"../../operator/dematerialize":572}],469:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/dematerialize":582}],479:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var distinctUntilChanged_1 = require('../../operator/distinctUntilChanged');
 Observable_1.Observable.prototype.distinctUntilChanged = distinctUntilChanged_1.distinctUntilChanged;
 
-},{"../../Observable":421,"../../operator/distinctUntilChanged":573}],470:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/distinctUntilChanged":583}],480:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var do_1 = require('../../operator/do');
 Observable_1.Observable.prototype.do = do_1._do;
 
-},{"../../Observable":421,"../../operator/do":574}],471:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/do":584}],481:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var every_1 = require('../../operator/every');
 Observable_1.Observable.prototype.every = every_1.every;
 
-},{"../../Observable":421,"../../operator/every":575}],472:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/every":585}],482:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var expand_1 = require('../../operator/expand');
 Observable_1.Observable.prototype.expand = expand_1.expand;
 
-},{"../../Observable":421,"../../operator/expand":576}],473:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/expand":586}],483:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var filter_1 = require('../../operator/filter');
 Observable_1.Observable.prototype.filter = filter_1.filter;
 
-},{"../../Observable":421,"../../operator/filter":577}],474:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/filter":587}],484:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var finally_1 = require('../../operator/finally');
 Observable_1.Observable.prototype.finally = finally_1._finally;
 
-},{"../../Observable":421,"../../operator/finally":578}],475:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/finally":588}],485:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var first_1 = require('../../operator/first');
 Observable_1.Observable.prototype.first = first_1.first;
 
-},{"../../Observable":421,"../../operator/first":579}],476:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/first":589}],486:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var groupBy_1 = require('../../operator/groupBy');
 Observable_1.Observable.prototype.groupBy = groupBy_1.groupBy;
 
-},{"../../Observable":421,"../../operator/groupBy":580}],477:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/groupBy":590}],487:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var ignoreElements_1 = require('../../operator/ignoreElements');
 Observable_1.Observable.prototype.ignoreElements = ignoreElements_1.ignoreElements;
 
-},{"../../Observable":421,"../../operator/ignoreElements":581}],478:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/ignoreElements":591}],488:[function(require,module,exports){
 "use strict";
 /**
  * Everything in this file is generated by the 'tools/generate-operator-patches.ts' script.
@@ -74980,7 +76571,7 @@ var Observable_1 = require('../../Observable');
 var inspect_1 = require('../../operator/inspect');
 Observable_1.Observable.prototype.inspect = inspect_1.inspect;
 
-},{"../../Observable":421,"../../operator/inspect":582}],479:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/inspect":592}],489:[function(require,module,exports){
 "use strict";
 /**
  * Everything in this file is generated by the 'tools/generate-operator-patches.ts' script.
@@ -74990,225 +76581,225 @@ var Observable_1 = require('../../Observable');
 var inspectTime_1 = require('../../operator/inspectTime');
 Observable_1.Observable.prototype.inspectTime = inspectTime_1.inspectTime;
 
-},{"../../Observable":421,"../../operator/inspectTime":583}],480:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/inspectTime":593}],490:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var last_1 = require('../../operator/last');
 Observable_1.Observable.prototype.last = last_1.last;
 
-},{"../../Observable":421,"../../operator/last":584}],481:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/last":594}],491:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var let_1 = require('../../operator/let');
 Observable_1.Observable.prototype.let = let_1.letProto;
 Observable_1.Observable.prototype.letBind = let_1.letProto;
 
-},{"../../Observable":421,"../../operator/let":585}],482:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/let":595}],492:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var map_1 = require('../../operator/map');
 Observable_1.Observable.prototype.map = map_1.map;
 
-},{"../../Observable":421,"../../operator/map":586}],483:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/map":596}],493:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mapTo_1 = require('../../operator/mapTo');
 Observable_1.Observable.prototype.mapTo = mapTo_1.mapTo;
 
-},{"../../Observable":421,"../../operator/mapTo":587}],484:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/mapTo":597}],494:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var materialize_1 = require('../../operator/materialize');
 Observable_1.Observable.prototype.materialize = materialize_1.materialize;
 
-},{"../../Observable":421,"../../operator/materialize":588}],485:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/materialize":598}],495:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var merge_1 = require('../../operator/merge');
 Observable_1.Observable.prototype.merge = merge_1.merge;
 
-},{"../../Observable":421,"../../operator/merge":589}],486:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/merge":599}],496:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mergeAll_1 = require('../../operator/mergeAll');
 Observable_1.Observable.prototype.mergeAll = mergeAll_1.mergeAll;
 
-},{"../../Observable":421,"../../operator/mergeAll":590}],487:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/mergeAll":600}],497:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mergeMap_1 = require('../../operator/mergeMap');
 Observable_1.Observable.prototype.mergeMap = mergeMap_1.mergeMap;
 Observable_1.Observable.prototype.flatMap = mergeMap_1.mergeMap;
 
-},{"../../Observable":421,"../../operator/mergeMap":591}],488:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/mergeMap":601}],498:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var mergeMapTo_1 = require('../../operator/mergeMapTo');
 Observable_1.Observable.prototype.mergeMapTo = mergeMapTo_1.mergeMapTo;
 
-},{"../../Observable":421,"../../operator/mergeMapTo":592}],489:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/mergeMapTo":602}],499:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var multicast_1 = require('../../operator/multicast');
 Observable_1.Observable.prototype.multicast = multicast_1.multicast;
 
-},{"../../Observable":421,"../../operator/multicast":593}],490:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/multicast":603}],500:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var observeOn_1 = require('../../operator/observeOn');
 Observable_1.Observable.prototype.observeOn = observeOn_1.observeOn;
 
-},{"../../Observable":421,"../../operator/observeOn":594}],491:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/observeOn":604}],501:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var partition_1 = require('../../operator/partition');
 Observable_1.Observable.prototype.partition = partition_1.partition;
 
-},{"../../Observable":421,"../../operator/partition":595}],492:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/partition":605}],502:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var pluck_1 = require('../../operator/pluck');
 Observable_1.Observable.prototype.pluck = pluck_1.pluck;
 
-},{"../../Observable":421,"../../operator/pluck":596}],493:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/pluck":606}],503:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publish_1 = require('../../operator/publish');
 Observable_1.Observable.prototype.publish = publish_1.publish;
 
-},{"../../Observable":421,"../../operator/publish":597}],494:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/publish":607}],504:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publishBehavior_1 = require('../../operator/publishBehavior');
 Observable_1.Observable.prototype.publishBehavior = publishBehavior_1.publishBehavior;
 
-},{"../../Observable":421,"../../operator/publishBehavior":598}],495:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/publishBehavior":608}],505:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publishLast_1 = require('../../operator/publishLast');
 Observable_1.Observable.prototype.publishLast = publishLast_1.publishLast;
 
-},{"../../Observable":421,"../../operator/publishLast":599}],496:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/publishLast":609}],506:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var publishReplay_1 = require('../../operator/publishReplay');
 Observable_1.Observable.prototype.publishReplay = publishReplay_1.publishReplay;
 
-},{"../../Observable":421,"../../operator/publishReplay":600}],497:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/publishReplay":610}],507:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var race_1 = require('../../operator/race');
 Observable_1.Observable.prototype.race = race_1.race;
 
-},{"../../Observable":421,"../../operator/race":601}],498:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/race":611}],508:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var reduce_1 = require('../../operator/reduce');
 Observable_1.Observable.prototype.reduce = reduce_1.reduce;
 
-},{"../../Observable":421,"../../operator/reduce":602}],499:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/reduce":612}],509:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var repeat_1 = require('../../operator/repeat');
 Observable_1.Observable.prototype.repeat = repeat_1.repeat;
 
-},{"../../Observable":421,"../../operator/repeat":603}],500:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/repeat":613}],510:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var retry_1 = require('../../operator/retry');
 Observable_1.Observable.prototype.retry = retry_1.retry;
 
-},{"../../Observable":421,"../../operator/retry":604}],501:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/retry":614}],511:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var retryWhen_1 = require('../../operator/retryWhen');
 Observable_1.Observable.prototype.retryWhen = retryWhen_1.retryWhen;
 
-},{"../../Observable":421,"../../operator/retryWhen":605}],502:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/retryWhen":615}],512:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var sample_1 = require('../../operator/sample');
 Observable_1.Observable.prototype.sample = sample_1.sample;
 
-},{"../../Observable":421,"../../operator/sample":606}],503:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/sample":616}],513:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var sampleTime_1 = require('../../operator/sampleTime');
 Observable_1.Observable.prototype.sampleTime = sampleTime_1.sampleTime;
 
-},{"../../Observable":421,"../../operator/sampleTime":607}],504:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/sampleTime":617}],514:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var scan_1 = require('../../operator/scan');
 Observable_1.Observable.prototype.scan = scan_1.scan;
 
-},{"../../Observable":421,"../../operator/scan":608}],505:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/scan":618}],515:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var share_1 = require('../../operator/share');
 Observable_1.Observable.prototype.share = share_1.share;
 
-},{"../../Observable":421,"../../operator/share":609}],506:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/share":619}],516:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var single_1 = require('../../operator/single');
 Observable_1.Observable.prototype.single = single_1.single;
 
-},{"../../Observable":421,"../../operator/single":610}],507:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/single":620}],517:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skip_1 = require('../../operator/skip');
 Observable_1.Observable.prototype.skip = skip_1.skip;
 
-},{"../../Observable":421,"../../operator/skip":611}],508:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/skip":621}],518:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skipUntil_1 = require('../../operator/skipUntil');
 Observable_1.Observable.prototype.skipUntil = skipUntil_1.skipUntil;
 
-},{"../../Observable":421,"../../operator/skipUntil":612}],509:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/skipUntil":622}],519:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var skipWhile_1 = require('../../operator/skipWhile');
 Observable_1.Observable.prototype.skipWhile = skipWhile_1.skipWhile;
 
-},{"../../Observable":421,"../../operator/skipWhile":613}],510:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/skipWhile":623}],520:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var startWith_1 = require('../../operator/startWith');
 Observable_1.Observable.prototype.startWith = startWith_1.startWith;
 
-},{"../../Observable":421,"../../operator/startWith":614}],511:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/startWith":624}],521:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var subscribeOn_1 = require('../../operator/subscribeOn');
 Observable_1.Observable.prototype.subscribeOn = subscribeOn_1.subscribeOn;
 
-},{"../../Observable":421,"../../operator/subscribeOn":615}],512:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/subscribeOn":625}],522:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var switch_1 = require('../../operator/switch');
 Observable_1.Observable.prototype.switch = switch_1._switch;
 
-},{"../../Observable":421,"../../operator/switch":616}],513:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/switch":626}],523:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var switchMap_1 = require('../../operator/switchMap');
 Observable_1.Observable.prototype.switchMap = switchMap_1.switchMap;
 
-},{"../../Observable":421,"../../operator/switchMap":617}],514:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/switchMap":627}],524:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var switchMapTo_1 = require('../../operator/switchMapTo');
 Observable_1.Observable.prototype.switchMapTo = switchMapTo_1.switchMapTo;
 
-},{"../../Observable":421,"../../operator/switchMapTo":618}],515:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/switchMapTo":628}],525:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var take_1 = require('../../operator/take');
 Observable_1.Observable.prototype.take = take_1.take;
 
-},{"../../Observable":421,"../../operator/take":619}],516:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/take":629}],526:[function(require,module,exports){
 "use strict";
 /**
  * Everything in this file is generated by the 'tools/generate-operator-patches.ts' script.
@@ -75218,103 +76809,103 @@ var Observable_1 = require('../../Observable');
 var takeLast_1 = require('../../operator/takeLast');
 Observable_1.Observable.prototype.takeLast = takeLast_1.takeLast;
 
-},{"../../Observable":421,"../../operator/takeLast":620}],517:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/takeLast":630}],527:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var takeUntil_1 = require('../../operator/takeUntil');
 Observable_1.Observable.prototype.takeUntil = takeUntil_1.takeUntil;
 
-},{"../../Observable":421,"../../operator/takeUntil":621}],518:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/takeUntil":631}],528:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var takeWhile_1 = require('../../operator/takeWhile');
 Observable_1.Observable.prototype.takeWhile = takeWhile_1.takeWhile;
 
-},{"../../Observable":421,"../../operator/takeWhile":622}],519:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/takeWhile":632}],529:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var throttle_1 = require('../../operator/throttle');
 Observable_1.Observable.prototype.throttle = throttle_1.throttle;
 
-},{"../../Observable":421,"../../operator/throttle":623}],520:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/throttle":633}],530:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var throttleTime_1 = require('../../operator/throttleTime');
 Observable_1.Observable.prototype.throttleTime = throttleTime_1.throttleTime;
 
-},{"../../Observable":421,"../../operator/throttleTime":624}],521:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/throttleTime":634}],531:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var timeout_1 = require('../../operator/timeout');
 Observable_1.Observable.prototype.timeout = timeout_1.timeout;
 
-},{"../../Observable":421,"../../operator/timeout":625}],522:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/timeout":635}],532:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var timeoutWith_1 = require('../../operator/timeoutWith');
 Observable_1.Observable.prototype.timeoutWith = timeoutWith_1.timeoutWith;
 
-},{"../../Observable":421,"../../operator/timeoutWith":626}],523:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/timeoutWith":636}],533:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var toArray_1 = require('../../operator/toArray');
 Observable_1.Observable.prototype.toArray = toArray_1.toArray;
 
-},{"../../Observable":421,"../../operator/toArray":627}],524:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/toArray":637}],534:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var toPromise_1 = require('../../operator/toPromise');
 Observable_1.Observable.prototype.toPromise = toPromise_1.toPromise;
 
-},{"../../Observable":421,"../../operator/toPromise":628}],525:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/toPromise":638}],535:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var window_1 = require('../../operator/window');
 Observable_1.Observable.prototype.window = window_1.window;
 
-},{"../../Observable":421,"../../operator/window":629}],526:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/window":639}],536:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var windowCount_1 = require('../../operator/windowCount');
 Observable_1.Observable.prototype.windowCount = windowCount_1.windowCount;
 
-},{"../../Observable":421,"../../operator/windowCount":630}],527:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/windowCount":640}],537:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var windowTime_1 = require('../../operator/windowTime');
 Observable_1.Observable.prototype.windowTime = windowTime_1.windowTime;
 
-},{"../../Observable":421,"../../operator/windowTime":631}],528:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/windowTime":641}],538:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var windowToggle_1 = require('../../operator/windowToggle');
 Observable_1.Observable.prototype.windowToggle = windowToggle_1.windowToggle;
 
-},{"../../Observable":421,"../../operator/windowToggle":632}],529:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/windowToggle":642}],539:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var windowWhen_1 = require('../../operator/windowWhen');
 Observable_1.Observable.prototype.windowWhen = windowWhen_1.windowWhen;
 
-},{"../../Observable":421,"../../operator/windowWhen":633}],530:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/windowWhen":643}],540:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var withLatestFrom_1 = require('../../operator/withLatestFrom');
 Observable_1.Observable.prototype.withLatestFrom = withLatestFrom_1.withLatestFrom;
 
-},{"../../Observable":421,"../../operator/withLatestFrom":634}],531:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/withLatestFrom":644}],541:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var zip_1 = require('../../operator/zip');
 Observable_1.Observable.prototype.zip = zip_1.zipProto;
 
-},{"../../Observable":421,"../../operator/zip":635}],532:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/zip":645}],542:[function(require,module,exports){
 "use strict";
 var Observable_1 = require('../../Observable');
 var zipAll_1 = require('../../operator/zipAll');
 Observable_1.Observable.prototype.zipAll = zipAll_1.zipAll;
 
-},{"../../Observable":421,"../../operator/zipAll":636}],533:[function(require,module,exports){
+},{"../../Observable":431,"../../operator/zipAll":646}],543:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -75385,7 +76976,7 @@ var ArrayLikeObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ArrayLikeObservable = ArrayLikeObservable;
 
-},{"../Observable":421,"./EmptyObservable":539,"./ScalarObservable":550}],534:[function(require,module,exports){
+},{"../Observable":431,"./EmptyObservable":549,"./ScalarObservable":560}],544:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -75467,7 +77058,7 @@ var ArrayObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ArrayObservable = ArrayObservable;
 
-},{"../Observable":421,"../util/isScheduler":664,"./EmptyObservable":539,"./ScalarObservable":550}],535:[function(require,module,exports){
+},{"../Observable":431,"../util/isScheduler":674,"./EmptyObservable":549,"./ScalarObservable":560}],545:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -75591,7 +77182,7 @@ function dispatchError(_a) {
     subject.error(err);
 }
 
-},{"../Observable":421,"../subject/AsyncSubject":644,"../util/errorObject":657,"../util/tryCatch":671}],536:[function(require,module,exports){
+},{"../Observable":431,"../subject/AsyncSubject":654,"../util/errorObject":667,"../util/tryCatch":681}],546:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -75723,7 +77314,7 @@ function dispatchError(_a) {
     subject.error(err);
 }
 
-},{"../Observable":421,"../subject/AsyncSubject":644,"../util/errorObject":657,"../util/tryCatch":671}],537:[function(require,module,exports){
+},{"../Observable":431,"../subject/AsyncSubject":654,"../util/errorObject":667,"../util/tryCatch":681}],547:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -75854,7 +77445,7 @@ var RefCountSubscriber = (function (_super) {
     return RefCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Observable":421,"../Subscriber":427,"../Subscription":428}],538:[function(require,module,exports){
+},{"../Observable":431,"../Subscriber":437,"../Subscription":438}],548:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -75886,7 +77477,7 @@ var DeferObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.DeferObservable = DeferObservable;
 
-},{"../Observable":421,"../util/errorObject":657,"../util/tryCatch":671}],539:[function(require,module,exports){
+},{"../Observable":431,"../util/errorObject":667,"../util/tryCatch":681}],549:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -75920,7 +77511,7 @@ var EmptyObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.EmptyObservable = EmptyObservable;
 
-},{"../Observable":421}],540:[function(require,module,exports){
+},{"../Observable":431}],550:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -75958,7 +77549,7 @@ var ErrorObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ErrorObservable = ErrorObservable;
 
-},{"../Observable":421}],541:[function(require,module,exports){
+},{"../Observable":431}],551:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76058,7 +77649,7 @@ function emptyArray(len) {
     return arr;
 }
 
-},{"../Observable":421,"../Subscriber":427,"../util/isArray":658,"../util/isPromise":663,"./EmptyObservable":539,"./PromiseObservable":548}],542:[function(require,module,exports){
+},{"../Observable":431,"../Subscriber":437,"../util/isArray":668,"../util/isPromise":673,"./EmptyObservable":549,"./PromiseObservable":558}],552:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76139,7 +77730,7 @@ var FromEventObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromEventObservable = FromEventObservable;
 
-},{"../Observable":421,"../Subscription":428,"../util/errorObject":657,"../util/tryCatch":671}],543:[function(require,module,exports){
+},{"../Observable":431,"../Subscription":438,"../util/errorObject":667,"../util/tryCatch":681}],553:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76187,7 +77778,7 @@ var FromEventPatternObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromEventPatternObservable = FromEventPatternObservable;
 
-},{"../Observable":421,"../Subscription":428,"../util/errorObject":657,"../util/tryCatch":671}],544:[function(require,module,exports){
+},{"../Observable":431,"../Subscription":438,"../util/errorObject":667,"../util/tryCatch":681}],554:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76259,7 +77850,7 @@ var FromObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.FromObservable = FromObservable;
 
-},{"../Observable":421,"../operator/observeOn":594,"../util/SymbolShim":656,"../util/isArray":658,"../util/isFunction":660,"../util/isPromise":663,"../util/isScheduler":664,"./ArrayLikeObservable":533,"./ArrayObservable":534,"./IteratorObservable":546,"./PromiseObservable":548}],545:[function(require,module,exports){
+},{"../Observable":431,"../operator/observeOn":604,"../util/SymbolShim":666,"../util/isArray":668,"../util/isFunction":670,"../util/isPromise":673,"../util/isScheduler":674,"./ArrayLikeObservable":543,"./ArrayObservable":544,"./IteratorObservable":556,"./PromiseObservable":558}],555:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76310,7 +77901,7 @@ var IntervalObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.IntervalObservable = IntervalObservable;
 
-},{"../Observable":421,"../scheduler/asap":642,"../util/isNumeric":661}],546:[function(require,module,exports){
+},{"../Observable":431,"../scheduler/asap":652,"../util/isNumeric":671}],556:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76499,7 +78090,7 @@ function sign(value) {
     return valueAsNumber < 0 ? -1 : 1;
 }
 
-},{"../Observable":421,"../util/SymbolShim":656,"../util/errorObject":657,"../util/isFunction":660,"../util/isObject":662,"../util/root":667,"../util/tryCatch":671}],547:[function(require,module,exports){
+},{"../Observable":431,"../util/SymbolShim":666,"../util/errorObject":667,"../util/isFunction":670,"../util/isObject":672,"../util/root":677,"../util/tryCatch":681}],557:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76523,7 +78114,7 @@ var NeverObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.NeverObservable = NeverObservable;
 
-},{"../Observable":421,"../util/noop":665}],548:[function(require,module,exports){
+},{"../Observable":431,"../util/noop":675}],558:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76616,7 +78207,7 @@ function dispatchError(_a) {
     }
 }
 
-},{"../Observable":421,"../util/root":667}],549:[function(require,module,exports){
+},{"../Observable":431,"../util/root":677}],559:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76678,7 +78269,7 @@ var RangeObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.RangeObservable = RangeObservable;
 
-},{"../Observable":421}],550:[function(require,module,exports){
+},{"../Observable":431}],560:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76729,7 +78320,7 @@ var ScalarObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.ScalarObservable = ScalarObservable;
 
-},{"../Observable":421}],551:[function(require,module,exports){
+},{"../Observable":431}],561:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76776,7 +78367,7 @@ var SubscribeOnObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.SubscribeOnObservable = SubscribeOnObservable;
 
-},{"../Observable":421,"../scheduler/asap":642,"../util/isNumeric":661}],552:[function(require,module,exports){
+},{"../Observable":431,"../scheduler/asap":652,"../util/isNumeric":671}],562:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76837,7 +78428,7 @@ var TimerObservable = (function (_super) {
 }(Observable_1.Observable));
 exports.TimerObservable = TimerObservable;
 
-},{"../Observable":421,"../scheduler/asap":642,"../util/isDate":659,"../util/isNumeric":661,"../util/isScheduler":664}],553:[function(require,module,exports){
+},{"../Observable":431,"../scheduler/asap":652,"../util/isDate":669,"../util/isNumeric":671,"../util/isScheduler":674}],563:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76890,7 +78481,7 @@ var BufferSubscriber = (function (_super) {
     return BufferSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],554:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],564:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -76975,7 +78566,7 @@ var BufferCountSubscriber = (function (_super) {
     return BufferCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],555:[function(require,module,exports){
+},{"../Subscriber":437}],565:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -77094,7 +78685,7 @@ function dispatchBufferClose(_a) {
     subscriber.closeBuffer(buffer);
 }
 
-},{"../Subscriber":427,"../scheduler/asap":642}],556:[function(require,module,exports){
+},{"../Subscriber":437,"../scheduler/asap":652}],566:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -77240,7 +78831,7 @@ var BufferToggleClosingsSubscriber = (function (_super) {
     return BufferToggleClosingsSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../Subscription":428,"../util/errorObject":657,"../util/tryCatch":671}],557:[function(require,module,exports){
+},{"../Subscriber":437,"../Subscription":438,"../util/errorObject":667,"../util/tryCatch":681}],567:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -77336,7 +78927,7 @@ var BufferWhenSubscriber = (function (_super) {
     return BufferWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../Subscription":428,"../util/errorObject":657,"../util/subscribeToResult":668,"../util/tryCatch":671}],558:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../Subscription":438,"../util/errorObject":667,"../util/subscribeToResult":678,"../util/tryCatch":681}],568:[function(require,module,exports){
 "use strict";
 var publishReplay_1 = require('./publishReplay');
 function cache(bufferSize, windowTime, scheduler) {
@@ -77346,7 +78937,7 @@ function cache(bufferSize, windowTime, scheduler) {
 }
 exports.cache = cache;
 
-},{"./publishReplay":600}],559:[function(require,module,exports){
+},{"./publishReplay":610}],569:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -77407,7 +78998,7 @@ var CatchSubscriber = (function (_super) {
     return CatchSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],560:[function(require,module,exports){
+},{"../Subscriber":437}],570:[function(require,module,exports){
 "use strict";
 var combineLatest_1 = require('./combineLatest');
 /**
@@ -77427,7 +79018,7 @@ function combineAll(project) {
 }
 exports.combineAll = combineAll;
 
-},{"./combineLatest":561}],561:[function(require,module,exports){
+},{"./combineLatest":571}],571:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -77567,7 +79158,7 @@ var CombineLatestSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.CombineLatestSubscriber = CombineLatestSubscriber;
 
-},{"../OuterSubscriber":424,"../observable/ArrayObservable":534,"../util/isArray":658,"../util/isScheduler":664,"../util/subscribeToResult":668}],562:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../observable/ArrayObservable":544,"../util/isArray":668,"../util/isScheduler":674,"../util/subscribeToResult":678}],572:[function(require,module,exports){
 "use strict";
 var isScheduler_1 = require('../util/isScheduler');
 var ArrayObservable_1 = require('../observable/ArrayObservable');
@@ -77609,7 +79200,7 @@ function concatStatic() {
 }
 exports.concatStatic = concatStatic;
 
-},{"../observable/ArrayObservable":534,"../util/isScheduler":664,"./mergeAll":590}],563:[function(require,module,exports){
+},{"../observable/ArrayObservable":544,"../util/isScheduler":674,"./mergeAll":600}],573:[function(require,module,exports){
 "use strict";
 var mergeAll_1 = require('./mergeAll');
 /**
@@ -77628,7 +79219,7 @@ function concatAll() {
 }
 exports.concatAll = concatAll;
 
-},{"./mergeAll":590}],564:[function(require,module,exports){
+},{"./mergeAll":600}],574:[function(require,module,exports){
 "use strict";
 var mergeMap_1 = require('./mergeMap');
 /**
@@ -77655,7 +79246,7 @@ function concatMap(project, resultSelector) {
 }
 exports.concatMap = concatMap;
 
-},{"./mergeMap":591}],565:[function(require,module,exports){
+},{"./mergeMap":601}],575:[function(require,module,exports){
 "use strict";
 var mergeMapTo_1 = require('./mergeMapTo');
 /**
@@ -77676,7 +79267,7 @@ function concatMapTo(observable, resultSelector) {
 }
 exports.concatMapTo = concatMapTo;
 
-},{"./mergeMapTo":592}],566:[function(require,module,exports){
+},{"./mergeMapTo":602}],576:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -77748,7 +79339,7 @@ var CountSubscriber = (function (_super) {
     return CountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],567:[function(require,module,exports){
+},{"../Subscriber":437}],577:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -77839,7 +79430,7 @@ var DebounceSubscriber = (function (_super) {
     return DebounceSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],568:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],578:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -77917,7 +79508,7 @@ function dispatchNext(subscriber) {
     subscriber.debouncedNext();
 }
 
-},{"../Subscriber":427,"../scheduler/asap":642}],569:[function(require,module,exports){
+},{"../Subscriber":437,"../scheduler/asap":652}],579:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -77964,7 +79555,7 @@ var DefaultIfEmptySubscriber = (function (_super) {
     return DefaultIfEmptySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],570:[function(require,module,exports){
+},{"../Subscriber":437}],580:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78063,7 +79654,7 @@ var DelayMessage = (function () {
     return DelayMessage;
 }());
 
-},{"../Notification":420,"../Subscriber":427,"../scheduler/asap":642,"../util/isDate":659}],571:[function(require,module,exports){
+},{"../Notification":430,"../Subscriber":437,"../scheduler/asap":652,"../util/isDate":669}],581:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78201,7 +79792,7 @@ var SubscriptionDelaySubscriber = (function (_super) {
     return SubscriptionDelaySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Observable":421,"../OuterSubscriber":424,"../Subscriber":427,"../util/subscribeToResult":668}],572:[function(require,module,exports){
+},{"../Observable":431,"../OuterSubscriber":434,"../Subscriber":437,"../util/subscribeToResult":678}],582:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78236,7 +79827,7 @@ var DeMaterializeSubscriber = (function (_super) {
     return DeMaterializeSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],573:[function(require,module,exports){
+},{"../Subscriber":437}],583:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78300,7 +79891,7 @@ var DistinctUntilChangedSubscriber = (function (_super) {
     return DistinctUntilChangedSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../util/errorObject":657,"../util/tryCatch":671}],574:[function(require,module,exports){
+},{"../Subscriber":437,"../util/errorObject":667,"../util/tryCatch":681}],584:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78385,7 +79976,7 @@ var DoSubscriber = (function (_super) {
     return DoSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../util/noop":665}],575:[function(require,module,exports){
+},{"../Subscriber":437,"../util/noop":675}],585:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78448,7 +80039,7 @@ var EverySubscriber = (function (_super) {
     return EverySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],576:[function(require,module,exports){
+},{"../Subscriber":437}],586:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78557,7 +80148,7 @@ var ExpandSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.ExpandSubscriber = ExpandSubscriber;
 
-},{"../OuterSubscriber":424,"../util/errorObject":657,"../util/subscribeToResult":668,"../util/tryCatch":671}],577:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/errorObject":667,"../util/subscribeToResult":678,"../util/tryCatch":681}],587:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78615,7 +80206,7 @@ var FilterSubscriber = (function (_super) {
     return FilterSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],578:[function(require,module,exports){
+},{"../Subscriber":437}],588:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78652,7 +80243,7 @@ var FinallySubscriber = (function (_super) {
     return FinallySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../Subscription":428}],579:[function(require,module,exports){
+},{"../Subscriber":437,"../Subscription":438}],589:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78753,7 +80344,7 @@ var FirstSubscriber = (function (_super) {
     return FirstSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../util/EmptyError":650}],580:[function(require,module,exports){
+},{"../Subscriber":437,"../util/EmptyError":660}],590:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -78975,7 +80566,7 @@ var InnerRefCountSubscription = (function (_super) {
     return InnerRefCountSubscription;
 }(Subscription_1.Subscription));
 
-},{"../Observable":421,"../Operator":423,"../Subject":426,"../Subscriber":427,"../Subscription":428,"../util/FastMap":651,"../util/Map":653}],581:[function(require,module,exports){
+},{"../Observable":431,"../Operator":433,"../Subject":436,"../Subscriber":437,"../Subscription":438,"../util/FastMap":661,"../util/Map":663}],591:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79016,7 +80607,7 @@ var IgnoreElementsSubscriber = (function (_super) {
     return IgnoreElementsSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../util/noop":665}],582:[function(require,module,exports){
+},{"../Subscriber":437,"../util/noop":675}],592:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79082,7 +80673,7 @@ var InspectSubscriber = (function (_super) {
     return InspectSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/errorObject":657,"../util/subscribeToResult":668,"../util/tryCatch":671}],583:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/errorObject":667,"../util/subscribeToResult":678,"../util/tryCatch":681}],593:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79140,7 +80731,7 @@ function dispatchNext(subscriber) {
     subscriber.clearThrottle();
 }
 
-},{"../Subscriber":427,"../scheduler/asap":642}],584:[function(require,module,exports){
+},{"../Subscriber":437,"../scheduler/asap":652}],594:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79250,14 +80841,14 @@ var LastSubscriber = (function (_super) {
     return LastSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../util/EmptyError":650}],585:[function(require,module,exports){
+},{"../Subscriber":437,"../util/EmptyError":660}],595:[function(require,module,exports){
 "use strict";
 function letProto(func) {
     return func(this);
 }
 exports.letProto = letProto;
 
-},{}],586:[function(require,module,exports){
+},{}],596:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79316,7 +80907,7 @@ var MapSubscriber = (function (_super) {
     return MapSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],587:[function(require,module,exports){
+},{"../Subscriber":437}],597:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79357,7 +80948,7 @@ var MapToSubscriber = (function (_super) {
     return MapToSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],588:[function(require,module,exports){
+},{"../Subscriber":437}],598:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79410,7 +81001,7 @@ var MaterializeSubscriber = (function (_super) {
     return MaterializeSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Notification":420,"../Subscriber":427}],589:[function(require,module,exports){
+},{"../Notification":430,"../Subscriber":437}],599:[function(require,module,exports){
 "use strict";
 var ArrayObservable_1 = require('../observable/ArrayObservable');
 var mergeAll_1 = require('./mergeAll');
@@ -79456,7 +81047,7 @@ function mergeStatic() {
 }
 exports.mergeStatic = mergeStatic;
 
-},{"../observable/ArrayObservable":534,"../util/isScheduler":664,"./mergeAll":590}],590:[function(require,module,exports){
+},{"../observable/ArrayObservable":544,"../util/isScheduler":674,"./mergeAll":600}],600:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79519,7 +81110,7 @@ var MergeAllSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.MergeAllSubscriber = MergeAllSubscriber;
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],591:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],601:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79634,7 +81225,7 @@ var MergeMapSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.MergeMapSubscriber = MergeMapSubscriber;
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],592:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],602:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79737,7 +81328,7 @@ var MergeMapToSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.MergeMapToSubscriber = MergeMapToSubscriber;
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],593:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],603:[function(require,module,exports){
 "use strict";
 var ConnectableObservable_1 = require('../observable/ConnectableObservable');
 /**
@@ -79768,7 +81359,7 @@ function multicast(subjectOrSubjectFactory) {
 }
 exports.multicast = multicast;
 
-},{"../observable/ConnectableObservable":537}],594:[function(require,module,exports){
+},{"../observable/ConnectableObservable":547}],604:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -79829,7 +81420,7 @@ var ObserveOnMessage = (function () {
     return ObserveOnMessage;
 }());
 
-},{"../Notification":420,"../Subscriber":427}],595:[function(require,module,exports){
+},{"../Notification":430,"../Subscriber":437}],605:[function(require,module,exports){
 "use strict";
 var not_1 = require('../util/not');
 var filter_1 = require('./filter');
@@ -79841,7 +81432,7 @@ function partition(predicate, thisArg) {
 }
 exports.partition = partition;
 
-},{"../util/not":666,"./filter":577}],596:[function(require,module,exports){
+},{"../util/not":676,"./filter":587}],606:[function(require,module,exports){
 "use strict";
 var map_1 = require('./map');
 /**
@@ -79881,7 +81472,7 @@ function plucker(props, length) {
     return mapper;
 }
 
-},{"./map":586}],597:[function(require,module,exports){
+},{"./map":596}],607:[function(require,module,exports){
 "use strict";
 var Subject_1 = require('../Subject');
 var multicast_1 = require('./multicast');
@@ -79898,7 +81489,7 @@ function publish() {
 }
 exports.publish = publish;
 
-},{"../Subject":426,"./multicast":593}],598:[function(require,module,exports){
+},{"../Subject":436,"./multicast":603}],608:[function(require,module,exports){
 "use strict";
 var BehaviorSubject_1 = require('../subject/BehaviorSubject');
 var multicast_1 = require('./multicast');
@@ -79907,7 +81498,7 @@ function publishBehavior(value) {
 }
 exports.publishBehavior = publishBehavior;
 
-},{"../subject/BehaviorSubject":645,"./multicast":593}],599:[function(require,module,exports){
+},{"../subject/BehaviorSubject":655,"./multicast":603}],609:[function(require,module,exports){
 "use strict";
 var AsyncSubject_1 = require('../subject/AsyncSubject');
 var multicast_1 = require('./multicast');
@@ -79916,7 +81507,7 @@ function publishLast() {
 }
 exports.publishLast = publishLast;
 
-},{"../subject/AsyncSubject":644,"./multicast":593}],600:[function(require,module,exports){
+},{"../subject/AsyncSubject":654,"./multicast":603}],610:[function(require,module,exports){
 "use strict";
 var ReplaySubject_1 = require('../subject/ReplaySubject');
 var multicast_1 = require('./multicast');
@@ -79927,7 +81518,7 @@ function publishReplay(bufferSize, windowTime, scheduler) {
 }
 exports.publishReplay = publishReplay;
 
-},{"../subject/ReplaySubject":646,"./multicast":593}],601:[function(require,module,exports){
+},{"../subject/ReplaySubject":656,"./multicast":603}],611:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80035,7 +81626,7 @@ var RaceSubscriber = (function (_super) {
 }(OuterSubscriber_1.OuterSubscriber));
 exports.RaceSubscriber = RaceSubscriber;
 
-},{"../OuterSubscriber":424,"../observable/ArrayObservable":534,"../util/isArray":658,"../util/subscribeToResult":668}],602:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../observable/ArrayObservable":544,"../util/isArray":668,"../util/subscribeToResult":678}],612:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80113,7 +81704,7 @@ var ReduceSubscriber = (function (_super) {
 }(Subscriber_1.Subscriber));
 exports.ReduceSubscriber = ReduceSubscriber;
 
-},{"../Subscriber":427}],603:[function(require,module,exports){
+},{"../Subscriber":437}],613:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80182,7 +81773,7 @@ var RepeatSubscriber = (function (_super) {
     return RepeatSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../observable/EmptyObservable":539}],604:[function(require,module,exports){
+},{"../Subscriber":437,"../observable/EmptyObservable":549}],614:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80245,7 +81836,7 @@ var RetrySubscriber = (function (_super) {
     return RetrySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],605:[function(require,module,exports){
+},{"../Subscriber":437}],615:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80345,7 +81936,7 @@ var RetryWhenSubscriber = (function (_super) {
     return RetryWhenSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../Subject":426,"../util/errorObject":657,"../util/subscribeToResult":668,"../util/tryCatch":671}],606:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../Subject":436,"../util/errorObject":667,"../util/subscribeToResult":678,"../util/tryCatch":681}],616:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80404,7 +81995,7 @@ var SampleSubscriber = (function (_super) {
     return SampleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],607:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],617:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80455,7 +82046,7 @@ function dispatchNotification(state) {
     this.schedule(state, delay);
 }
 
-},{"../Subscriber":427,"../scheduler/asap":642}],608:[function(require,module,exports){
+},{"../Subscriber":437,"../scheduler/asap":652}],618:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80532,7 +82123,7 @@ var ScanSubscriber = (function (_super) {
     return ScanSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],609:[function(require,module,exports){
+},{"../Subscriber":437}],619:[function(require,module,exports){
 "use strict";
 var multicast_1 = require('./multicast');
 var Subject_1 = require('../Subject');
@@ -80555,7 +82146,7 @@ function share() {
 exports.share = share;
 ;
 
-},{"../Subject":426,"./multicast":593}],610:[function(require,module,exports){
+},{"../Subject":436,"./multicast":603}],620:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80642,7 +82233,7 @@ var SingleSubscriber = (function (_super) {
     return SingleSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../util/EmptyError":650}],611:[function(require,module,exports){
+},{"../Subscriber":437,"../util/EmptyError":660}],621:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80687,7 +82278,7 @@ var SkipSubscriber = (function (_super) {
     return SkipSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],612:[function(require,module,exports){
+},{"../Subscriber":437}],622:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80752,7 +82343,7 @@ var SkipUntilSubscriber = (function (_super) {
     return SkipUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],613:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],623:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80812,7 +82403,7 @@ var SkipWhileSubscriber = (function (_super) {
     return SkipWhileSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],614:[function(require,module,exports){
+},{"../Subscriber":437}],624:[function(require,module,exports){
 "use strict";
 var ArrayObservable_1 = require('../observable/ArrayObservable');
 var ScalarObservable_1 = require('../observable/ScalarObservable');
@@ -80854,7 +82445,7 @@ function startWith() {
 }
 exports.startWith = startWith;
 
-},{"../observable/ArrayObservable":534,"../observable/EmptyObservable":539,"../observable/ScalarObservable":550,"../util/isScheduler":664,"./concat":562}],615:[function(require,module,exports){
+},{"../observable/ArrayObservable":544,"../observable/EmptyObservable":549,"../observable/ScalarObservable":560,"../util/isScheduler":674,"./concat":572}],625:[function(require,module,exports){
 "use strict";
 var SubscribeOnObservable_1 = require('../observable/SubscribeOnObservable');
 /**
@@ -80872,7 +82463,7 @@ function subscribeOn(scheduler, delay) {
 }
 exports.subscribeOn = subscribeOn;
 
-},{"../observable/SubscribeOnObservable":551}],616:[function(require,module,exports){
+},{"../observable/SubscribeOnObservable":561}],626:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -80949,7 +82540,7 @@ var SwitchSubscriber = (function (_super) {
     return SwitchSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],617:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],627:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81047,7 +82638,7 @@ var SwitchMapSubscriber = (function (_super) {
     return SwitchMapSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],618:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],628:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81125,7 +82716,7 @@ var SwitchMapToSubscriber = (function (_super) {
     return SwitchMapToSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],619:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],629:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81175,7 +82766,7 @@ var TakeSubscriber = (function (_super) {
     return TakeSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../observable/EmptyObservable":539,"../util/ArgumentOutOfRangeError":649}],620:[function(require,module,exports){
+},{"../Subscriber":437,"../observable/EmptyObservable":549,"../util/ArgumentOutOfRangeError":659}],630:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81255,7 +82846,7 @@ var TakeLastSubscriber = (function (_super) {
     return TakeLastSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../observable/EmptyObservable":539,"../util/ArgumentOutOfRangeError":649}],621:[function(require,module,exports){
+},{"../Subscriber":437,"../observable/EmptyObservable":549,"../util/ArgumentOutOfRangeError":659}],631:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81293,7 +82884,7 @@ var TakeUntilSubscriber = (function (_super) {
     return TakeUntilSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],622:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],632:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81345,7 +82936,7 @@ var TakeWhileSubscriber = (function (_super) {
     return TakeWhileSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],623:[function(require,module,exports){
+},{"../Subscriber":437}],633:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81411,7 +83002,7 @@ var ThrottleSubscriber = (function (_super) {
     return ThrottleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],624:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],634:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81463,7 +83054,7 @@ function dispatchNext(_a) {
     subscriber.clearThrottle();
 }
 
-},{"../Subscriber":427,"../scheduler/asap":642}],625:[function(require,module,exports){
+},{"../Subscriber":437,"../scheduler/asap":652}],635:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81553,7 +83144,7 @@ var TimeoutSubscriber = (function (_super) {
     return TimeoutSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427,"../scheduler/asap":642,"../util/isDate":659}],626:[function(require,module,exports){
+},{"../Subscriber":437,"../scheduler/asap":652,"../util/isDate":669}],636:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81651,7 +83242,7 @@ var TimeoutWithSubscriber = (function (_super) {
     return TimeoutWithSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../scheduler/asap":642,"../util/isDate":659,"../util/subscribeToResult":668}],627:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../scheduler/asap":652,"../util/isDate":669,"../util/subscribeToResult":678}],637:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81687,7 +83278,7 @@ var ToArraySubscriber = (function (_super) {
     return ToArraySubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subscriber":427}],628:[function(require,module,exports){
+},{"../Subscriber":437}],638:[function(require,module,exports){
 "use strict";
 var root_1 = require('../util/root');
 function toPromise(PromiseCtor) {
@@ -81710,7 +83301,7 @@ function toPromise(PromiseCtor) {
 }
 exports.toPromise = toPromise;
 
-},{"../util/root":667}],629:[function(require,module,exports){
+},{"../util/root":677}],639:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81775,7 +83366,7 @@ var WindowSubscriber = (function (_super) {
     return WindowSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../Subject":426,"../util/subscribeToResult":668}],630:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../Subject":436,"../util/subscribeToResult":678}],640:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81849,7 +83440,7 @@ var WindowCountSubscriber = (function (_super) {
     return WindowCountSubscriber;
 }(Subscriber_1.Subscriber));
 
-},{"../Subject":426,"../Subscriber":427}],631:[function(require,module,exports){
+},{"../Subject":436,"../Subscriber":437}],641:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -81966,7 +83557,7 @@ function dispatchWindowClose(_a) {
     subscriber.closeWindow(window);
 }
 
-},{"../Subject":426,"../Subscriber":427,"../scheduler/asap":642}],632:[function(require,module,exports){
+},{"../Subject":436,"../Subscriber":437,"../scheduler/asap":652}],642:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82093,7 +83684,7 @@ var WindowToggleSubscriber = (function (_super) {
     return WindowToggleSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../Subject":426,"../Subscription":428,"../util/errorObject":657,"../util/subscribeToResult":668,"../util/tryCatch":671}],633:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../Subject":436,"../Subscription":438,"../util/errorObject":667,"../util/subscribeToResult":678,"../util/tryCatch":681}],643:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82179,7 +83770,7 @@ var WindowSubscriber = (function (_super) {
     return WindowSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../Subject":426,"../util/errorObject":657,"../util/subscribeToResult":668,"../util/tryCatch":671}],634:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../Subject":436,"../util/errorObject":667,"../util/subscribeToResult":678,"../util/tryCatch":681}],644:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82285,7 +83876,7 @@ var WithLatestFromSubscriber = (function (_super) {
     return WithLatestFromSubscriber;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../util/subscribeToResult":668}],635:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../util/subscribeToResult":678}],645:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82517,7 +84108,7 @@ var ZipBufferIterator = (function (_super) {
     return ZipBufferIterator;
 }(OuterSubscriber_1.OuterSubscriber));
 
-},{"../OuterSubscriber":424,"../Subscriber":427,"../observable/ArrayObservable":534,"../util/SymbolShim":656,"../util/isArray":658,"../util/subscribeToResult":668}],636:[function(require,module,exports){
+},{"../OuterSubscriber":434,"../Subscriber":437,"../observable/ArrayObservable":544,"../util/SymbolShim":666,"../util/isArray":668,"../util/subscribeToResult":678}],646:[function(require,module,exports){
 "use strict";
 var zip_1 = require('./zip');
 function zipAll(project) {
@@ -82525,7 +84116,7 @@ function zipAll(project) {
 }
 exports.zipAll = zipAll;
 
-},{"./zip":635}],637:[function(require,module,exports){
+},{"./zip":645}],647:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82572,7 +84163,7 @@ var AsapAction = (function (_super) {
 }(FutureAction_1.FutureAction));
 exports.AsapAction = AsapAction;
 
-},{"../util/Immediate":652,"./FutureAction":639}],638:[function(require,module,exports){
+},{"../util/Immediate":662,"./FutureAction":649}],648:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82593,7 +84184,7 @@ var AsapScheduler = (function (_super) {
 }(QueueScheduler_1.QueueScheduler));
 exports.AsapScheduler = AsapScheduler;
 
-},{"./AsapAction":637,"./QueueScheduler":641}],639:[function(require,module,exports){
+},{"./AsapAction":647,"./QueueScheduler":651}],649:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82659,7 +84250,7 @@ var FutureAction = (function (_super) {
 }(Subscription_1.Subscription));
 exports.FutureAction = FutureAction;
 
-},{"../Subscription":428,"../util/root":667}],640:[function(require,module,exports){
+},{"../Subscription":438,"../util/root":677}],650:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82688,7 +84279,7 @@ var QueueAction = (function (_super) {
 }(FutureAction_1.FutureAction));
 exports.QueueAction = QueueAction;
 
-},{"./FutureAction":639}],641:[function(require,module,exports){
+},{"./FutureAction":649}],651:[function(require,module,exports){
 "use strict";
 var QueueAction_1 = require('./QueueAction');
 var FutureAction_1 = require('./FutureAction');
@@ -82728,17 +84319,17 @@ var QueueScheduler = (function () {
 }());
 exports.QueueScheduler = QueueScheduler;
 
-},{"./FutureAction":639,"./QueueAction":640}],642:[function(require,module,exports){
+},{"./FutureAction":649,"./QueueAction":650}],652:[function(require,module,exports){
 "use strict";
 var AsapScheduler_1 = require('./AsapScheduler');
 exports.asap = new AsapScheduler_1.AsapScheduler();
 
-},{"./AsapScheduler":638}],643:[function(require,module,exports){
+},{"./AsapScheduler":648}],653:[function(require,module,exports){
 "use strict";
 var QueueScheduler_1 = require('./QueueScheduler');
 exports.queue = new QueueScheduler_1.QueueScheduler();
 
-},{"./QueueScheduler":641}],644:[function(require,module,exports){
+},{"./QueueScheduler":651}],654:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82789,7 +84380,7 @@ var AsyncSubject = (function (_super) {
 }(Subject_1.Subject));
 exports.AsyncSubject = AsyncSubject;
 
-},{"../Subject":426}],645:[function(require,module,exports){
+},{"../Subject":436}],655:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82841,7 +84432,7 @@ var BehaviorSubject = (function (_super) {
 }(Subject_1.Subject));
 exports.BehaviorSubject = BehaviorSubject;
 
-},{"../Subject":426,"../util/ObjectUnsubscribedError":655,"../util/throwError":669}],646:[function(require,module,exports){
+},{"../Subject":436,"../util/ObjectUnsubscribedError":665,"../util/throwError":679}],656:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82918,7 +84509,7 @@ var ReplayEvent = (function () {
     return ReplayEvent;
 }());
 
-},{"../Subject":426,"../operator/observeOn":594,"../scheduler/queue":643}],647:[function(require,module,exports){
+},{"../Subject":436,"../operator/observeOn":604,"../scheduler/queue":653}],657:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82954,7 +84545,7 @@ var SubjectSubscription = (function (_super) {
 }(Subscription_1.Subscription));
 exports.SubjectSubscription = SubjectSubscription;
 
-},{"../Subscription":428}],648:[function(require,module,exports){
+},{"../Subscription":438}],658:[function(require,module,exports){
 "use strict";
 var SymbolShim_1 = require('../util/SymbolShim');
 /**
@@ -82965,7 +84556,7 @@ var SymbolShim_1 = require('../util/SymbolShim');
  */
 exports.rxSubscriber = SymbolShim_1.SymbolShim.for('rxSubscriber');
 
-},{"../util/SymbolShim":656}],649:[function(require,module,exports){
+},{"../util/SymbolShim":666}],659:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82982,7 +84573,7 @@ var ArgumentOutOfRangeError = (function (_super) {
 }(Error));
 exports.ArgumentOutOfRangeError = ArgumentOutOfRangeError;
 
-},{}],650:[function(require,module,exports){
+},{}],660:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -82999,7 +84590,7 @@ var EmptyError = (function (_super) {
 }(Error));
 exports.EmptyError = EmptyError;
 
-},{}],651:[function(require,module,exports){
+},{}],661:[function(require,module,exports){
 "use strict";
 var FastMap = (function () {
     function FastMap() {
@@ -83031,7 +84622,7 @@ var FastMap = (function () {
 }());
 exports.FastMap = FastMap;
 
-},{}],652:[function(require,module,exports){
+},{}],662:[function(require,module,exports){
 /**
 Some credit for this helper goes to http://github.com/YuzuJS/setImmediate
 */
@@ -83241,13 +84832,13 @@ var ImmediateDefinition = (function () {
 exports.ImmediateDefinition = ImmediateDefinition;
 exports.Immediate = new ImmediateDefinition(root_1.root);
 
-},{"./root":667}],653:[function(require,module,exports){
+},{"./root":677}],663:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 var MapPolyfill_1 = require('./MapPolyfill');
 exports.Map = root_1.root.Map || (function () { return MapPolyfill_1.MapPolyfill; })();
 
-},{"./MapPolyfill":654,"./root":667}],654:[function(require,module,exports){
+},{"./MapPolyfill":664,"./root":677}],664:[function(require,module,exports){
 "use strict";
 var MapPolyfill = (function () {
     function MapPolyfill() {
@@ -83295,7 +84886,7 @@ var MapPolyfill = (function () {
 }());
 exports.MapPolyfill = MapPolyfill;
 
-},{}],655:[function(require,module,exports){
+},{}],665:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -83316,7 +84907,7 @@ var ObjectUnsubscribedError = (function (_super) {
 }(Error));
 exports.ObjectUnsubscribedError = ObjectUnsubscribedError;
 
-},{}],656:[function(require,module,exports){
+},{}],666:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 function polyfillSymbol(root) {
@@ -83386,30 +84977,30 @@ function ensureObservable(Symbol) {
 exports.ensureObservable = ensureObservable;
 exports.SymbolShim = polyfillSymbol(root_1.root);
 
-},{"./root":667}],657:[function(require,module,exports){
+},{"./root":677}],667:[function(require,module,exports){
 "use strict";
 // typeof any so that it we don't have to cast when comparing a result to the error object
 exports.errorObject = { e: {} };
 
-},{}],658:[function(require,module,exports){
+},{}],668:[function(require,module,exports){
 "use strict";
 exports.isArray = Array.isArray || (function (x) { return x && typeof x.length === 'number'; });
 
-},{}],659:[function(require,module,exports){
+},{}],669:[function(require,module,exports){
 "use strict";
 function isDate(value) {
     return value instanceof Date && !isNaN(+value);
 }
 exports.isDate = isDate;
 
-},{}],660:[function(require,module,exports){
+},{}],670:[function(require,module,exports){
 "use strict";
 function isFunction(x) {
     return typeof x === 'function';
 }
 exports.isFunction = isFunction;
 
-},{}],661:[function(require,module,exports){
+},{}],671:[function(require,module,exports){
 "use strict";
 var isArray_1 = require('../util/isArray');
 function isNumeric(val) {
@@ -83422,34 +85013,34 @@ function isNumeric(val) {
 exports.isNumeric = isNumeric;
 ;
 
-},{"../util/isArray":658}],662:[function(require,module,exports){
+},{"../util/isArray":668}],672:[function(require,module,exports){
 "use strict";
 function isObject(x) {
     return x != null && typeof x === 'object';
 }
 exports.isObject = isObject;
 
-},{}],663:[function(require,module,exports){
+},{}],673:[function(require,module,exports){
 "use strict";
 function isPromise(value) {
     return value && typeof value.subscribe !== 'function' && typeof value.then === 'function';
 }
 exports.isPromise = isPromise;
 
-},{}],664:[function(require,module,exports){
+},{}],674:[function(require,module,exports){
 "use strict";
 function isScheduler(value) {
     return value && typeof value.schedule === 'function';
 }
 exports.isScheduler = isScheduler;
 
-},{}],665:[function(require,module,exports){
+},{}],675:[function(require,module,exports){
 "use strict";
 /* tslint:disable:no-empty */
 function noop() { }
 exports.noop = noop;
 
-},{}],666:[function(require,module,exports){
+},{}],676:[function(require,module,exports){
 "use strict";
 function not(pred, thisArg) {
     function notPred() {
@@ -83461,7 +85052,7 @@ function not(pred, thisArg) {
 }
 exports.not = not;
 
-},{}],667:[function(require,module,exports){
+},{}],677:[function(require,module,exports){
 (function (global){
 "use strict";
 var objectTypes = {
@@ -83483,7 +85074,7 @@ if (freeGlobal && (freeGlobal.global === freeGlobal || freeGlobal.window === fre
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],668:[function(require,module,exports){
+},{}],678:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
 var isArray_1 = require('./isArray');
@@ -83554,12 +85145,12 @@ function subscribeToResult(outerSubscriber, result, outerValue, outerIndex) {
 }
 exports.subscribeToResult = subscribeToResult;
 
-},{"../InnerSubscriber":419,"../Observable":421,"../util/SymbolShim":656,"./isArray":658,"./isPromise":663,"./root":667}],669:[function(require,module,exports){
+},{"../InnerSubscriber":429,"../Observable":431,"../util/SymbolShim":666,"./isArray":668,"./isPromise":673,"./root":677}],679:[function(require,module,exports){
 "use strict";
 function throwError(e) { throw e; }
 exports.throwError = throwError;
 
-},{}],670:[function(require,module,exports){
+},{}],680:[function(require,module,exports){
 "use strict";
 var Subscriber_1 = require('../Subscriber');
 var rxSubscriber_1 = require('../symbol/rxSubscriber');
@@ -83576,7 +85167,7 @@ function toSubscriber(nextOrObserver, error, complete) {
 }
 exports.toSubscriber = toSubscriber;
 
-},{"../Subscriber":427,"../symbol/rxSubscriber":648}],671:[function(require,module,exports){
+},{"../Subscriber":437,"../symbol/rxSubscriber":658}],681:[function(require,module,exports){
 "use strict";
 var errorObject_1 = require('./errorObject');
 var tryCatchTarget;
@@ -83596,7 +85187,7 @@ function tryCatch(fn) {
 exports.tryCatch = tryCatch;
 ;
 
-},{"./errorObject":657}],672:[function(require,module,exports){
+},{"./errorObject":667}],682:[function(require,module,exports){
 /*
 
 TypeScript Md5
