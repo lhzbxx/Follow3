@@ -82,6 +82,7 @@ class AuthController extends Controller
      * 生成refresh_token
      *
      * @param $user_id
+     * @return string
      * @author: LuHao
      */
     private function generate_refresh_token($user_id)

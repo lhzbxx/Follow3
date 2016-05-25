@@ -6,6 +6,7 @@ use App\Models\Follow;
 use App\Models\Star;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use JPush;
@@ -41,6 +42,8 @@ class SendNotify extends Job
             $user_name = $user->nickname;
             $user_id = $user->id;
             $message = str_replace('USER_NAME', $user_name, $template);
+            $path = Crypt::encrypt($user_id) . '/' . Crypt::encrypt($star_id);
+            $message = str_replace('UNSUBSCRIBE_PATH', $path, $message);
             if ($follower->is_notify)
                 $this->send_mail($subject, $user->email, $message, $user_id);
             $this->send_notify($star, $user_id);
