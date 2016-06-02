@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Action;
 use App\Models\Star;
 use App\Models\User;
 use App\Models\Follow;
@@ -26,6 +27,16 @@ class ActionController extends Controller
     }
 
     // 取消关注
+    public function unfollow()
+    {
+        $action = new Action();
+        $action->user_id = $this->user_id;
+        $action->lat = $lat;
+        $action->lng = $lng;
+        $action->action = "unfollow";
+        $action->target = $star_id;
+        $action->save();
+    }
 
     // 关注主播
 
