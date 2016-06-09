@@ -295,6 +295,7 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
             this.data.addStar(p, q, this.nav).then(function (data) {
                 console.log(data);
                 _this.result = JSON.parse(data);
+                _this.data.action('ADD', _this.result.id);
             }).catch(function (data) {
                 _this.addFailed = true;
                 _this.result = null;
@@ -306,6 +307,7 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
             console.log(result);
             console.log(result.id);
             this.action.watch(result);
+            this.data.action('WATCH', result.id);
         }
     }, {
         key: 'followStar',
@@ -313,6 +315,7 @@ var Add = exports.Add = (_dec = (0, _ionicAngular.Page)({
             console.log(result);
             console.log(result.id);
             this.data.followStar(result.id, this.nav);
+            this.data.action('FOLLOW', result.id);
         }
     }]);
 
@@ -425,6 +428,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     handler: function handler() {
                         _this3.platform.ready().then(function () {
                             _this3.action.watch(star);
+                            _this3.data.action('WATCH', star.id);
                         });
                     }
                 }, {
@@ -433,6 +437,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     handler: function handler() {
                         _this3.platform.ready().then(function () {
                             _this3.action.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！");
+                            _this3.data.action('SHARE', star.id);
                         });
                     }
                 }, {
@@ -440,6 +445,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     icon: !this.platform.is('ios') ? 'remove-circle' : null,
                     role: 'destructive',
                     handler: function handler() {
+                        _this3.data.action('UNFOLLOW', star.id);
                         _this3.data.unfollowStar(star.id, _this3.nav).then(function (data) {
                             _this3.doRefresh(null);
                         });
@@ -582,6 +588,7 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
                     handler: function handler() {
                         _this2.platform.ready().then(function () {
                             _this2.action.watch(star);
+                            _this2.data.action('WATCH', star.id);
                         });
                     }
                 }, {
@@ -590,6 +597,7 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
                     handler: function handler() {
                         _this2.platform.ready().then(function () {
                             _this2.action.share("我在Follow3上搜到了想要关注的" + star.nickname + "，实时获得他的开播信息。真的太棒了！");
+                            _this2.data.action('SHARE', star.id);
                         });
                     }
                 }, {
@@ -600,10 +608,12 @@ var Search = exports.Search = (_dec = (0, _ionicAngular.Page)({
                         if (star.user_id) {
                             // 取消关注
                             _this2.data.unfollowStar(star.id, _this2.nav);
+                            _this2.data.action('UNFOLLOW', star.id);
                             star.user_id = null;
                         } else {
                             // 关注
                             _this2.data.followStar(star.id, _this2.nav);
+                            _this2.data.action('FOLLOW', star.id);
                             star.user_id = 1;
                         }
                     }
@@ -641,6 +651,8 @@ var _angular2Moment = require('angular2-moment');
 
 var _actionService = require('../../providers/action-service');
 
+var _dataService = require('../../providers/data-service');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
@@ -650,13 +662,14 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
     _createClass(Notify, null, [{
         key: 'parameters',
         get: function get() {
-            return [_ionicAngular.NavController, _ionicAngular.Platform, _actionService.ActionService];
+            return [_dataService.DataService, _ionicAngular.NavController, _ionicAngular.Platform, _actionService.ActionService];
         }
     }]);
 
-    function Notify(nav, platform, action) {
+    function Notify(data, nav, platform, action) {
         _classCallCheck(this, Notify);
 
+        this.data = data;
         this.nav = nav;
         this.notifications = null;
         this.platform = platform;
@@ -693,7 +706,10 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'removeNotification',
         value: function removeNotification(notification) {
+            var _this2 = this;
+
             this.storage.query('DELETE FROM notifications WHERE id = ' + notification.id).then(function (data) {
+                _this2.data.action('REMOVE', notification.id);
                 console.log(JSON.stringify(data.res));
             }, function (error) {
                 console.log("ERROR -> " + JSON.stringify(error.err));
@@ -704,16 +720,18 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
         key: 'watchDirect',
         value: function watchDirect(notification) {
             this.action.watch(notification);
+            this.data.action('WATCH', notification.id);
         }
     }, {
         key: 'shareOut',
         value: function shareOut(notification) {
             this.action.share("我在Follow3上关注了" + notification.nickname + "，实时获得开播信息。真的很好用！");
+            this.data.action('SHARE', notification.id);
         }
     }, {
         key: 'readAll',
         value: function readAll() {
-            var _this2 = this;
+            var _this3 = this;
 
             var confirm = _ionicAngular.Alert.create({
                 title: '全部已读？',
@@ -726,8 +744,8 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
                 }, {
                     text: '确认',
                     handler: function handler() {
-                        _this2.storage.query('DELETE FROM notifications');
-                        _this2.refresh();
+                        _this3.storage.query('DELETE FROM notifications');
+                        _this3.refresh();
                     }
                 }]
             });
@@ -738,7 +756,7 @@ var Notify = exports.Notify = (_dec = (0, _ionicAngular.Page)({
     return Notify;
 }()) || _class);
 
-},{"../../providers/action-service":9,"angular2-moment":17,"ionic-angular":351}],7:[function(require,module,exports){
+},{"../../providers/action-service":9,"../../providers/data-service":10,"angular2-moment":17,"ionic-angular":351}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1065,9 +1083,11 @@ var _tabs = require('../pages/tabs/tabs');
 
 var _md = require('ts-md5/dist/md5');
 
+var _ionicNative = require('ionic-native');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
+var DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
     _createClass(DataService, null, [{
         key: 'parameters',
         get: function get() {
@@ -1269,49 +1289,49 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             });
         }
     }, {
-        key: 'followStar',
-        value: function followStar(star_id, nav) {
+        key: 'action',
+        value: function action(_action, target) {
             var _this9 = this;
 
             return new Promise(function (resolve, reject) {
                 _this9.config.getAccessToken().then(function (token) {
-                    var url = _this9.BASE_URL + 'user/follow/' + star_id;
-                    var body = JSON.stringify({ 'access_token': token });
-                    var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-                    _this9.http.post(url, body, { headers: headers }).map(function (res) {
-                        return res.json();
-                    }).subscribe(function (data) {
-                        console.log(data.msg);
-                        if (data.status == 200) {
-                            _this9.showToast('关注成功！', 2000, nav);
-                        } else {
-                            _this9.showToast('关注失败...', 2000, nav);
-                        }
-                        resolve();
-                    }, function (error) {
-                        _this9.showToast('无法连接到服务器...', 2000, nav);
-                        reject();
+                    _ionicNative.Geolocation.getCurrentPosition().then(function (resp) {
+                        var url = _this9.BASE_URL + 'action';
+                        var body = JSON.stringify({ 'access_token': token, 'action': _action,
+                            'target': target, 'lat': resp.coords.latitude, 'lng': resp.coords.longitude });
+                        var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+                        _this9.http.post(url, body, { headers: headers }).map(function (res) {
+                            return res.json();
+                        }).subscribe(function (data) {
+                            console.log(data.msg);
+                            resolve();
+                        }, function (error) {
+                            reject();
+                        });
                     });
                 });
             });
         }
     }, {
-        key: 'unfollowStar',
-        value: function unfollowStar(star_id, nav) {
+        key: 'followStar',
+        value: function followStar(star_id, nav) {
             var _this10 = this;
 
             return new Promise(function (resolve, reject) {
                 _this10.config.getAccessToken().then(function (token) {
-                    var url = _this10.BASE_URL + 'user/follow/' + star_id + "?access_token=" + token;
-                    _this10.http.delete(url).map(function (res) {
+                    var url = _this10.BASE_URL + 'user/follow/' + star_id;
+                    var body = JSON.stringify({ 'access_token': token });
+                    var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+                    _this10.http.post(url, body, { headers: headers }).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
+                        console.log(data.msg);
                         if (data.status == 200) {
-                            _this10.showToast('取关成功', 2000, nav);
-                            resolve();
+                            _this10.showToast('关注成功！', 2000, nav);
                         } else {
-                            _this10.showToast('取关失败...', 2000, nav);
+                            _this10.showToast('关注失败...', 2000, nav);
                         }
+                        resolve();
                     }, function (error) {
                         _this10.showToast('无法连接到服务器...', 2000, nav);
                         reject();
@@ -1320,26 +1340,50 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
             });
         }
     }, {
-        key: 'addStar',
-        value: function addStar(platform, query, nav) {
+        key: 'unfollowStar',
+        value: function unfollowStar(star_id, nav) {
             var _this11 = this;
 
             return new Promise(function (resolve, reject) {
-                var url = _this11.BASE_URL + 'star/add';
+                _this11.config.getAccessToken().then(function (token) {
+                    var url = _this11.BASE_URL + 'user/follow/' + star_id + "?access_token=" + token;
+                    _this11.http.delete(url).map(function (res) {
+                        return res.json();
+                    }).subscribe(function (data) {
+                        if (data.status == 200) {
+                            _this11.showToast('取关成功', 2000, nav);
+                            resolve();
+                        } else {
+                            _this11.showToast('取关失败...', 2000, nav);
+                        }
+                    }, function (error) {
+                        _this11.showToast('无法连接到服务器...', 2000, nav);
+                        reject();
+                    });
+                });
+            });
+        }
+    }, {
+        key: 'addStar',
+        value: function addStar(platform, query, nav) {
+            var _this12 = this;
+
+            return new Promise(function (resolve, reject) {
+                var url = _this12.BASE_URL + 'star/add';
                 var body = JSON.stringify({ 'query': query, 'platform': platform });
                 var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-                _this11.http.post(url, body, { headers: headers }).map(function (res) {
+                _this12.http.post(url, body, { headers: headers }).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     if (data.status == 200) {
-                        _this11.showToast('添加成功！', 2000, nav);
+                        _this12.showToast('添加成功！', 2000, nav);
                         resolve(data.data);
                     } else {
-                        _this11.showToast('添加失败...', 2000, nav);
+                        _this12.showToast('添加失败...', 2000, nav);
                         reject();
                     }
                 }, function (error) {
-                    _this11.showToast('无法连接到服务器...', 2000, nav);
+                    _this12.showToast('无法连接到服务器...', 2000, nav);
                     reject();
                 });
             });
@@ -1347,17 +1391,17 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
     }, {
         key: 'searchStar',
         value: function searchStar(q, nav) {
-            var _this12 = this;
+            var _this13 = this;
 
             return new Promise(function (resolve, reject) {
-                _this12.config.getAccessToken().then(function (token) {
-                    var url = _this12.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;
-                    _this12.http.get(url).map(function (res) {
+                _this13.config.getAccessToken().then(function (token) {
+                    var url = _this13.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;
+                    _this13.http.get(url).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
                         resolve(data);
                     }, function (error) {
-                        _this12.showToast('无法连接到服务器...', 2000, nav);
+                        _this13.showToast('无法连接到服务器...', 2000, nav);
                         reject();
                     });
                 });
@@ -1386,8 +1430,9 @@ var DataService = exports.DataService = (_dec = (0, _core.Injectable)(), _dec(_c
 
     return DataService;
 }()) || _class);
+exports.DataService = DataService;
 
-},{"../pages/tabs/tabs":8,"./user-config":11,"angular2/core":20,"angular2/http":21,"ionic-angular":351,"rxjs/add/operator/map":492,"ts-md5/dist/md5":682}],11:[function(require,module,exports){
+},{"../pages/tabs/tabs":8,"./user-config":11,"angular2/core":20,"angular2/http":21,"ionic-angular":351,"ionic-native":373,"rxjs/add/operator/map":492,"ts-md5/dist/md5":682}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1429,7 +1474,7 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
         this.USER_MAIL = "USER_MAIL";
         this.USER_ID = "USER_ID";
         this.USER_NICKNAME = "USER_NICKNAME";
-        this.VERSION = "0.3.2";
+        this.VERSION = "0.3.4";
     }
 
     _createClass(UserConfig, [{

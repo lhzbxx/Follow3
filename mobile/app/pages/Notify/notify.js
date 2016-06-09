@@ -1,6 +1,7 @@
 import {Page, NavController, Alert, Storage, SqlStorage, Platform} from 'ionic-angular';
 import {TimeAgoPipe} from 'angular2-moment';
 import {ActionService} from '../../providers/action-service';
+import {DataService} from '../../providers/data-service';
 
 
 @Page({
@@ -9,10 +10,11 @@ import {ActionService} from '../../providers/action-service';
 })
 export class Notify {
     static get parameters() {
-        return [NavController, Platform, ActionService];
+        return [DataService, NavController, Platform, ActionService];
     }
 
-    constructor(nav, platform, action) {
+    constructor(data, nav, platform, action) {
+        this.data = data;
         this.nav = nav;
         this.notifications = null;
         this.platform = platform;
@@ -44,6 +46,7 @@ export class Notify {
 
     removeNotification(notification) {
         this.storage.query('DELETE FROM notifications WHERE id = ' + notification.id).then((data) => {
+            this.data.action('REMOVE', notification.id);
             console.log(JSON.stringify(data.res));
         }, (error) => {
             console.log("ERROR -> " + JSON.stringify(error.err));
@@ -53,10 +56,12 @@ export class Notify {
 
     watchDirect(notification) {
         this.action.watch(notification);
+        this.data.action('WATCH', notification.id);
     }
 
     shareOut(notification) {
         this.action.share("我在Follow3上关注了" + notification.nickname + "，实时获得开播信息。真的很好用！");
+        this.data.action('SHARE', notification.id);
     }
 
     readAll() {

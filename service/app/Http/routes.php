@@ -41,8 +41,10 @@ $app->get('star/online/{page}', 'StarController@online');
 
 $app->get('unsubscribe/{user_id}/{star_id}', 'GeneralController@unsubscribe');
 
+$app->post('action', 'ActionController@action');
+
 $app->get('/version', function () {
-    return '0.3.2';
+    return '0.3.4';
 });
 
 $app->get('test', function () {

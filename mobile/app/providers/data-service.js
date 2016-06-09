@@ -5,6 +5,7 @@ import {UserConfig} from './user-config';
 import {Toast, Alert} from 'ionic-angular';
 import {TabsPage} from '../pages/tabs/tabs';
 import {Md5} from 'ts-md5/dist/md5';
+import {Geolocation} from 'ionic-native';
 
 
 @Injectable()
@@ -186,6 +187,29 @@ export class DataService {
                 }, error => {
                     this.showToast('无法连接到服务器...', 2000, nav);
                 });
+        });
+    }
+
+    action(action, target) {
+        return new Promise((resolve, reject) => {
+            this.config.getAccessToken().then(
+                token => {
+                    Geolocation.getCurrentPosition().then((resp) => {
+                        let url = this.BASE_URL + 'action';
+                        let body = JSON.stringify({'access_token': token, 'action': action,
+                            'target': target, 'lat': resp.coords.latitude, 'lng': resp.coords.longitude});
+                        let headers = new Headers({'Content-Type': 'application/json'});
+                        this.http.post(url, body, {headers: headers})
+                            .map(res => res.json())
+                            .subscribe(data => {
+                                console.log(data.msg);
+                                resolve();
+                            }, error => {
+                                reject();
+                            });
+                    });
+                }
+            );
         });
     }
 

@@ -55,6 +55,7 @@ export class Search {
                     handler: () => {
                         this.platform.ready().then(() => {
                             this.action.watch(star);
+                            this.data.action('WATCH', star.id);
                         });
                     }
                 },{
@@ -63,6 +64,7 @@ export class Search {
                     handler: () => {
                         this.platform.ready().then(() => {
                             this.action.share("我在Follow3上搜到了想要关注的" + star.nickname + "，实时获得他的开播信息。真的太棒了！");
+                            this.data.action('SHARE', star.id);
                         });
                     }
                 },{
@@ -73,10 +75,12 @@ export class Search {
                         if (star.user_id) {
                             // 取消关注
                             this.data.unfollowStar(star.id, this.nav);
+                            this.data.action('UNFOLLOW', star.id);
                             star.user_id = null;
                         } else {
                             // 关注
                             this.data.followStar(star.id, this.nav);
+                            this.data.action('FOLLOW', star.id);
                             star.user_id = 1;
                         }
                     }

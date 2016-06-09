@@ -15,6 +15,6 @@ class Star extends Model
     
     public function scopeSearch($query, $q) {
         return $query->where('nickname', 'like', '%' . $q . '%')
-            ->orWhere('serial', '=', $q);
+            ->orWhere('serial', '=', $q)->limit(10);
     }
 }

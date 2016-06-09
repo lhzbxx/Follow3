@@ -83,6 +83,7 @@ export class Home {
                     handler: () => {
                         this.platform.ready().then(() => {
                             this.action.watch(star);
+                            this.data.action('WATCH', star.id);
                         });
                     }
                 }, {
@@ -91,6 +92,7 @@ export class Home {
                     handler: () => {
                         this.platform.ready().then(() => {
                             this.action.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！");
+                            this.data.action('SHARE', star.id);
                         });
                     }
                 }, {
@@ -98,6 +100,8 @@ export class Home {
                     icon: !this.platform.is('ios') ? 'remove-circle' : null,
                     role: 'destructive',
                     handler: () => {
+                        // todo: 这里会造成卡顿。
+                        this.data.action('UNFOLLOW', star.id);
                         this.data.unfollowStar(star.id, this.nav)
                             .then(
                                 data => {

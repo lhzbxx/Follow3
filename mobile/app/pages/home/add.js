@@ -34,6 +34,7 @@ export class Add {
                 data => {
                     console.log(data);
                     this.result = JSON.parse(data);
+                    this.data.action('ADD', this.result.id);
                 }
             )
             .catch(
@@ -48,12 +49,14 @@ export class Add {
         console.log(result);
         console.log(result.id);
         this.action.watch(result);
+        this.data.action('WATCH', result.id);
     }
 
     followStar(result) {
         console.log(result);
         console.log(result.id);
         this.data.followStar(result.id, this.nav);
+        this.data.action('FOLLOW', result.id);
     }
 
 }
