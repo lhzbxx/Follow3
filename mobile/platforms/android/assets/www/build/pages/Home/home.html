@@ -20,7 +20,7 @@
     <ion-list no-padding>
         <ion-list-header>我的关注</ion-list-header>
         <!--<ion-item *ngFor="#star of stars" *ngIf="setting.showOnlyOnline && !star.is_live" (click)="showAction(star)">-->
-        <ion-item *ngFor="#star of stars" (click)="showAction(star)">
+        <ion-item *ngFor="#star of stars" (click)="showAction(star, true)">
             <ion-avatar item-left>
                 <img [src]="star.avatar">
             </ion-avatar>
@@ -34,9 +34,9 @@
             <p *ngIf="star.is_live">Start at {{star.began_at | amTimeAgo}}</p>
             <p *ngIf="!star.is_live">Last broadcast {{star.end_at | amTimeAgo}}</p>
         </ion-item>
-        <ion-list-header>热门主播</ion-list-header>
+        <ion-list-header *ngIf="setting.showHottestStars=='true'">热门主播</ion-list-header>
         <!--<ion-item *ngFor="#star of stars" *ngIf="setting.showOnlyOnline && !star.is_live" (click)="showAction(star)">-->
-        <ion-item *ngFor="#star of hot_stars" (click)="showAction(star)">
+        <ion-item *ngFor="#star of hot_stars" (click)="showAction(star, false)">
             <ion-avatar item-left>
                 <img [src]="star.avatar">
             </ion-avatar>

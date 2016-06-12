@@ -38,6 +38,12 @@ export class Home {
                     this.fetch(null);
                 }
             );
+            this.config.getShowHottestStars().then(
+                (value) => {
+                    this.setting.showHottestStars = value;
+                    this.fetchHottestStars();
+                }
+            );
             this.config.getAutoOpenApp().then(
                 (value) => {
                     this.setting.autoOpenApp = value;
@@ -48,21 +54,20 @@ export class Home {
                     this.setting.orderByFollow = value;
                 }
             );
-            this.config.getShowHottestStars().then(
-                (value) => {
-                    this.setting.showHottestStars = value;
-                }
-            );
         });
     }
     
     fetchHottestStars() {
-        this.data.fetchHottestStars()
-            .then(
-                data => {
-                    this.hot_stars = data;
-                }
-            )
+        if (this.setting.showHottestStars == 'true') {
+            this.data.fetchHottestStars()
+                .then(
+                    data => {
+                        this.hot_stars = data;
+                    }
+                )
+        } else {
+            this.hot_stars = null;
+        }
     }
     
     fetchRecommandStars() {
@@ -86,14 +91,14 @@ export class Home {
                     }
                 }
             );
-        this.fetchHottestStars();
     }
 
     doRefresh(refresher) {
         this.fetch(refresher);
+        this.fetchHottestStars();
     }
 
-    showAction(star) {
+    showAction(star, isFollowing) {
         let actionSheet = ActionSheet.create({
             title: star.nickname,
             buttons: [
@@ -116,18 +121,21 @@ export class Home {
                         });
                     }
                 }, {
-                    text: '取消关注',
-                    icon: !this.platform.is('ios') ? 'remove-circle' : null,
+                    text: (isFollowing || star.user_id) ? '取消关注' : '关注',
+                    icon: !this.platform.is('ios') ? (star.user_id ? 'remove-circle' : 'add-circle') : null,
                     role: 'destructive',
                     handler: () => {
-                        // todo: 这里会造成卡顿。
-                        this.data.action('UNFOLLOW', star.id);
-                        this.data.unfollowStar(star.id, this.nav)
-                            .then(
-                                data => {
-                                    this.doRefresh(null);
-                                }
-                            );
+                        if (isFollowing || star.user_id) {
+                            // 取消关注
+                            this.data.unfollowStar(star.id, this.nav);
+                            this.data.action('UNFOLLOW', star.id);
+                            star.user_id = null;
+                        } else {
+                            // 关注
+                            this.data.followStar(star.id, this.nav);
+                            this.data.action('FOLLOW', star.id);
+                            star.user_id = 1;
+                        }
                     }
                 }, {
                     text: '取消',
@@ -146,7 +154,7 @@ export class Home {
         let alert = Alert.create();
         alert.setTitle('Preference');
         let context = this;
-        console.log(this.setting.showOnlyOnline=="true");
+
         alert.addInput({
             type: 'checkbox',
             label: '仅显示在线主播',
@@ -185,6 +193,7 @@ export class Home {
                 context.setting.orderByFollow = data.indexOf('orderByFollow') > -1 ? "true" : "false";
                 context.setting.showHottestStars = data.indexOf('showHottestStars') > -1 ? "true" : "false";
                 context.fetch(null);
+                context.fetchHottestStars();
             }
         });
         this.nav.present(alert);

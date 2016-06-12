@@ -84,6 +84,16 @@ export class UserConfig {
         });
     }
 
+    setShowHottestStars(value) {
+        this.storage.set(this.SHOW_HOTTEST_STARS, value);
+    }
+
+    getShowHottestStars() {
+        return this.storage.get(this.SHOW_HOTTEST_STARS).then((value) => {
+            return value;
+        });
+    }
+
     hasLoggedIn() {
         return this.storage.get(this.LOGIN).then((value) => {
             return value;
@@ -116,16 +126,6 @@ export class UserConfig {
 
     getIsNoDisturb() {
         return this.storage.get(this.IS_NO_DISTURB).then((value) => {
-            return value;
-        });
-    }
-    
-    setShowHottestStars(value) {
-        this.storage.set(this.SHOW_HOTTEST_STARS, value);
-    }
-    
-    getShowHottestStars() {
-        return this.storage.get(this.SHOW_HOTTEST_STARS).then((value) => {
             return value;
         });
     }

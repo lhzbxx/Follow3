@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Follow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -130,6 +131,31 @@ class UserController extends Controller
             ->join('Star', 'Star.id', '=', 'Follow.star_id')
             ->orderBy('began_at', 'desc')
             ->where('Star.is_live', '=', true)
+            ->get();
+        return $this->result($result);
+    }
+
+    /**
+     *
+     * 热门主播
+     *
+     * @param $page
+     * @author: LuHao
+     */
+    public function hot($page)
+    {
+        $result = Star::select('Star.id', 'Star.nickname', 'Star.title',
+            'Star.cover', 'Star.link', 'Star.avatar', 'Star.platform',
+            'Star.info', 'Star.serial', 'Star.followers', 'Star.is_live',
+            'Star.began_at', 'Star.end_at', 'Follow.user_id')
+            ->orderBy('Star.followers', 'desc')
+            ->where('Star.is_live', true)
+            ->limit(10)
+            ->offset(10 * $page)
+            ->leftJoin('Follow', function ($join) {
+                $join->on('Star.id', '=', 'Follow.star_id')
+                    ->where('Follow.user_id', '=', $this->user_id);
+            })
             ->get();
         return $this->result($result);
     }

@@ -386,14 +386,15 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                 _this.setting.showOnlyOnline = value;
                 _this.fetch(null);
             });
+            _this.config.getShowHottestStars().then(function (value) {
+                _this.setting.showHottestStars = value;
+                _this.fetchHottestStars();
+            });
             _this.config.getAutoOpenApp().then(function (value) {
                 _this.setting.autoOpenApp = value;
             });
             _this.config.getOrderByFollow().then(function (value) {
                 _this.setting.orderByFollow = value;
-            });
-            _this.config.getShowHottestStars().then(function (value) {
-                _this.setting.showHottestStars = value;
             });
         });
     }
@@ -403,9 +404,13 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
         value: function fetchHottestStars() {
             var _this2 = this;
 
-            this.data.fetchHottestStars().then(function (data) {
-                _this2.hot_stars = data;
-            });
+            if (this.setting.showHottestStars == 'true') {
+                this.data.fetchHottestStars().then(function (data) {
+                    _this2.hot_stars = data;
+                });
+            } else {
+                this.hot_stars = null;
+            }
         }
     }, {
         key: 'fetchRecommandStars',
@@ -427,16 +432,16 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     refresher.complete();
                 }
             });
-            this.fetchHottestStars();
         }
     }, {
         key: 'doRefresh',
         value: function doRefresh(refresher) {
             this.fetch(refresher);
+            this.fetchHottestStars();
         }
     }, {
         key: 'showAction',
-        value: function showAction(star) {
+        value: function showAction(star, isFollowing) {
             var _this4 = this;
 
             var actionSheet = _ionicAngular.ActionSheet.create({
@@ -460,15 +465,21 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                         });
                     }
                 }, {
-                    text: '取消关注',
-                    icon: !this.platform.is('ios') ? 'remove-circle' : null,
+                    text: isFollowing || star.user_id ? '取消关注' : '关注',
+                    icon: !this.platform.is('ios') ? star.user_id ? 'remove-circle' : 'add-circle' : null,
                     role: 'destructive',
                     handler: function handler() {
-                        // todo: 这里会造成卡顿。
-                        _this4.data.action('UNFOLLOW', star.id);
-                        _this4.data.unfollowStar(star.id, _this4.nav).then(function (data) {
-                            _this4.doRefresh(null);
-                        });
+                        if (isFollowing || star.user_id) {
+                            // 取消关注
+                            _this4.data.unfollowStar(star.id, _this4.nav);
+                            _this4.data.action('UNFOLLOW', star.id);
+                            star.user_id = null;
+                        } else {
+                            // 关注
+                            _this4.data.followStar(star.id, _this4.nav);
+                            _this4.data.action('FOLLOW', star.id);
+                            star.user_id = 1;
+                        }
                     }
                 }, {
                     text: '取消',
@@ -487,7 +498,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
             var alert = _ionicAngular.Alert.create();
             alert.setTitle('Preference');
             var context = this;
-            console.log(this.setting.showOnlyOnline == "true");
+
             alert.addInput({
                 type: 'checkbox',
                 label: '仅显示在线主播',
@@ -526,6 +537,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     context.setting.orderByFollow = data.indexOf('orderByFollow') > -1 ? "true" : "false";
                     context.setting.showHottestStars = data.indexOf('showHottestStars') > -1 ? "true" : "false";
                     context.fetch(null);
+                    context.fetchHottestStars();
                 }
             });
             this.nav.present(alert);
@@ -1274,14 +1286,16 @@ var DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
         value: function fetchHottestStars() {
             var _this7 = this;
 
-            var url = this.BASE_URL + 'star/hot/0?' + this.config.HOT_STAR_MAX;
+            var url = this.BASE_URL + 'user/hot/0';
             return new Promise(function (resolve, reject) {
-                _this7.http.get(url).map(function (res) {
-                    return res.json();
-                }).subscribe(function (data) {
-                    resolve(data.data);
-                }, function (error) {
-                    reject();
+                _this7.config.getAccessToken().then(function (token) {
+                    _this7.http.get(url + '?access_token=' + token).map(function (res) {
+                        return res.json();
+                    }).subscribe(function (data) {
+                        resolve(data.data);
+                    }, function (error) {
+                        reject();
+                    });
                 });
             });
         }
@@ -1591,6 +1605,18 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
             });
         }
     }, {
+        key: 'setShowHottestStars',
+        value: function setShowHottestStars(value) {
+            this.storage.set(this.SHOW_HOTTEST_STARS, value);
+        }
+    }, {
+        key: 'getShowHottestStars',
+        value: function getShowHottestStars() {
+            return this.storage.get(this.SHOW_HOTTEST_STARS).then(function (value) {
+                return value;
+            });
+        }
+    }, {
         key: 'hasLoggedIn',
         value: function hasLoggedIn() {
             return this.storage.get(this.LOGIN).then(function (value) {
@@ -1630,18 +1656,6 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
         key: 'getIsNoDisturb',
         value: function getIsNoDisturb() {
             return this.storage.get(this.IS_NO_DISTURB).then(function (value) {
-                return value;
-            });
-        }
-    }, {
-        key: 'setShowHottestStars',
-        value: function setShowHottestStars(value) {
-            this.storage.set(this.SHOW_HOTTEST_STARS, value);
-        }
-    }, {
-        key: 'getShowHottestStars',
-        value: function getShowHottestStars() {
-            return this.storage.get(this.SHOW_HOTTEST_STARS).then(function (value) {
                 return value;
             });
         }

@@ -148,15 +148,19 @@ export class DataService {
     }
 
     fetchHottestStars() {
-        var url = this.BASE_URL + 'star/hot/0?' + this.config.HOT_STAR_MAX;
+        var url = this.BASE_URL + 'user/hot/0';
         return new Promise((resolve, reject) => {
-            this.http.get(url)
-                .map(res => res.json())
-                .subscribe(data => {
-                    resolve(data.data);
-                }, error => {
-                    reject();
-                });
+            this.config.getAccessToken().then(
+                token => {
+                    this.http.get(url + '?access_token=' + token)
+                        .map(res => res.json())
+                        .subscribe(data => {
+                            resolve(data.data);
+                        }, error => {
+                            reject();
+                        });
+                }
+            );
         });
     }
 
