@@ -640,7 +640,7 @@
     </object>
     <object type="LMREQUEST" id="z211">
         <attribute name="uuid" type="string">DB7859F8-FDF4-48D5-9143-0A4CB33578F7</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"AD22CA10-C04B-412E-B62D-3A28CCF8F13F"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/star\\/hot\\/",{"data":{"useUppercaseLetters":0,"length":1,"useDigits":1,"useHexDigits":0,"useASCIISymbols":0,"useLowercaseLetters":0},"identifier":"com.luckymarmot.NonceDynamicValue"}]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"AD22CA10-C04B-412E-B62D-3A28CCF8F13F"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/star\\/hot\\/0"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
@@ -655,7 +655,7 @@
     </object>
     <object type="LMREQUEST" id="z212">
         <attribute name="uuid" type="string">86D7FAD2-AA2D-4B5B-BFC7-CA8CF5F9CBCA</attribute>
-        <attribute name="url" type="string">[{"data":{"environmentVariable":"AD22CA10-C04B-412E-B62D-3A28CCF8F13F"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/star\\/online\\/",{"data":{"useUppercaseLetters":0,"length":1,"useDigits":1,"useHexDigits":0,"useASCIISymbols":0,"useLowercaseLetters":0},"identifier":"com.luckymarmot.NonceDynamicValue"}]</attribute>
+        <attribute name="url" type="string">[{"data":{"environmentVariable":"AD22CA10-C04B-412E-B62D-3A28CCF8F13F"},"identifier":"com.luckymarmot.EnvironmentVariableDynamicValue"},"\\/star\\/online\\/0"]</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>

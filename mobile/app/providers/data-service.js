@@ -147,7 +147,20 @@ export class DataService {
         );
     }
 
-    fetchStars(showOnlyOnline, orderByFollow, nav) {
+    fetchHottestStars() {
+        var url = this.BASE_URL + 'star/hot/0?' + this.config.HOT_STAR_MAX;
+        return new Promise((resolve, reject) => {
+            this.http.get(url)
+                .map(res => res.json())
+                .subscribe(data => {
+                    resolve(data.data);
+                }, error => {
+                    reject();
+                });
+        });
+    }
+
+    fetchFollowStars(showOnlyOnline, orderByFollow, nav) {
         var url = this.BASE_URL;
         if (showOnlyOnline == "true") {
             url = url + 'user/follow/online';

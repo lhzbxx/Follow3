@@ -395,12 +395,26 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     }
 
     _createClass(Home, [{
-        key: 'fetch',
-        value: function fetch(refresher) {
+        key: 'fetchHottestStars',
+        value: function fetchHottestStars() {
             var _this2 = this;
 
-            this.data.fetchStars(this.setting.showOnlyOnline, this.setting.orderByFollow, this.nav).then(function (data) {
-                _this2.stars = data;
+            this.data.fetchHottestStars().then(function (data) {
+                _this2.hot_stars = data;
+            });
+        }
+    }, {
+        key: 'fetchRecommandStars',
+        value: function fetchRecommandStars() {
+            // todo: 引入推荐。
+        }
+    }, {
+        key: 'fetch',
+        value: function fetch(refresher) {
+            var _this3 = this;
+
+            this.data.fetchFollowStars(this.setting.showOnlyOnline, this.setting.orderByFollow, this.nav).then(function (data) {
+                _this3.stars = data;
                 if (refresher) {
                     refresher.complete();
                 }
@@ -409,6 +423,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     refresher.complete();
                 }
             });
+            this.fetchHottestStars();
         }
     }, {
         key: 'doRefresh',
@@ -418,7 +433,7 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
     }, {
         key: 'showAction',
         value: function showAction(star) {
-            var _this3 = this;
+            var _this4 = this;
 
             var actionSheet = _ionicAngular.ActionSheet.create({
                 title: star.nickname,
@@ -426,18 +441,18 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     text: '跳转观看',
                     icon: !this.platform.is('ios') ? 'play' : null,
                     handler: function handler() {
-                        _this3.platform.ready().then(function () {
-                            _this3.action.watch(star);
-                            _this3.data.action('WATCH', star.id);
+                        _this4.platform.ready().then(function () {
+                            _this4.action.watch(star);
+                            _this4.data.action('WATCH', star.id);
                         });
                     }
                 }, {
                     text: '分享到...',
                     icon: !this.platform.is('ios') ? 'share' : null,
                     handler: function handler() {
-                        _this3.platform.ready().then(function () {
-                            _this3.action.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！");
-                            _this3.data.action('SHARE', star.id);
+                        _this4.platform.ready().then(function () {
+                            _this4.action.share("我在Follow3上关注了" + star.nickname + "，实时获得开播信息。真的很好用！");
+                            _this4.data.action('SHARE', star.id);
                         });
                     }
                 }, {
@@ -445,9 +460,10 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     icon: !this.platform.is('ios') ? 'remove-circle' : null,
                     role: 'destructive',
                     handler: function handler() {
-                        _this3.data.action('UNFOLLOW', star.id);
-                        _this3.data.unfollowStar(star.id, _this3.nav).then(function (data) {
-                            _this3.doRefresh(null);
+                        // todo: 这里会造成卡顿。
+                        _this4.data.action('UNFOLLOW', star.id);
+                        _this4.data.unfollowStar(star.id, _this4.nav).then(function (data) {
+                            _this4.doRefresh(null);
                         });
                     }
                 }, {
@@ -935,7 +951,7 @@ var Setting = exports.Setting = (_dec = (0, _ionicAngular.Page)({
             customLocale.rateButtonLabel = "棒棒哒";
             // AppRate.preferences.openStoreInApp = true;
             AppRate.preferences.useLanguage = 'zh-CN';
-            AppRate.preferences.storeAppURL.ios = '<my_app_id>';
+            AppRate.preferences.storeAppURL.ios = 'top.lhzbxx.follow3';
             AppRate.preferences.storeAppURL.android = 'market://details?id=top.lhzbxx.follow3';
             // AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
             // AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
@@ -1242,9 +1258,25 @@ var DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
             });
         }
     }, {
-        key: 'fetchStars',
-        value: function fetchStars(showOnlyOnline, orderByFollow, nav) {
+        key: 'fetchHottestStars',
+        value: function fetchHottestStars() {
             var _this7 = this;
+
+            var url = this.BASE_URL + 'star/hot/0?' + this.config.HOT_STAR_MAX;
+            return new Promise(function (resolve, reject) {
+                _this7.http.get(url).map(function (res) {
+                    return res.json();
+                }).subscribe(function (data) {
+                    resolve(data.data);
+                }, function (error) {
+                    reject();
+                });
+            });
+        }
+    }, {
+        key: 'fetchFollowStars',
+        value: function fetchFollowStars(showOnlyOnline, orderByFollow, nav) {
+            var _this8 = this;
 
             var url = this.BASE_URL;
             if (showOnlyOnline == "true") {
@@ -1253,13 +1285,13 @@ var DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
                 url = url + 'user/follow';
             }
             return new Promise(function (resolve, reject) {
-                _this7.config.getAccessToken().then(function (token) {
-                    _this7.http.get(url + '?access_token=' + token).map(function (res) {
+                _this8.config.getAccessToken().then(function (token) {
+                    _this8.http.get(url + '?access_token=' + token).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
                         resolve(data.data);
                     }, function (error) {
-                        _this7.showToast('无法连接到服务器...', 2000, nav);
+                        _this8.showToast('无法连接到服务器...', 2000, nav);
                         reject();
                     });
                 });
@@ -1268,39 +1300,39 @@ var DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
     }, {
         key: 'resetPassword',
         value: function resetPassword(email, password, nav) {
-            var _this8 = this;
+            var _this9 = this;
 
             var url = this.BASE_URL + 'auth/reset';
             var body = JSON.stringify({ 'email': email, 'password': _md.Md5.hashStr(password) });
             var headers = new _http.Headers({ 'Content-Type': 'application/json' });
             return new Promise(function (resolve) {
-                _this8.http.patch(url, body, { headers: headers }).map(function (res) {
+                _this9.http.patch(url, body, { headers: headers }).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     console.log(data.msg);
                     if (data.status == 200) {
                         resolve();
                     } else {
-                        _this8.showToast('修改失败...', 2000, nav);
+                        _this9.showToast('修改失败...', 2000, nav);
                     }
                 }, function (error) {
-                    _this8.showToast('无法连接到服务器...', 2000, nav);
+                    _this9.showToast('无法连接到服务器...', 2000, nav);
                 });
             });
         }
     }, {
         key: 'action',
         value: function action(_action, target) {
-            var _this9 = this;
+            var _this10 = this;
 
             return new Promise(function (resolve, reject) {
-                _this9.config.getAccessToken().then(function (token) {
+                _this10.config.getAccessToken().then(function (token) {
                     _ionicNative.Geolocation.getCurrentPosition().then(function (resp) {
-                        var url = _this9.BASE_URL + 'action';
+                        var url = _this10.BASE_URL + 'action';
                         var body = JSON.stringify({ 'access_token': token, 'action': _action,
                             'target': target, 'lat': resp.coords.latitude, 'lng': resp.coords.longitude });
                         var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-                        _this9.http.post(url, body, { headers: headers }).map(function (res) {
+                        _this10.http.post(url, body, { headers: headers }).map(function (res) {
                             return res.json();
                         }).subscribe(function (data) {
                             console.log(data.msg);
@@ -1315,47 +1347,23 @@ var DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
     }, {
         key: 'followStar',
         value: function followStar(star_id, nav) {
-            var _this10 = this;
-
-            return new Promise(function (resolve, reject) {
-                _this10.config.getAccessToken().then(function (token) {
-                    var url = _this10.BASE_URL + 'user/follow/' + star_id;
-                    var body = JSON.stringify({ 'access_token': token });
-                    var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-                    _this10.http.post(url, body, { headers: headers }).map(function (res) {
-                        return res.json();
-                    }).subscribe(function (data) {
-                        console.log(data.msg);
-                        if (data.status == 200) {
-                            _this10.showToast('关注成功！', 2000, nav);
-                        } else {
-                            _this10.showToast('关注失败...', 2000, nav);
-                        }
-                        resolve();
-                    }, function (error) {
-                        _this10.showToast('无法连接到服务器...', 2000, nav);
-                        reject();
-                    });
-                });
-            });
-        }
-    }, {
-        key: 'unfollowStar',
-        value: function unfollowStar(star_id, nav) {
             var _this11 = this;
 
             return new Promise(function (resolve, reject) {
                 _this11.config.getAccessToken().then(function (token) {
-                    var url = _this11.BASE_URL + 'user/follow/' + star_id + "?access_token=" + token;
-                    _this11.http.delete(url).map(function (res) {
+                    var url = _this11.BASE_URL + 'user/follow/' + star_id;
+                    var body = JSON.stringify({ 'access_token': token });
+                    var headers = new _http.Headers({ 'Content-Type': 'application/json' });
+                    _this11.http.post(url, body, { headers: headers }).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
+                        console.log(data.msg);
                         if (data.status == 200) {
-                            _this11.showToast('取关成功', 2000, nav);
-                            resolve();
+                            _this11.showToast('关注成功！', 2000, nav);
                         } else {
-                            _this11.showToast('取关失败...', 2000, nav);
+                            _this11.showToast('关注失败...', 2000, nav);
                         }
+                        resolve();
                     }, function (error) {
                         _this11.showToast('无法连接到服务器...', 2000, nav);
                         reject();
@@ -1364,26 +1372,50 @@ var DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
             });
         }
     }, {
-        key: 'addStar',
-        value: function addStar(platform, query, nav) {
+        key: 'unfollowStar',
+        value: function unfollowStar(star_id, nav) {
             var _this12 = this;
 
             return new Promise(function (resolve, reject) {
-                var url = _this12.BASE_URL + 'star/add';
+                _this12.config.getAccessToken().then(function (token) {
+                    var url = _this12.BASE_URL + 'user/follow/' + star_id + "?access_token=" + token;
+                    _this12.http.delete(url).map(function (res) {
+                        return res.json();
+                    }).subscribe(function (data) {
+                        if (data.status == 200) {
+                            _this12.showToast('取关成功', 2000, nav);
+                            resolve();
+                        } else {
+                            _this12.showToast('取关失败...', 2000, nav);
+                        }
+                    }, function (error) {
+                        _this12.showToast('无法连接到服务器...', 2000, nav);
+                        reject();
+                    });
+                });
+            });
+        }
+    }, {
+        key: 'addStar',
+        value: function addStar(platform, query, nav) {
+            var _this13 = this;
+
+            return new Promise(function (resolve, reject) {
+                var url = _this13.BASE_URL + 'star/add';
                 var body = JSON.stringify({ 'query': query, 'platform': platform });
                 var headers = new _http.Headers({ 'Content-Type': 'application/json' });
-                _this12.http.post(url, body, { headers: headers }).map(function (res) {
+                _this13.http.post(url, body, { headers: headers }).map(function (res) {
                     return res.json();
                 }).subscribe(function (data) {
                     if (data.status == 200) {
-                        _this12.showToast('添加成功！', 2000, nav);
+                        _this13.showToast('添加成功！', 2000, nav);
                         resolve(data.data);
                     } else {
-                        _this12.showToast('添加失败...', 2000, nav);
+                        _this13.showToast('添加失败...', 2000, nav);
                         reject();
                     }
                 }, function (error) {
-                    _this12.showToast('无法连接到服务器...', 2000, nav);
+                    _this13.showToast('无法连接到服务器...', 2000, nav);
                     reject();
                 });
             });
@@ -1391,17 +1423,17 @@ var DataService = (_dec = (0, _core.Injectable)(), _dec(_class = function () {
     }, {
         key: 'searchStar',
         value: function searchStar(q, nav) {
-            var _this13 = this;
+            var _this14 = this;
 
             return new Promise(function (resolve, reject) {
-                _this13.config.getAccessToken().then(function (token) {
-                    var url = _this13.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;
-                    _this13.http.get(url).map(function (res) {
+                _this14.config.getAccessToken().then(function (token) {
+                    var url = _this14.BASE_URL + 'user/search?query=' + q + "&access_token=" + token;
+                    _this14.http.get(url).map(function (res) {
                         return res.json();
                     }).subscribe(function (data) {
                         resolve(data);
                     }, function (error) {
-                        _this13.showToast('无法连接到服务器...', 2000, nav);
+                        _this14.showToast('无法连接到服务器...', 2000, nav);
                         reject();
                     });
                 });
@@ -1474,6 +1506,7 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
         this.USER_MAIL = "USER_MAIL";
         this.USER_ID = "USER_ID";
         this.USER_NICKNAME = "USER_NICKNAME";
+        this.HOT_STAR_MAX = 5;
         this.VERSION = "0.3.4";
     }
 
@@ -30339,6 +30372,7 @@ function escape(s) {
 }
 exports.escape = escape;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],205:[function(require,module,exports){
 'use strict';"use strict";
 var lang_1 = require('angular2/src/facade/lang');
@@ -85117,6 +85151,7 @@ if (freeGlobal && (freeGlobal.global === freeGlobal || freeGlobal.window === fre
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],678:[function(require,module,exports){
 "use strict";
 var root_1 = require('./root');
@@ -85599,4 +85634,7 @@ if (Md5.hashStr('hello') !== '5d41402abc4b2a76b9719d911017c592') {
     console.error('Md5 self test failed.');
 }
 
-},{}]},{},[1]);
+},{}]},{},[1])
+
+
+//# sourceMappingURL=app.bundle.js.map

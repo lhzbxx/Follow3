@@ -23,6 +23,7 @@ export class UserConfig {
         this.USER_MAIL = "USER_MAIL";
         this.USER_ID = "USER_ID";
         this.USER_NICKNAME = "USER_NICKNAME";
+        this.HOT_STAR_MAX = 5;
         this.VERSION = "0.3.4";
     }
 

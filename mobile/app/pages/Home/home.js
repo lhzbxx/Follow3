@@ -49,9 +49,22 @@ export class Home {
             );
         });
     }
+    
+    fetchHottestStars() {
+        this.data.fetchHottestStars()
+            .then(
+                data => {
+                    this.hot_stars = data;
+                }
+            )
+    }
+    
+    fetchRecommandStars() {
+        // todo: 引入推荐。
+    }
 
     fetch(refresher) {
-        this.data.fetchStars(this.setting.showOnlyOnline, this.setting.orderByFollow, this.nav)
+        this.data.fetchFollowStars(this.setting.showOnlyOnline, this.setting.orderByFollow, this.nav)
             .then(
                 data => {
                     this.stars = data;
@@ -67,6 +80,7 @@ export class Home {
                     }
                 }
             );
+        this.fetchHottestStars();
     }
 
     doRefresh(refresher) {

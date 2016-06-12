@@ -9,7 +9,7 @@
         <ion-list-header>
             基本设置
         </ion-list-header>
-        <ion-item (click)="checkUpdate()">
+        <ion-item (click)="checkUpdate()" hideWhen="ios">
             检查更新
             <ion-icon name="archive" item-left></ion-icon>
             <ion-note item-right>Version 0.3.4</ion-note>
