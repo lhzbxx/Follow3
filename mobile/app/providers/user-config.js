@@ -14,6 +14,7 @@ export class UserConfig {
         this.ACCESS_TOKEN = "ACCESS_TOKEN";
         this.REFRESH_TOKEN = "REFRESH_TOKEN";
         this.SHOW_ONLY_ONLINE = "SHOW_ONLY_ONLINE";
+        this.SHOW_HOTTEST_STARS = "SHOW_HOTTEST_STARS";
         this.AUTO_OPEN_APP = "AUTO_OPEN_APP";
         this.ORDER_BY_FOLLOW = "ORDER_BY_FOLLOW";
         this.IS_AUTO_NOTIFY = "IS_AUTO_NOTIFY";
@@ -118,6 +119,16 @@ export class UserConfig {
             return value;
         });
     }
+    
+    setShowHottestStars(value) {
+        this.storage.set(this.SHOW_HOTTEST_STARS, value);
+    }
+    
+    getShowHottestStars() {
+        return this.storage.get(this.SHOW_HOTTEST_STARS).then((value) => {
+            return value;
+        });
+    }
 
     setUserId(value) {
         this.storage.set(this.USER_ID, value);
@@ -152,6 +163,7 @@ export class UserConfig {
     initUser() {
         this.setIsAppNotify(true);
         this.setIsNoDisturb(false);
+        this.setShowHottestStars(true);
         this.setAutoOpenApp(true);
         this.setShowOnlyOnline(false);
         this.setOrderByFollow(false);

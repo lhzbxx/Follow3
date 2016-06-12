@@ -378,7 +378,8 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
         this.setting = {
             showOnlyOnline: false,
             autoOpenApp: false,
-            orderByFollow: false
+            orderByFollow: false,
+            showHottestStars: false
         };
         this.platform.ready().then(function () {
             _this.config.getShowOnlyOnline().then(function (value) {
@@ -390,6 +391,9 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
             });
             _this.config.getOrderByFollow().then(function (value) {
                 _this.setting.orderByFollow = value;
+            });
+            _this.config.getShowHottestStars().then(function (value) {
+                _this.setting.showHottestStars = value;
             });
         });
     }
@@ -492,6 +496,12 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
             });
             alert.addInput({
                 type: 'checkbox',
+                label: '显示热门主播列表',
+                value: 'showHottestStars',
+                checked: this.setting.showHottestStars == "true"
+            });
+            alert.addInput({
+                type: 'checkbox',
                 label: '自动打开对应APP',
                 value: 'autoOpenApp',
                 checked: this.setting.autoOpenApp == "true"
@@ -509,10 +519,12 @@ var Home = exports.Home = (_dec = (0, _ionicAngular.Page)({
                     context.config.setShowOnlyOnline(data.indexOf('showOnlyOnline') > -1);
                     context.config.setAutoOpenApp(data.indexOf('autoOpenApp') > -1);
                     context.config.setOrderByFollow(data.indexOf('orderByFollow') > -1);
+                    context.config.setShowHottestStars(data.indexOf('showHottestStars') > -1);
                     // 注意，当涉及到LocalStorage存取操作的时候，只能设置为字符。
                     context.setting.showOnlyOnline = data.indexOf('showOnlyOnline') > -1 ? "true" : "false";
                     context.setting.autoOpenApp = data.indexOf('autoOpenApp') > -1 ? "true" : "false";
                     context.setting.orderByFollow = data.indexOf('orderByFollow') > -1 ? "true" : "false";
+                    context.setting.showHottestStars = data.indexOf('showHottestStars') > -1 ? "true" : "false";
                     context.fetch(null);
                 }
             });
@@ -1497,6 +1509,7 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
         this.ACCESS_TOKEN = "ACCESS_TOKEN";
         this.REFRESH_TOKEN = "REFRESH_TOKEN";
         this.SHOW_ONLY_ONLINE = "SHOW_ONLY_ONLINE";
+        this.SHOW_HOTTEST_STARS = "SHOW_HOTTEST_STARS";
         this.AUTO_OPEN_APP = "AUTO_OPEN_APP";
         this.ORDER_BY_FOLLOW = "ORDER_BY_FOLLOW";
         this.IS_AUTO_NOTIFY = "IS_AUTO_NOTIFY";
@@ -1621,6 +1634,18 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
             });
         }
     }, {
+        key: 'setShowHottestStars',
+        value: function setShowHottestStars(value) {
+            this.storage.set(this.SHOW_HOTTEST_STARS, value);
+        }
+    }, {
+        key: 'getShowHottestStars',
+        value: function getShowHottestStars() {
+            return this.storage.get(this.SHOW_HOTTEST_STARS).then(function (value) {
+                return value;
+            });
+        }
+    }, {
         key: 'setUserId',
         value: function setUserId(value) {
             this.storage.set(this.USER_ID, value);
@@ -1661,6 +1686,7 @@ var UserConfig = exports.UserConfig = (_dec = (0, _core.Injectable)(), _dec(_cla
         value: function initUser() {
             this.setIsAppNotify(true);
             this.setIsNoDisturb(false);
+            this.setShowHottestStars(true);
             this.setAutoOpenApp(true);
             this.setShowOnlyOnline(false);
             this.setOrderByFollow(false);

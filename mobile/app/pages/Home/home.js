@@ -28,7 +28,8 @@ export class Home {
         this.setting = {
             showOnlyOnline: false,
             autoOpenApp: false,
-            orderByFollow: false
+            orderByFollow: false,
+            showHottestStars: false
         };
         this.platform.ready().then(() => {
             this.config.getShowOnlyOnline().then(
@@ -45,6 +46,11 @@ export class Home {
             this.config.getOrderByFollow().then(
                 (value) => {
                     this.setting.orderByFollow = value;
+                }
+            );
+            this.config.getShowHottestStars().then(
+                (value) => {
+                    this.setting.showHottestStars = value;
                 }
             );
         });
@@ -149,6 +155,12 @@ export class Home {
         });
         alert.addInput({
             type: 'checkbox',
+            label: '显示热门主播列表',
+            value: 'showHottestStars',
+            checked: this.setting.showHottestStars=="true"
+        });
+        alert.addInput({
+            type: 'checkbox',
             label: '自动打开对应APP',
             value: 'autoOpenApp',
             checked: this.setting.autoOpenApp=="true"
@@ -166,10 +178,12 @@ export class Home {
                 context.config.setShowOnlyOnline(data.indexOf('showOnlyOnline') > -1);
                 context.config.setAutoOpenApp(data.indexOf('autoOpenApp') > -1);
                 context.config.setOrderByFollow(data.indexOf('orderByFollow') > -1);
+                context.config.setShowHottestStars(data.indexOf('showHottestStars') > -1);
                 // 注意，当涉及到LocalStorage存取操作的时候，只能设置为字符。
                 context.setting.showOnlyOnline = data.indexOf('showOnlyOnline') > -1 ? "true" : "false";
                 context.setting.autoOpenApp = data.indexOf('autoOpenApp') > -1 ? "true" : "false";
                 context.setting.orderByFollow = data.indexOf('orderByFollow') > -1 ? "true" : "false";
+                context.setting.showHottestStars = data.indexOf('showHottestStars') > -1 ? "true" : "false";
                 context.fetch(null);
             }
         });
