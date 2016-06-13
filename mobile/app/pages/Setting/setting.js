@@ -1,4 +1,4 @@
-import {Page, Alert, NavController} from 'ionic-angular';
+import {Page, Alert, NavController, Platform} from 'ionic-angular';
 import {DataService} from '../../providers/data-service';
 import {UserConfig} from '../../providers/user-config';
 import {LoginAndRegister} from '../auth/login&register';
@@ -10,39 +10,43 @@ import {LoginAndRegister} from '../auth/login&register';
 export class Setting {
     
     static get parameters() {
-        return [NavController, DataService, UserConfig];
+        return [NavController, DataService, UserConfig, Platform];
     }
 
-    constructor(nav, data, config) {
+    constructor(nav, data, config, platform) {
         this.nav = nav;
         this.data = data;
         this.config = config;
+        this.platform = platform;
         this.settings = {
             isAutoNotify: false,
             isAppNotify: false,
             isNoDisturb: false
         };
         this.mail = '';
-        this.config.getIsAutoNotify().then(
-            (value) => {
-                this.settings.isAutoNotify = value;
-            }
-        );
-        this.config.getIsAppNotify().then(
-            (value) => {
-                this.settings.isAppNotify = value;
-            }
-        );
-        this.config.getIsNoDisturb().then(
-            (value) => {
-                this.settings.isNoDisturb = value;
-            }
-        );
-        this.config.getUserMail().then(
-            (value) => {
-                this.mail = value;
-            }
-        )
+        this.platform.ready().then(() => {
+            this.config.getIsAutoNotify().then(
+                (value) => {
+                    this.settings.isAutoNotify = value;
+                }
+            );
+            this.config.getIsAppNotify().then(
+                (value) => {
+                    this.settings.isAppNotify = value;
+                }
+            );
+            this.config.getIsNoDisturb().then(
+                (value) => {
+                    this.settings.isNoDisturb = value;
+                }
+            );
+            this.config.getUserMail().then(
+                (value) => {
+                    this.mail = value;
+                }
+            )
+            this.canShowUpdate = this.platform.is('android');
+        });
     }
 
     differOpinion() {
