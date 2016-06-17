@@ -46,7 +46,7 @@ $app->get('unsubscribe/{user_id}/{star_id}', 'GeneralController@unsubscribe');
 $app->post('action', 'ActionController@action');
 
 $app->get('/version', function () {
-    return '0.3.4';
+    return '0.3.5';
 });
 
 $app->get('test', function () {

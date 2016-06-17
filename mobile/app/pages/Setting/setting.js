@@ -173,7 +173,7 @@ export class Setting {
         customLocale.rateButtonLabel = "棒棒哒";
         // AppRate.preferences.openStoreInApp = true;
         AppRate.preferences.useLanguage = 'zh-CN';
-        AppRate.preferences.storeAppURL.ios = 'top.lhzbxx.follow3';
+        AppRate.preferences.storeAppURL.ios = '1122795568';
         AppRate.preferences.storeAppURL.android = 'market://details?id=top.lhzbxx.follow3';
         // AppRate.preferences.storeAppURL.blackberry = 'appworld://content/[App Id]/';
         // AppRate.preferences.storeAppURL.windows8 = 'ms-windows-store:Review?name=<the Package Family Name of the application>';
